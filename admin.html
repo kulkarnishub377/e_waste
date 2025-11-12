@@ -1,0 +1,1481 @@
+<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
+
+<html lang="en">
+
+<head><html lang="en"><html lang="en">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><head>
+
+    <title>Admin Dashboard - E-Zero</title>
+
+    <link rel="stylesheet" href="css/styles.css">    <meta charset="UTF-8">    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        /* Admin-specific styles */    <title>E-Zero Admin Dashboard</title>    <title>E-Zero Admin Dashboard</title>
+
+        .admin-dashboard {
+
+            display: flex;    <link rel="stylesheet" href="css/styles.css">    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+            min-height: 100vh;
+
+            background-color: var(--bg-light);    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">    <link rel="stylesheet" href="css/styles.css">
+
+        }
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        .admin-sidebar {
+
+            width: 280px;    <link rel="icon" type="image/x-icon" href="favicon.ico">    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.js"></script>
+
+            background: var(--white);
+
+            border-right: 1px solid var(--border-light);</head>    <style>
+
+            padding: 2rem 0;
+
+            position: fixed;<body class="admin-dashboard">        /* Advanced CSS for professional touches */
+
+            height: 100vh;
+
+            overflow-y: auto;    <!-- Admin Navigation -->        .card-hover:hover { transform: translateY(-2px); transition: transform 0.3s ease; }
+
+        }
+
+            <nav class="admin-nav">        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+
+        .admin-main {
+
+            flex: 1;        <div class="admin-nav-container">        .animate-fade-in { animation: fadeIn 0.5s ease-in; }
+
+            margin-left: 280px;
+
+            padding: 2rem;            <div class="admin-brand">        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        }
+
+                        <i class="fas fa-shield-alt"></i>    </style>
+
+        .admin-header {
+
+            background: var(--white);                <span>E-Zero Admin</span></head>
+
+            padding: 1.5rem 2rem;
+
+            border-bottom: 1px solid var(--border-light);            </div><body class="bg-gray-50 font-sans">
+
+            margin: -2rem -2rem 2rem -2rem;
+
+        }                <div class="min-h-screen flex">
+
+        
+
+        .admin-nav {            <ul class="admin-nav-menu">        <!-- Sidebar Navigation -->
+
+            list-style: none;
+
+            padding: 0;                <li><a href="#dashboard" class="nav-link active" data-section="dashboard">        <aside class="bg-white shadow-lg w-64 hidden md:block">
+
+            margin: 0;
+
+        }                    <i class="fas fa-tachometer-alt"></i> Dashboard            <div class="p-6">
+
+        
+
+        .admin-nav li {                </a></li>                <div class="flex items-center mb-8">
+
+            margin-bottom: 0.5rem;
+
+        }                <li><a href="#pickups" class="nav-link" data-section="pickups">                    <img src="assets/logo.svg" alt="E-Zero Logo" class="h-10 w-10 mr-3">
+
+        
+
+        .nav-link {                    <i class="fas fa-truck"></i> Pickups                    <span class="text-2xl font-bold text-green-700">E-Zero</span>
+
+            display: flex;
+
+            align-items: center;                </a></li>                </div>
+
+            padding: 1rem 2rem;
+
+            color: var(--text-secondary);                <li><a href="#users" class="nav-link" data-section="users">                <nav>
+
+            text-decoration: none;
+
+            font-weight: 500;                    <i class="fas fa-users"></i> Users                    <ul class="space-y-2">
+
+            transition: all 0.3s ease;
+
+        }                </a></li>                        <li><a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-green-100 rounded-lg"><i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>Dashboard</a></li>
+
+        
+
+        .nav-link:hover {                <li><a href="#centers" class="nav-link" data-section="centers">                        <li><a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-green-100 rounded-lg"><i data-lucide="package" class="w-5 h-5 mr-3"></i>Bookings</a></li>
+
+            background: var(--bg-light);
+
+            color: var(--primary);                    <i class="fas fa-map-marker-alt"></i> Centers                        <li><a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-green-100 rounded-lg"><i data-lucide="building" class="w-5 h-5 mr-3"></i>Centers</a></li>
+
+        }
+
+                        </a></li>                        <li><a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-green-100 rounded-lg"><i data-lucide="dollar-sign" class="w-5 h-5 mr-3"></i>Revenue</a></li>
+
+        .nav-link.active {
+
+            background: var(--primary-10);                <li><a href="#analytics" class="nav-link" data-section="analytics">                        <li><a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-green-100 rounded-lg"><i data-lucide="settings" class="w-5 h-5 mr-3"></i>Settings</a></li>
+
+            color: var(--primary);
+
+            border-right: 3px solid var(--primary);                    <i class="fas fa-chart-bar"></i> Analytics                    </ul>
+
+        }
+
+                        </a></li>                </nav>
+
+        .nav-link i {
+
+            margin-right: 0.75rem;                <li><a href="#settings" class="nav-link" data-section="settings">            </div>
+
+            font-size: 1.1rem;
+
+        }                    <i class="fas fa-cog"></i> Settings        </aside>
+
+        
+
+        .admin-section {                </a></li>
+
+            display: none;
+
+        }            </ul>        <div class="flex-1 flex flex-col">
+
+        
+
+        .admin-section.active {                        <header class="bg-white shadow-md">
+
+            display: block;
+
+        }            <div class="admin-user">                <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        
+
+        .metrics-grid {                <div class="user-avatar">                    <div class="flex justify-between h-16">
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));                    <i class="fas fa-user-shield"></i>                        <div class="flex items-center md:hidden">
+
+            gap: 1.5rem;
+
+            margin-bottom: 2rem;                </div>                            <button id="sidebar-toggle" class="text-gray-500 hover:text-gray-700">
+
+        }
+
+                        <div class="user-info">                                <i data-lucide="menu" class="w-6 h-6"></i>
+
+        .metric-card {
+
+            background: var(--white);                    <span class="user-name">Admin User</span>                            </button>
+
+            padding: 2rem;
+
+            border-radius: 12px;                    <span class="user-role">Super Admin</span>                        </div>
+
+            box-shadow: var(--shadow-light);
+
+            position: relative;                </div>                        <div class="flex items-center">
+
+            overflow: hidden;
+
+        }                <div class="user-dropdown">                            <span class="text-xl font-bold text-green-700 md:hidden">E-Zero Admin</span>
+
+        
+
+        .metric-card::before {                    <button class="dropdown-btn">                        </div>
+
+            content: '';
+
+            position: absolute;                        <i class="fas fa-chevron-down"></i>                        <div class="flex items-center space-x-4">
+
+            top: 0;
+
+            left: 0;                    </button>                            <button class="text-gray-500 hover:text-gray-700">
+
+            width: 4px;
+
+            height: 100%;                    <div class="dropdown-content">                                <i data-lucide="bell" class="w-5 h-5"></i>
+
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+
+        }                        <a href="#"><i class="fas fa-user"></i> Profile</a>                            </button>
+
+        
+
+        .metric-value {                        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>                            <span class="text-sm text-gray-700">Welcome, Admin</span>
+
+            font-size: 2.5rem;
+
+            font-weight: 700;                    </div>                            <img src="assets/admin-avatar.png" alt="Admin Avatar" class="h-8 w-8 rounded-full">
+
+            color: var(--text-primary);
+
+            margin: 0.5rem 0;                </div>                        </div>
+
+        }
+
+                    </div>                    </div>
+
+        .metric-label {
+
+            color: var(--text-secondary);        </div>                </nav>
+
+            font-weight: 500;
+
+            text-transform: uppercase;    </nav>            </header>
+
+            font-size: 0.85rem;
+
+            letter-spacing: 0.5px;
+
+        }
+
+            <!-- Main Admin Content -->            <main class="flex-1 max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 animate-fade-in">
+
+        .metric-change {
+
+            display: flex;    <main class="admin-main">                <div class="px-4 py-6 sm:px-0">
+
+            align-items: center;
+
+            margin-top: 0.5rem;        <!-- Dashboard Section -->                    <h1 class="text-3xl font-bold text-gray-900 mb-8">Admin Dashboard</h1>
+
+            font-size: 0.875rem;
+
+            font-weight: 600;        <section id="dashboard-section" class="admin-section active">
+
+        }
+
+                    <div class="admin-header">                    <!-- Stats Cards -->
+
+        .metric-change.positive {
+
+            color: var(--success);                <h1>Dashboard Overview</h1>                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+
+        }
+
+                        <div class="header-actions">                        <div class="bg-white overflow-hidden shadow rounded-lg card-hover">
+
+        .metric-change.negative {
+
+            color: var(--error);                    <button class="btn-secondary">                            <div class="p-5">
+
+        }
+
+                                <i class="fas fa-download"></i> Export Report                                <div class="flex items-center">
+
+        .data-table {
+
+            background: var(--white);                    </button>                                    <div class="flex-shrink-0">
+
+            border-radius: 12px;
+
+            overflow: hidden;                    <button class="btn-primary">                                        <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+
+            box-shadow: var(--shadow-light);
+
+        }                        <i class="fas fa-plus"></i> Quick Add                                            <i data-lucide="package" class="w-5 h-5 text-white"></i>
+
+        
+
+        .table-header {                    </button>                                        </div>
+
+            padding: 1.5rem 2rem;
+
+            border-bottom: 1px solid var(--border-light);                </div>                                    </div>
+
+            display: flex;
+
+            justify-content: space-between;            </div>                                    <div class="ml-5 w-0 flex-1">
+
+            align-items: center;
+
+        }                                        <dl>
+
+        
+
+        .search-box {            <!-- Key Metrics -->                                            <dt class="text-sm font-medium text-gray-500 truncate">Total Bookings</dt>
+
+            display: flex;
+
+            align-items: center;            <div class="metrics-grid">                                            <dd class="text-lg font-medium text-gray-900" id="total-bookings">156</dd>
+
+            background: var(--bg-light);
+
+            border-radius: 8px;                <div class="metric-card primary">                                        </dl>
+
+            padding: 0.5rem 1rem;
+
+            margin-bottom: 1rem;                    <div class="metric-icon">                                    </div>
+
+        }
+
+                                <i class="fas fa-calendar-check"></i>                                </div>
+
+        .search-box input {
+
+            background: none;                    </div>                            </div>
+
+            border: none;
+
+            outline: none;                    <div class="metric-content">                        </div>
+
+            flex: 1;
+
+            margin-left: 0.5rem;                        <h3 class="metric-value" data-count="1247">0</h3>                        <div class="bg-white overflow-hidden shadow rounded-lg card-hover">
+
+        }
+
+                                <p class="metric-label">Total Pickups</p>                            <div class="p-5">
+
+        table {
+
+            width: 100%;                        <span class="metric-change positive">                                <div class="flex items-center">
+
+            border-collapse: collapse;
+
+        }                            <i class="fas fa-arrow-up"></i> +12.5%                                    <div class="flex-shrink-0">
+
+        
+
+        th, td {                        </span>                                        <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+
+            padding: 1rem 1.5rem;
+
+            text-align: left;                    </div>                                            <i data-lucide="building" class="w-5 h-5 text-white"></i>
+
+            border-bottom: 1px solid var(--border-light);
+
+        }                </div>                                        </div>
+
+        
+
+        th {                                    </div>
+
+            background: var(--bg-light);
+
+            font-weight: 600;                <div class="metric-card success">                                    <div class="ml-5 w-0 flex-1">
+
+            color: var(--text-primary);
+
+        }                    <div class="metric-icon">                                        <dl>
+
+        
+
+        .status-badge {                        <i class="fas fa-users"></i>                                            <dt class="text-sm font-medium text-gray-500 truncate">Active Centers</dt>
+
+            display: inline-flex;
+
+            align-items: center;                    </div>                                            <dd class="text-lg font-medium text-gray-900" id="active-centers">12</dd>
+
+            padding: 0.25rem 0.75rem;
+
+            border-radius: 20px;                    <div class="metric-content">                                        </dl>
+
+            font-size: 0.75rem;
+
+            font-weight: 600;                        <h3 class="metric-value" data-count="892">0</h3>                                    </div>
+
+            text-transform: capitalize;
+
+        }                        <p class="metric-label">Active Users</p>                                </div>
+
+        
+
+        .status-badge.active {                        <span class="metric-change positive">                            </div>
+
+            background: var(--success-10);
+
+            color: var(--success);                            <i class="fas fa-arrow-up"></i> +8.3%                        </div>
+
+        }
+
+                                </span>                        <div class="bg-white overflow-hidden shadow rounded-lg card-hover">
+
+        .status-badge.pending {
+
+            background: var(--warning-10);                    </div>                            <div class="p-5">
+
+            color: var(--warning);
+
+        }                </div>                                <div class="flex items-center">
+
+        
+
+        .status-badge.completed {                                    <div class="flex-shrink-0">
+
+            background: var(--success-10);
+
+            color: var(--success);                <div class="metric-card warning">                                        <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+
+        }
+
+                            <div class="metric-icon">                                            <i data-lucide="truck" class="w-5 h-5 text-white"></i>
+
+        .status-badge.cancelled {
+
+            background: var(--error-10);                        <i class="fas fa-recycle"></i>                                        </div>
+
+            color: var(--error);
+
+        }                    </div>                                    </div>
+
+        
+
+        .action-btn {                    <div class="metric-content">                                    <div class="ml-5 w-0 flex-1">
+
+            background: none;
+
+            border: none;                        <h3 class="metric-value" data-count="15632">0</h3>                                        <dl>
+
+            padding: 0.5rem;
+
+            margin: 0 0.25rem;                        <p class="metric-label">Items Recycled</p>                                            <dt class="text-sm font-medium text-gray-500 truncate">Pending Pickups</dt>
+
+            border-radius: 6px;
+
+            cursor: pointer;                        <span class="metric-change positive">                                            <dd class="text-lg font-medium text-gray-900" id="pending-pickups">8</dd>
+
+            transition: all 0.3s ease;
+
+        }                            <i class="fas fa-arrow-up"></i> +15.7%                                        </dl>
+
+        
+
+        .action-btn:hover {                        </span>                                    </div>
+
+            background: var(--bg-light);
+
+        }                    </div>                                </div>
+
+        
+
+        .action-btn.view {                </div>                            </div>
+
+            color: var(--info);
+
+        }                        </div>
+
+        
+
+        .action-btn.edit {                <div class="metric-card info">                        <div class="bg-white overflow-hidden shadow rounded-lg card-hover">
+
+            color: var(--warning);
+
+        }                    <div class="metric-icon">                            <div class="p-5">
+
+        
+
+        .action-btn.delete {                        <i class="fas fa-dollar-sign"></i>                                <div class="flex items-center">
+
+            color: var(--error);
+
+        }                    </div>                                    <div class="flex-shrink-0">
+
+        
+
+        .charts-grid {                    <div class="metric-content">                                        <div class="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));                        <h3 class="metric-value">₹<span data-count="234567">0</span></h3>                                            <i data-lucide="dollar-sign" class="w-5 h-5 text-white"></i>
+
+            gap: 2rem;
+
+            margin-bottom: 2rem;                        <p class="metric-label">Revenue</p>                                        </div>
+
+        }
+
+                                <span class="metric-change positive">                                    </div>
+
+        .chart-card {
+
+            background: var(--white);                            <i class="fas fa-arrow-up"></i> +18.2%                                    <div class="ml-5 w-0 flex-1">
+
+            padding: 2rem;
+
+            border-radius: 12px;                        </span>                                        <dl>
+
+            box-shadow: var(--shadow-light);
+
+        }                    </div>                                            <dt class="text-sm font-medium text-gray-500 truncate">Revenue</dt>
+
+        
+
+        .chart-header {                </div>                                            <dd class="text-lg font-medium text-gray-900" id="revenue">₹45,200</dd>
+
+            display: flex;
+
+            justify-content: space-between;            </div>                                        </dl>
+
+            align-items: center;
+
+            margin-bottom: 1.5rem;                                    </div>
+
+        }
+
+                    <!-- Quick Stats Row -->                                </div>
+
+        .chart-title {
+
+            font-size: 1.25rem;            <div class="quick-stats">                            </div>
+
+            font-weight: 600;
+
+            color: var(--text-primary);                <div class="stat-item">                        </div>
+
+        }
+
+                            <span class="stat-label">Pending Pickups</span>                    </div>
+
+        .chart-filters {
+
+            display: flex;                    <span class="stat-value">23</span>
+
+            gap: 0.5rem;
+
+        }                </div>                    <!-- Charts -->
+
+        
+
+        .chart-filter {                <div class="stat-item">                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+
+            padding: 0.5rem 1rem;
+
+            border: 1px solid var(--border-light);                    <span class="stat-label">Active Centers</span>                        <div class="bg-white p-6 rounded-lg shadow card-hover">
+
+            border-radius: 6px;
+
+            background: var(--white);                    <span class="stat-value">18</span>                            <h3 class="text-lg font-medium text-gray-900 mb-4">Collection by Material</h3>
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;                </div>                            <canvas id="material-chart" aria-label="Chart showing collection by material"></canvas>
+
+        }
+
+                        <div class="stat-item">                        </div>
+
+        .chart-filter.active {
+
+            background: var(--primary);                    <span class="stat-label">Avg. Response Time</span>                        <div class="bg-white p-6 rounded-lg shadow card-hover">
+
+            color: var(--white);
+
+            border-color: var(--primary);                    <span class="stat-value">2.4h</span>                            <h3 class="text-lg font-medium text-gray-900 mb-4">Monthly Trends</h3>
+
+        }
+
+                        </div>                            <canvas id="trends-chart" aria-label="Chart showing monthly trends"></canvas>
+
+        .centers-grid {
+
+            display: grid;                <div class="stat-item">                        </div>
+
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+
+            gap: 1.5rem;                    <span class="stat-label">Customer Satisfaction</span>                    </div>
+
+        }
+
+                            <span class="stat-value">4.8★</span>
+
+        .center-card {
+
+            background: var(--white);                </div>                    <!-- Bookings Table with Filters -->
+
+            border-radius: 12px;
+
+            padding: 2rem;            </div>                    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+
+            box-shadow: var(--shadow-light);
+
+            transition: transform 0.3s ease;                        <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+
+        }
+
+                    <!-- Charts Row -->                            <div>
+
+        .center-card:hover {
+
+            transform: translateY(-2px);            <div class="charts-row">                                <h3 class="text-lg leading-6 font-medium text-gray-900">Recent Bookings</h3>
+
+        }
+
+                        <div class="chart-container">                                <p class="mt-1 max-w-2xl text-sm text-gray-500">Manage and track pickup requests</p>
+
+        .center-header {
+
+            display: flex;                    <div class="chart-header">                            </div>
+
+            justify-content: space-between;
+
+            align-items: start;                        <h3>Monthly Trends</h3>                            <div class="flex space-x-2">
+
+            margin-bottom: 1rem;
+
+        }                        <div class="chart-actions">                                <select id="status-filter" class="border border-gray-300 rounded-md px-3 py-1 text-sm">
+
+        
+
+        .center-body p {                            <button class="chart-filter active" data-period="7d">7D</button>                                    <option value="">All Status</option>
+
+            margin: 0.5rem 0;
+
+            display: flex;                            <button class="chart-filter" data-period="30d">30D</button>                                    <option value="pending">Pending</option>
+
+            align-items: center;
+
+            gap: 0.5rem;                            <button class="chart-filter" data-period="1y">1Y</button>                                    <option value="confirmed">Confirmed</option>
+
+            color: var(--text-secondary);
+
+        }                        </div>                                    <option value="completed">Completed</option>
+
+        
+
+        .capacity-bar {                    </div>                                </select>
+
+            margin: 1rem 0;
+
+        }                    <canvas id="trends-chart"></canvas>                                <button class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Export</button>
+
+        
+
+        .capacity-label {                </div>                            </div>
+
+            font-size: 0.875rem;
+
+            color: var(--text-secondary);                        </div>
+
+            margin-bottom: 0.5rem;
+
+        }                <div class="chart-container">                        <ul role="list" class="divide-y divide-gray-200" id="bookings-list">
+
+        
+
+        .capacity-progress {                    <div class="chart-header">                            <!-- Bookings will be populated here -->
+
+            background: var(--bg-light);
+
+            height: 8px;                        <h3>Pickup Distribution</h3>                        </ul>
+
+            border-radius: 4px;
+
+            overflow: hidden;                    </div>                    </div>
+
+        }
+
+                            <canvas id="pickup-distribution-chart"></canvas>                </div>
+
+        .capacity-fill {
+
+            height: 100%;                </div>            </main>
+
+            background: linear-gradient(90deg, var(--success), var(--primary));
+
+            transition: width 0.3s ease;            </div>        </div>
+
+        }
+
+            </div>
+
+        .center-actions {
+
+            display: flex;            <!-- Recent Activity -->
+
+            gap: 1rem;
+
+            margin-top: 1.5rem;            <div class="activity-section">    <script type="module" src="js/admin.js"></script>
+
+        }
+
+                        <div class="activity-header">    <script>
+
+        .activity-item {
+
+            display: flex;                    <h3>Recent Activity</h3>        // Initialize Lucide icons
+
+            align-items: center;
+
+            padding: 1rem 0;                    <button class="btn-text">View All</button>        lucide.createIcons();
+
+            border-bottom: 1px solid var(--border-light);
+
+        }                </div>
+
+        
+
+        .activity-icon {                <div class="activity-list" id="recent-activity">        // Sidebar toggle for mobile
+
+            width: 40px;
+
+            height: 40px;                    <!-- Activity items will be populated by JavaScript -->        document.getElementById('sidebar-toggle').addEventListener('click', () => {
+
+            border-radius: 50%;
+
+            background: var(--primary-10);                </div>            document.querySelector('aside').classList.toggle('hidden');
+
+            display: flex;
+
+            align-items: center;            </div>        });
+
+            justify-content: center;
+
+            color: var(--primary);        </section>    </script>
+
+            margin-right: 1rem;
+
+        }</body>
+
+        
+
+        .activity-content h4 {        <!-- Pickups Management Section --></html>
+
+            margin: 0 0 0.25rem 0;        <section id="pickups-section" class="admin-section">
+
+            font-size: 0.875rem;            <div class="admin-header">
+
+            color: var(--text-primary);                <h1>Pickup Management</h1>
+
+        }                <div class="header-actions">
+
+                            <div class="search-box">
+
+        .activity-content p {                        <i class="fas fa-search"></i>
+
+            margin: 0;                        <input type="text" placeholder="Search pickups...">
+
+            font-size: 0.8rem;                    </div>
+
+            color: var(--text-secondary);                    <select class="filter-select">
+
+        }                        <option value="all">All Status</option>
+
+                                <option value="pending">Pending</option>
+
+        .activity-time {                        <option value="in-progress">In Progress</option>
+
+            font-size: 0.75rem;                        <option value="completed">Completed</option>
+
+            color: var(--text-secondary);                        <option value="cancelled">Cancelled</option>
+
+            opacity: 0.8;                    </select>
+
+        }                    <button class="btn-primary">
+
+                                <i class="fas fa-plus"></i> New Pickup
+
+        .settings-nav {                    </button>
+
+            display: flex;                </div>
+
+            gap: 2rem;            </div>
+
+            border-bottom: 1px solid var(--border-light);
+
+            margin-bottom: 2rem;            <div class="table-container">
+
+        }                <table class="data-table" id="pickups-table">
+
+                            <thead>
+
+        .settings-link {                        <tr>
+
+            padding: 1rem 0;                            <th>ID</th>
+
+            color: var(--text-secondary);                            <th>Customer</th>
+
+            text-decoration: none;                            <th>Date</th>
+
+            border-bottom: 2px solid transparent;                            <th>Items</th>
+
+            transition: all 0.3s ease;                            <th>Status</th>
+
+        }                            <th>Amount</th>
+
+                                    <th>Actions</th>
+
+        .settings-link.active {                        </tr>
+
+            color: var(--primary);                    </thead>
+
+            border-bottom-color: var(--primary);                    <tbody>
+
+        }                        <!-- Table rows will be populated by JavaScript -->
+
+                            </tbody>
+
+        .settings-section {                </table>
+
+            display: none;            </div>
+
+        }
+
+                    <div class="table-pagination">
+
+        .settings-section.active {                <div class="pagination-info">
+
+            display: block;                    Showing 1-20 of 247 pickups
+
+        }                </div>
+
+                        <div class="pagination-controls">
+
+        .user-info {                    <button class="page-btn" disabled>
+
+            display: flex;                        <i class="fas fa-chevron-left"></i>
+
+            align-items: center;                    </button>
+
+            gap: 0.75rem;                    <button class="page-btn active">1</button>
+
+        }                    <button class="page-btn">2</button>
+
+                            <button class="page-btn">3</button>
+
+        .user-avatar-small {                    <button class="page-btn">
+
+            width: 32px;                        <i class="fas fa-chevron-right"></i>
+
+            height: 32px;                    </button>
+
+            border-radius: 50%;                </div>
+
+            object-fit: cover;            </div>
+
+        }        </section>
+
+        
+
+        .modal {        <!-- Users Management Section -->
+
+            position: fixed;        <section id="users-section" class="admin-section">
+
+            top: 0;            <div class="admin-header">
+
+            left: 0;                <h1>User Management</h1>
+
+            width: 100%;                <div class="header-actions">
+
+            height: 100%;                    <div class="search-box">
+
+            background: rgba(0, 0, 0, 0.5);                        <i class="fas fa-search"></i>
+
+            display: flex;                        <input type="text" placeholder="Search users...">
+
+            align-items: center;                    </div>
+
+            justify-content: center;                    <button class="btn-primary">
+
+            z-index: 1000;                        <i class="fas fa-user-plus"></i> Add User
+
+        }                    </button>
+
+                        </div>
+
+        .modal.hidden {            </div>
+
+            display: none;
+
+        }            <div class="users-stats">
+
+                        <div class="user-stat">
+
+        .modal-content {                    <h4>Total Users</h4>
+
+            background: var(--white);                    <span class="stat-number">1,247</span>
+
+            border-radius: 12px;                </div>
+
+            padding: 2rem;                <div class="user-stat">
+
+            max-width: 500px;                    <h4>Active Today</h4>
+
+            width: 90%;                    <span class="stat-number">89</span>
+
+            max-height: 80vh;                </div>
+
+            overflow-y: auto;                <div class="user-stat">
+
+        }                    <h4>New This Week</h4>
+
+                            <span class="stat-number">23</span>
+
+        .modal-header {                </div>
+
+            display: flex;                <div class="user-stat">
+
+            justify-content: space-between;                    <h4>Premium Users</h4>
+
+            align-items: center;                    <span class="stat-number">156</span>
+
+            margin-bottom: 1.5rem;                </div>
+
+        }            </div>
+
+        
+
+        .close-modal {            <div class="table-container">
+
+            background: none;                <table class="data-table" id="users-table">
+
+            border: none;                    <thead>
+
+            font-size: 1.5rem;                        <tr>
+
+            cursor: pointer;                            <th>User</th>
+
+            color: var(--text-secondary);                            <th>Email</th>
+
+        }                            <th>Join Date</th>
+
+                                    <th>Pickups</th>
+
+        .modal-actions {                            <th>Status</th>
+
+            display: flex;                            <th>Points</th>
+
+            gap: 1rem;                            <th>Actions</th>
+
+            margin-top: 1.5rem;                        </tr>
+
+            justify-content: flex-end;                    </thead>
+
+        }                    <tbody>
+
+                                <!-- Table rows will be populated by JavaScript -->
+
+        @media (max-width: 768px) {                    </tbody>
+
+            .admin-sidebar {                </table>
+
+                transform: translateX(-100%);            </div>
+
+                transition: transform 0.3s ease;        </section>
+
+            }
+
+                    <!-- Centers Management Section -->
+
+            .admin-sidebar.open {        <section id="centers-section" class="admin-section">
+
+                transform: translateX(0);            <div class="admin-header">
+
+            }                <h1>Recycling Centers</h1>
+
+                            <div class="header-actions">
+
+            .admin-main {                    <button class="btn-secondary">
+
+                margin-left: 0;                        <i class="fas fa-map"></i> Map View
+
+            }                    </button>
+
+                                <button class="btn-primary">
+
+            .metrics-grid {                        <i class="fas fa-plus"></i> Add Center
+
+                grid-template-columns: 1fr;                    </button>
+
+            }                </div>
+
+                        </div>
+
+            .charts-grid {
+
+                grid-template-columns: 1fr;            <div class="centers-grid" id="centers-grid">
+
+            }                <!-- Center cards will be populated by JavaScript -->
+
+                        </div>
+
+            .centers-grid {        </section>
+
+                grid-template-columns: 1fr;
+
+            }        <!-- Analytics Section -->
+
+        }        <section id="analytics-section" class="admin-section">
+
+    </style>            <div class="admin-header">
+
+</head>                <h1>Analytics & Reports</h1>
+
+<body>                <div class="header-actions">
+
+    <div class="admin-dashboard">                    <select class="filter-select">
+
+        <!-- Sidebar Navigation -->                        <option value="7d">Last 7 Days</option>
+
+        <nav class="admin-sidebar">                        <option value="30d">Last 30 Days</option>
+
+            <div class="admin-brand">                        <option value="3m">Last 3 Months</option>
+
+                <h2 style="text-align: center; color: var(--primary); margin-bottom: 2rem;">                        <option value="1y">Last Year</option>
+
+                    <i class="fas fa-recycle"></i> E-Zero Admin                    </select>
+
+                </h2>                    <button class="btn-primary">
+
+            </div>                        <i class="fas fa-download"></i> Export
+
+            <ul class="admin-nav">                    </button>
+
+                <li>                </div>
+
+                    <a href="#" class="nav-link active" data-section="dashboard">            </div>
+
+                        <i class="fas fa-tachometer-alt"></i>
+
+                        Dashboard            <div class="analytics-grid">
+
+                    </a>                <div class="chart-container large">
+
+                </li>                    <div class="chart-header">
+
+                <li>                        <h3>Revenue Analytics</h3>
+
+                    <a href="#" class="nav-link" data-section="pickups">                    </div>
+
+                        <i class="fas fa-calendar-check"></i>                    <canvas id="revenue-chart"></canvas>
+
+                        Pickups                </div>
+
+                    </a>
+
+                </li>                <div class="chart-container">
+
+                <li>                    <div class="chart-header">
+
+                    <a href="#" class="nav-link" data-section="users">                        <h3>User Growth</h3>
+
+                        <i class="fas fa-users"></i>                    </div>
+
+                        Users                    <canvas id="user-growth-chart"></canvas>
+
+                    </a>                </div>
+
+                </li>
+
+                <li>                <div class="chart-container">
+
+                    <a href="#" class="nav-link" data-section="centers">                    <div class="chart-header">
+
+                        <i class="fas fa-building"></i>                        <h3>Environmental Impact</h3>
+
+                        Centers                    </div>
+
+                    </a>                    <canvas id="environmental-chart"></canvas>
+
+                </li>                </div>
+
+                <li>
+
+                    <a href="#" class="nav-link" data-section="analytics">                <div class="chart-container">
+
+                        <i class="fas fa-chart-bar"></i>                    <div class="chart-header">
+
+                        Analytics                        <h3>Geographic Distribution</h3>
+
+                    </a>                    </div>
+
+                </li>                    <canvas id="geographic-chart"></canvas>
+
+                <li>                </div>
+
+                    <a href="#" class="nav-link" data-section="settings">            </div>
+
+                        <i class="fas fa-cog"></i>        </section>
+
+                        Settings
+
+                    </a>        <!-- Settings Section -->
+
+                </li>        <section id="settings-section" class="admin-section">
+
+            </ul>            <div class="admin-header">
+
+        </nav>                <h1>System Settings</h1>
+
+            </div>
+
+        <!-- Main Content Area -->
+
+        <main class="admin-main">            <div class="settings-container">
+
+            <!-- Header -->                <div class="settings-nav">
+
+            <header class="admin-header">                    <a href="#general" class="settings-link active">General</a>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">                    <a href="#notifications" class="settings-link">Notifications</a>
+
+                    <div>                    <a href="#pricing" class="settings-link">Pricing</a>
+
+                        <h1 style="margin: 0; color: var(--text-primary);">Admin Dashboard</h1>                    <a href="#integrations" class="settings-link">Integrations</a>
+
+                        <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">Manage your E-Zero platform</p>                    <a href="#security" class="settings-link">Security</a>
+
+                    </div>                </div>
+
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+
+                        <button class="btn-icon" title="Notifications">                <div class="settings-content">
+
+                            <i class="fas fa-bell"></i>                    <div class="settings-section active" id="general-settings">
+
+                            <span class="notification-badge">3</span>                        <h3>General Settings</h3>
+
+                        </button>                        <div class="form-group">
+
+                        <button class="btn-icon" title="Profile">                            <label>Company Name</label>
+
+                            <i class="fas fa-user-circle"></i>                            <input type="text" value="E-Zero Technologies">
+
+                        </button>                        </div>
+
+                    </div>                        <div class="form-group">
+
+                </div>                            <label>Support Email</label>
+
+            </header>                            <input type="email" value="support@e-zero.com">
+
+                        </div>
+
+            <!-- Dashboard Section -->                        <div class="form-group">
+
+            <section id="dashboard-section" class="admin-section active">                            <label>Operating Hours</label>
+
+                <div class="metrics-grid">                            <input type="text" value="9:00 AM - 6:00 PM">
+
+                    <div class="metric-card">                        </div>
+
+                        <div class="metric-label">Total Revenue</div>                        <button class="btn-primary">Save Changes</button>
+
+                        <div class="metric-value" data-count="2345670">₹0</div>                    </div>
+
+                        <div class="metric-change positive">
+
+                            <i class="fas fa-arrow-up"></i>                    <div class="settings-section" id="notifications-settings">
+
+                            18.2% from last month                        <h3>Notification Settings</h3>
+
+                        </div>                        <div class="toggle-group">
+
+                    </div>                            <div class="toggle-item">
+
+                    <div class="metric-card">                                <span>Email Notifications</span>
+
+                        <div class="metric-label">Active Users</div>                                <label class="toggle-switch">
+
+                        <div class="metric-value" data-count="8920">0</div>                                    <input type="checkbox" checked>
+
+                        <div class="metric-change positive">                                    <span class="toggle-slider"></span>
+
+                            <i class="fas fa-arrow-up"></i>                                </label>
+
+                            8.3% from last month                            </div>
+
+                        </div>                            <div class="toggle-item">
+
+                    </div>                                <span>SMS Alerts</span>
+
+                    <div class="metric-card">                                <label class="toggle-switch">
+
+                        <div class="metric-label">Total Pickups</div>                                    <input type="checkbox">
+
+                        <div class="metric-value" data-count="15632">0</div>                                    <span class="toggle-slider"></span>
+
+                        <div class="metric-change positive">                                </label>
+
+                            <i class="fas fa-arrow-up"></i>                            </div>
+
+                            15.7% from last month                            <div class="toggle-item">
+
+                        </div>                                <span>Push Notifications</span>
+
+                    </div>                                <label class="toggle-switch">
+
+                    <div class="metric-card">                                    <input type="checkbox" checked>
+
+                        <div class="metric-label">Satisfaction Rate</div>                                    <span class="toggle-slider"></span>
+
+                        <div class="metric-value" data-count="4.8">0</div>                                </label>
+
+                        <div class="metric-change positive">                            </div>
+
+                            <i class="fas fa-star"></i>                        </div>
+
+                            Excellent rating                        <button class="btn-primary">Update Settings</button>
+
+                        </div>                    </div>
+
+                    </div>                </div>
+
+                </div>            </div>
+
+        </section>
+
+                <div class="charts-grid">    </main>
+
+                    <div class="chart-card">
+
+                        <div class="chart-header">    <!-- Modal for Quick Actions -->
+
+                            <h3 class="chart-title">Trends Overview</h3>    <div id="admin-modal" class="modal hidden">
+
+                            <div class="chart-filters">        <div class="modal-content">
+
+                                <button class="chart-filter active" data-period="7d">7D</button>            <div class="modal-header">
+
+                                <button class="chart-filter" data-period="30d">30D</button>                <h3 id="modal-title">Modal Title</h3>
+
+                                <button class="chart-filter" data-period="90d">90D</button>                <button class="close-modal">&times;</button>
+
+                            </div>            </div>
+
+                        </div>            <div class="modal-body" id="modal-body">
+
+                        <canvas id="trends-chart" width="400" height="200"></canvas>                <!-- Modal content will be inserted here -->
+
+                    </div>            </div>
+
+        </div>
+
+                    <div class="chart-card">    </div>
+
+                        <div class="chart-header">
+
+                            <h3 class="chart-title">Pickup Status Distribution</h3>    <!-- JavaScript -->
+
+                        </div>    <script src="js/app.js"></script>
+
+                        <canvas id="pickup-distribution-chart" width="400" height="200"></canvas>    <script src="js/charts.js"></script>
+
+                    </div>    <script src="js/admin.js"></script>
+
+                </div></body>
+
+</html>
+                <div class="data-table">
+                    <div class="table-header">
+                        <h3>Recent Activity</h3>
+                    </div>
+                    <div id="recent-activity" style="padding: 1rem 2rem;">
+                        <!-- Activity items will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pickups Section -->
+            <section id="pickups-section" class="admin-section">
+                <div class="data-table">
+                    <div class="table-header">
+                        <h3>Pickup Management</h3>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search pickups...">
+                        </div>
+                    </div>
+                    <table id="pickups-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="users-section" class="admin-section">
+                <div class="data-table">
+                    <div class="table-header">
+                        <h3>User Management</h3>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search users...">
+                        </div>
+                    </div>
+                    <table id="users-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Join Date</th>
+                                <th>Pickups</th>
+                                <th>Status</th>
+                                <th>Points</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Table rows will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Centers Section -->
+            <section id="centers-section" class="admin-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Recycling Centers</h2>
+                    <button class="btn-primary">
+                        <i class="fas fa-plus"></i> Add Center
+                    </button>
+                </div>
+                <div id="centers-grid" class="centers-grid">
+                    <!-- Center cards will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics-section" class="admin-section">
+                <h2 style="margin-bottom: 2rem;">Advanced Analytics</h2>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Revenue Analytics</h3>
+                        </div>
+                        <canvas id="revenue-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">User Growth</h3>
+                        </div>
+                        <canvas id="user-growth-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Environmental Impact</h3>
+                        </div>
+                        <canvas id="environmental-chart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Geographic Distribution</h3>
+                        </div>
+                        <canvas id="geographic-chart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="admin-section">
+                <div class="settings-nav">
+                    <a href="#general" class="settings-link active">General</a>
+                    <a href="#notifications" class="settings-link">Notifications</a>
+                    <a href="#security" class="settings-link">Security</a>
+                    <a href="#integrations" class="settings-link">Integrations</a>
+                </div>
+
+                <div id="general-settings" class="settings-section active">
+                    <h3>General Settings</h3>
+                    <div class="form-group">
+                        <label>Platform Name</label>
+                        <input type="text" value="E-Zero" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Admin Email</label>
+                        <input type="email" value="admin@e-zero.com" class="form-input">
+                    </div>
+                    <button class="btn-primary">Save Changes</button>
+                </div>
+
+                <div id="notifications-settings" class="settings-section">
+                    <h3>Notification Settings</h3>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            Email notifications for new pickups
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            SMS alerts for urgent matters
+                        </label>
+                    </div>
+                    <button class="btn-primary">Save Changes</button>
+                </div>
+
+                <div id="security-settings" class="settings-section">
+                    <h3>Security Settings</h3>
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" class="form-input">
+                    </div>
+                    <button class="btn-primary">Update Password</button>
+                </div>
+
+                <div id="integrations-settings" class="settings-section">
+                    <h3>Third-party Integrations</h3>
+                    <div class="form-group">
+                        <label>Payment Gateway API Key</label>
+                        <input type="text" class="form-input" placeholder="Enter API key">
+                    </div>
+                    <div class="form-group">
+                        <label>SMS Service Provider</label>
+                        <select class="form-input">
+                            <option>Select Provider</option>
+                            <option>Twilio</option>
+                            <option>AWS SNS</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary">Save Integrations</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="admin-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Modal Title</h3>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modal-body">
+                <!-- Modal content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin.js"></script>
+</body>
+</html>
