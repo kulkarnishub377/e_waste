@@ -5,14 +5,74 @@
       "userId": 1,
       "centerId": 1,
       "items": [
-        {"type": "mobile", "brand": "Samsung", "condition": "working", "qty": 1}
+        {"type": "laptop", "brand": "Dell", "condition": "working", "qty": 1, "estimatedValue": 500},
+        {"type": "mobile", "brand": "Samsung", "condition": "working", "qty": 1, "estimatedValue": 200}
+      ],
+      "status": "completed",
+      "pickupWindow": {"start": "2025-11-15T10:00:00Z", "end": "2025-11-15T12:00:00Z"},
+      "address": "123 Main St, Pune, Maharashtra 411001",
+      "photos": ["photo1.jpg", "photo2.jpg"],
+      "notes": "Please call before pickup",
+      "weightKg": 3.2,
+      "rewardPoints": 700,
+      "assignedPartner": "EcoTech Solutions",
+      "createdAt": "2025-11-10T08:30:00Z",
+      "updatedAt": "2025-11-15T11:30:00Z"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "centerId": 2,
+      "items": [
+        {"type": "battery", "brand": "Generic", "condition": "used", "qty": 3, "estimatedValue": 150}
       ],
       "status": "scheduled",
-      "pickupWindow": "2025-11-15T10:00:00Z",
-      "photos": [],
-      "notes": "Please call before pickup",
-      "weightKg": null,
-      "rewardPoints": 50
+      "pickupWindow": {"start": "2025-11-16T14:00:00Z", "end": "2025-11-16T16:00:00Z"},
+      "address": "456 Eco Lane, Mumbai, Maharashtra 400001",
+      "photos": ["battery1.jpg"],
+      "notes": "Batteries are from old UPS systems",
+      "weightKg": 1.8,
+      "rewardPoints": 150,
+      "assignedPartner": "GreenRecycle Mumbai",
+      "createdAt": "2025-11-12T10:15:00Z",
+      "updatedAt": "2025-11-12T10:15:00Z"
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "centerId": 4,
+      "items": [
+        {"type": "monitor", "brand": "LG", "condition": "working", "qty": 1, "estimatedValue": 300},
+        {"type": "printer", "brand": "HP", "condition": "faulty", "qty": 1, "estimatedValue": 100}
+      ],
+      "status": "in_transit",
+      "pickupWindow": {"start": "2025-11-14T09:00:00Z", "end": "2025-11-14T11:00:00Z"},
+      "address": "321 Tech Park, Bangalore, Karnataka 560001",
+      "photos": ["monitor.jpg", "printer.jpg"],
+      "notes": "Printer has paper jam issue",
+      "weightKg": 8.5,
+      "rewardPoints": 400,
+      "assignedPartner": "EcoCircuit Bangalore",
+      "createdAt": "2025-11-11T14:20:00Z",
+      "updatedAt": "2025-11-14T10:45:00Z"
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "centerId": 5,
+      "items": [
+        {"type": "tv", "brand": "Samsung", "condition": "working", "qty": 1, "estimatedValue": 800}
+      ],
+      "status": "assigned",
+      "pickupWindow": {"start": "2025-11-17T11:00:00Z", "end": "2025-11-17T13:00:00Z"},
+      "address": "654 Green Avenue, Chennai, Tamil Nadu 600001",
+      "photos": ["tv.jpg"],
+      "notes": "32 inch LED TV, working perfectly",
+      "weightKg": 12.0,
+      "rewardPoints": 800,
+      "assignedPartner": "Digital Detox Chennai",
+      "createdAt": "2025-11-13T16:30:00Z",
+      "updatedAt": "2025-11-13T17:00:00Z"
     }
   ]
 }
