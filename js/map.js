@@ -1,53 +1,457 @@
-// map.js - Advanced map functionality with Leaflet
+// map.js - Enhanced map functionality with Leaflet and clustering
 let map;
 let markers = [];
 let centersData = [];
 let userLocation = null;
 let searchTimeout;
 let markerClusterGroup;
+let currentFilters = {
+  itemType: 'all',
+  searchQuery: '',
+  radius: 50 // km
+};
+
+// Default center coordinates (Mumbai, India)
+const DEFAULT_CENTER = [19.0760, 72.8777];
+const DEFAULT_ZOOM = 11;
+
+// Initialize map when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  initMap();
+});
 
 export function initMap() {
-  // Initialize map with better default view
-  map = L.map('map', {
-    center: [18.5204, 73.8567],
-    zoom: 11,
-    zoomControl: true,
-    scrollWheelZoom: true
-  });
+  try {
+    console.log('🗺️ Initializing map...');
+    
+    // Initialize map with improved settings
+    map = L.map('centers-map', {
+      center: DEFAULT_CENTER,
+      zoom: DEFAULT_ZOOM,
+      zoomControl: true,
+      scrollWheelZoom: true,
+      tap: true,
+      maxZoom: 18,
+      minZoom: 8
+    });
 
-  // Add OpenStreetMap tiles
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
+    // Add multiple tile layers for better coverage
+    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors',
+      subdomains: ['a', 'b', 'c']
+    });
 
-  // Initialize marker cluster group
-  markerClusterGroup = L.markerClusterGroup({
-    chunkedLoading: true,
-    spiderfyOnMaxZoom: true,
-    showCoverageOnHover: false,
-    zoomToBoundsOnClick: true
-  });
-  map.addLayer(markerClusterGroup);
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19,
+      attribution: '© Esri © OpenStreetMap contributors'
+    });
 
-  // Get user location
-  getUserLocation();
+    // Add default layer
+    osmLayer.addTo(map);
 
-  // Load centers data
-  loadCenters();
+    // Layer control
+    const baseMaps = {
+      "Street Map": osmLayer,
+      "Satellite": satelliteLayer
+    };
+    L.control.layers(baseMaps).addTo(map);
 
-  // Initialize search functionality
-  initSearch();
+    // Initialize marker cluster group with custom styling
+    markerClusterGroup = L.markerClusterGroup({
+      chunkedLoading: true,
+      spiderfyOnMaxZoom: true,
+      showCoverageOnHover: false,
+      zoomToBoundsOnClick: true,
+      maxClusterRadius: 80,
+      iconCreateFunction: function(cluster) {
+        const childCount = cluster.getChildCount();
+        let className = 'marker-cluster-small';
+        
+        if (childCount < 10) {
+          className = 'marker-cluster-small';
+        } else if (childCount < 100) {
+          className = 'marker-cluster-medium';
+        } else {
+          className = 'marker-cluster-large';
+        }
 
-  // Initialize filters
-  initFilters();
+        return new L.DivIcon({
+          html: `<div><span>${childCount}</span></div>`,
+          className: `marker-cluster ${className}`,
+          iconSize: new L.Point(40, 40)
+        });
+      }
+    });
+    
+    map.addLayer(markerClusterGroup);
+
+    // Add custom CSS for cluster styling
+    addClusterStyles();
+
+    // Get user location and update map
+    getUserLocation();
+
+    // Load centers data
+    loadCenters();
+
+    // Initialize search and filter functionality
+    initSearch();
+    initFilters();
+
+    // Add map controls
+    addCustomControls();
+
+    console.log('✅ Map initialized successfully');
+
+  } catch (error) {
+    console.error('❌ Map initialization failed:', error);
+    showMapError('Failed to initialize map. Please refresh the page.');
+  }
+}
+
+function addClusterStyles() {
+  if (document.getElementById('cluster-styles')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'cluster-styles';
+  style.textContent = `
+    .marker-cluster-small {
+      background-color: rgba(16, 185, 129, 0.8);
+    }
+    .marker-cluster-small div {
+      background-color: rgba(16, 185, 129, 1);
+    }
+    .marker-cluster-medium {
+      background-color: rgba(59, 130, 246, 0.8);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(59, 130, 246, 1);
+    }
+    .marker-cluster-large {
+      background-color: rgba(139, 92, 246, 0.8);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(139, 92, 246, 1);
+    }
+    .marker-cluster {
+      border-radius: 50%;
+    }
+    .marker-cluster div {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+      text-align: center;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      line-height: 30px;
+    }
+  `;
+  document.head.appendChild(style);
 }
 
 function getUserLocation() {
-  if ('geolocation' in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        userLocation = [position.coords.latitude, position.coords.longitude];
+  if (!('geolocation' in navigator)) {
+    console.warn('⚠️ Geolocation not supported');
+    return;
+  }
+
+  const options = {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 300000 // 5 minutes
+  };
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      userLocation = [position.coords.latitude, position.coords.longitude];
+      console.log('📍 User location found:', userLocation);
+      
+      // Add user location marker
+      const userIcon = L.divIcon({
+        html: '<i class="fas fa-user-circle text-blue-500 text-2xl"></i>',
+        iconSize: [30, 30],
+        className: 'user-location-marker'
+      });
+      
+      L.marker(userLocation, { 
+        icon: userIcon,
+        zIndexOffset: 1000 
+      })
+      .addTo(map)
+      .bindPopup(`
+        <div class="p-2">
+          <h3 class="font-bold text-sm mb-1">Your Location</h3>
+          <p class="text-xs text-gray-600">Current position</p>
+        </div>
+      `);
+
+      // Center map on user location
+      map.setView(userLocation, 13);
+      
+      // Update distance calculations
+      updateDistances();
+      
+    },
+    (error) => {
+      console.warn('⚠️ Geolocation error:', error.message);
+      handleLocationError(error);
+    },
+    options
+  );
+}
+
+function handleLocationError(error) {
+  let message = 'Unable to get your location. ';
+  
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      message += 'Location access denied by user.';
+      break;
+    case error.POSITION_UNAVAILABLE:
+      message += 'Location information unavailable.';
+      break;
+    case error.TIMEOUT:
+      message += 'Location request timed out.';
+      break;
+    default:
+      message += 'Unknown location error.';
+  }
+  
+  console.warn(message);
+  
+  // Show notification using global utility
+  if (window.EZero?.utils?.showNotification) {
+    window.EZero.utils.showNotification(message, 'warning');
+  }
+}
+
+async function loadCenters() {
+  try {
+    console.log('📊 Loading centers data...');
+    
+    const response = await fetch('/data/centers.json');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    centersData = await response.json();
+    console.log(`✅ Loaded ${centersData.length} centers`);
+    
+    // Display centers on map
+    displayCenters(centersData);
+    
+    // Update center cards
+    updateCenterCards(centersData);
+    
+  } catch (error) {
+    console.error('❌ Failed to load centers:', error);
+    showMapError('Failed to load recycling centers. Please try again.');
+  }
+}
+
+function displayCenters(centers) {
+  // Clear existing markers
+  markerClusterGroup.clearLayers();
+  markers = [];
+
+  centers.forEach(center => {
+    const marker = createCenterMarker(center);
+    if (marker) {
+      markers.push(marker);
+      markerClusterGroup.addLayer(marker);
+    }
+  });
+}
+
+function createCenterMarker(center) {
+  if (!center.latitude || !center.longitude) {
+    console.warn('⚠️ Center missing coordinates:', center.name);
+    return null;
+  }
+
+  // Create custom icon based on center type
+  const iconColor = getIconColor(center);
+  const icon = L.divIcon({
+    html: `<div class="custom-marker" style="background-color: ${iconColor};">
+             <i class="fas fa-recycle text-white"></i>
+           </div>`,
+    iconSize: [40, 40],
+    className: 'custom-marker-container'
+  });
+
+  const marker = L.marker([center.latitude, center.longitude], { icon })
+    .bindPopup(createPopupContent(center), {
+      maxWidth: 300,
+      className: 'custom-popup'
+    });
+
+  // Add click handler
+  marker.on('click', () => {
+    showCenterDetails(center);
+    trackEvent('center_clicked', { center_id: center.id });
+  });
+
+  return marker;
+}
+
+function getIconColor(center) {
+  if (center.verified) {
+    return '#10B981'; // Green for verified
+  } else if (center.rating >= 4) {
+    return '#3B82F6'; // Blue for high rating
+  } else {
+    return '#8B5CF6'; // Purple for others
+  }
+}
+
+function createPopupContent(center) {
+  const distance = userLocation ? 
+    calculateDistance(userLocation, [center.latitude, center.longitude]) : 
+    null;
+    
+  const distanceText = distance ? `<span class="text-sm text-gray-500">${distance.toFixed(1)} km away</span>` : '';
+  
+  return `
+    <div class="p-4 max-w-sm">
+      <div class="flex items-start justify-between mb-2">
+        <h3 class="font-bold text-lg text-gray-900">${center.name}</h3>
+        ${center.verified ? '<span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Verified</span>' : ''}
+      </div>
+      
+      <p class="text-gray-600 text-sm mb-2">${center.address}</p>
+      
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-1">
+          ${generateStarRating(center.rating)}
+          <span class="text-sm text-gray-600 ml-1">(${center.rating})</span>
+        </div>
+        ${distanceText}
+      </div>
+      
+      <div class="mb-3">
+        <p class="text-sm font-semibold text-gray-900 mb-1">Accepted Items:</p>
+        <div class="flex flex-wrap gap-1">
+          ${center.acceptedItems.slice(0, 3).map(item => 
+            `<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${item}</span>`
+          ).join('')}
+          ${center.acceptedItems.length > 3 ? `<span class="text-xs text-gray-500">+${center.acceptedItems.length - 3} more</span>` : ''}
+        </div>
+      </div>
+      
+      <div class="flex items-center justify-between text-sm text-gray-600 mb-3">
+        <span><i class="fas fa-clock mr-1"></i>${center.timings}</span>
+        <span><i class="fas fa-phone mr-1"></i>${center.contact}</span>
+      </div>
+      
+      <div class="flex gap-2">
+        <button onclick="getDirections(${center.latitude}, ${center.longitude})" 
+                class="flex-1 bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+          <i class="fas fa-directions mr-1"></i>Directions
+        </button>
+        <button onclick="schedulePickup('${center.id}')" 
+                class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+          <i class="fas fa-calendar-plus mr-1"></i>Schedule
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function generateStarRating(rating) {
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 >= 0.5;
+  let stars = '';
+  
+  for (let i = 0; i < 5; i++) {
+    if (i < fullStars) {
+      stars += '<i class="fas fa-star text-yellow-400"></i>';
+    } else if (i === fullStars && hasHalfStar) {
+      stars += '<i class="fas fa-star-half-alt text-yellow-400"></i>';
+    } else {
+      stars += '<i class="far fa-star text-gray-300"></i>';
+    }
+  }
+  
+  return stars;
+}
+
+function showCenterDetails(center) {
+  const detailsContainer = document.getElementById('center-details');
+  if (!detailsContainer) return;
+
+  const distance = userLocation ? 
+    calculateDistance(userLocation, [center.latitude, center.longitude]) : 
+    null;
+
+  detailsContainer.innerHTML = `
+    <div class="flex items-start space-x-4">
+      <div class="flex-shrink-0">
+        <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-xl flex items-center justify-center">
+          <i class="fas fa-recycle text-white text-2xl"></i>
+        </div>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between">
+          <div>
+            <h3 class="text-xl font-bold text-gray-900">${center.name}</h3>
+            <p class="text-gray-600 mt-1">${center.address}</p>
+          </div>
+          ${center.verified ? '<span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">Verified</span>' : ''}
+        </div>
+        
+        <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <span class="font-semibold text-gray-900">Rating:</span>
+            <div class="flex items-center mt-1">
+              ${generateStarRating(center.rating)}
+              <span class="ml-1 text-gray-600">(${center.rating}/5)</span>
+            </div>
+          </div>
+          <div>
+            <span class="font-semibold text-gray-900">Distance:</span>
+            <div class="mt-1 text-gray-600">
+              ${distance ? `${distance.toFixed(1)} km away` : 'Location unavailable'}
+            </div>
+          </div>
+          <div>
+            <span class="font-semibold text-gray-900">Hours:</span>
+            <div class="mt-1 text-gray-600">${center.timings}</div>
+          </div>
+          <div>
+            <span class="font-semibold text-gray-900">Contact:</span>
+            <div class="mt-1 text-gray-600">${center.contact}</div>
+          </div>
+        </div>
+        
+        <div class="mt-4">
+          <span class="font-semibold text-gray-900">Accepted Items:</span>
+          <div class="flex flex-wrap gap-2 mt-2">
+            ${center.acceptedItems.map(item => 
+              `<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">${item}</span>`
+            ).join('')}
+          </div>
+        </div>
+        
+        <div class="mt-4 flex gap-3">
+          <button onclick="getDirections(${center.latitude}, ${center.longitude})" 
+                  class="btn btn-primary">
+            <i class="fas fa-directions mr-2"></i>Get Directions
+          </button>
+          <button onclick="schedulePickup('${center.id}')" 
+                  class="btn btn-secondary">
+            <i class="fas fa-calendar-plus mr-2"></i>Schedule Pickup
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  detailsContainer.classList.remove('hidden');
+}
 
         // Add user location marker
         const userIcon = L.divIcon({
