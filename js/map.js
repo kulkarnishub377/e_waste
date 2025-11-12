@@ -453,6 +453,358 @@ function showCenterDetails(center) {
   detailsContainer.classList.remove('hidden');
 }
 
+function initSearch() {
+  const searchInput = document.getElementById('location-search');
+  if (!searchInput) return;
+
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.trim();
+    currentFilters.searchQuery = query;
+    
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      filterCenters();
+    }, 300);
+  });
+  
+  // Add clear search functionality
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600';
+  clearBtn.innerHTML = '<i class="fas fa-times"></i>';
+  clearBtn.onclick = () => {
+    searchInput.value = '';
+    currentFilters.searchQuery = '';
+    filterCenters();
+  };
+  
+  if (searchInput.parentElement.classList.contains('relative')) {
+    searchInput.parentElement.appendChild(clearBtn);
+  }
+}
+
+function initFilters() {
+  const itemFilter = document.getElementById('item-filter');
+  if (!itemFilter) return;
+
+  itemFilter.addEventListener('change', (e) => {
+    currentFilters.itemType = e.target.value;
+    filterCenters();
+  });
+}
+
+function filterCenters() {
+  let filteredCenters = [...centersData];
+
+  // Filter by search query
+  if (currentFilters.searchQuery) {
+    const query = currentFilters.searchQuery.toLowerCase();
+    filteredCenters = filteredCenters.filter(center =>
+      center.name.toLowerCase().includes(query) ||
+      center.address.toLowerCase().includes(query) ||
+      center.acceptedItems.some(item => item.toLowerCase().includes(query))
+    );
+  }
+
+  // Filter by item type
+  if (currentFilters.itemType && currentFilters.itemType !== 'all') {
+    filteredCenters = filteredCenters.filter(center =>
+      center.acceptedItems.some(item => 
+        item.toLowerCase().includes(currentFilters.itemType.toLowerCase())
+      )
+    );
+  }
+
+  // Display filtered results
+  displayCenters(filteredCenters);
+  updateCenterCards(filteredCenters);
+  
+  console.log(`🔍 Filtered to ${filteredCenters.length} centers`);
+}
+
+function updateCenterCards(centers) {
+  const cardsContainer = document.getElementById('centers-grid');
+  if (!cardsContainer) return;
+
+  if (centers.length === 0) {
+    cardsContainer.innerHTML = `
+      <div class="col-span-full text-center py-12">
+        <div class="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+          <i class="fas fa-search text-gray-400 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">No Centers Found</h3>
+        <p class="text-gray-600 mb-4">Try adjusting your search criteria or filters.</p>
+        <button onclick="resetFilters()" class="btn btn-primary">
+          <i class="fas fa-refresh mr-2"></i>Reset Filters
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  cardsContainer.innerHTML = centers.map(center => createCenterCard(center)).join('');
+}
+
+function createCenterCard(center) {
+  const distance = userLocation ? 
+    calculateDistance(userLocation, [center.latitude, center.longitude]) : 
+    null;
+
+  return `
+    <div class="center-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+         onclick="focusOnCenter(${center.latitude}, ${center.longitude})">
+      <div class="relative">
+        <div class="h-48 bg-gradient-to-br ${getCardGradient(center)} flex items-center justify-center">
+          <i class="fas fa-recycle text-white text-4xl"></i>
+        </div>
+        <div class="absolute top-4 right-4">
+          ${center.verified ? 
+            '<span class="bg-white bg-opacity-90 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">Verified</span>' :
+            '<span class="bg-white bg-opacity-90 text-gray-600 px-3 py-1 rounded-full text-sm font-semibold">Unverified</span>'
+          }
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="text-xl font-bold text-gray-900 mb-2">${center.name}</h3>
+        <p class="text-gray-600 mb-4">${center.address}</p>
+        
+        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+          <div class="flex items-center">
+            <i class="fas fa-clock mr-1"></i>
+            <span>${center.timings}</span>
+          </div>
+          <div class="flex items-center">
+            <i class="fas fa-route mr-1"></i>
+            <span>${distance ? `${distance.toFixed(1)} km` : 'N/A'}</span>
+          </div>
+        </div>
+        
+        <div class="flex items-center mb-4">
+          ${generateStarRating(center.rating)}
+          <span class="ml-2 text-sm text-gray-600">(${center.rating}/5)</span>
+        </div>
+        
+        <div class="flex flex-wrap gap-2 mb-4">
+          ${center.acceptedItems.slice(0, 3).map(item => 
+            `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">${item}</span>`
+          ).join('')}
+          ${center.acceptedItems.length > 3 ? 
+            `<span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">+${center.acceptedItems.length - 3}</span>` : 
+            ''
+          }
+        </div>
+        
+        <div class="flex gap-2">
+          <button onclick="event.stopPropagation(); getDirections(${center.latitude}, ${center.longitude})" 
+                  class="flex-1 bg-gradient-to-r from-green-500 to-blue-600 text-white py-2 px-4 rounded-xl hover:from-green-600 hover:to-blue-700 transition-all duration-300 font-semibold text-sm">
+            <i class="fas fa-directions mr-1"></i>Directions
+          </button>
+          <button onclick="event.stopPropagation(); schedulePickup('${center.id}')" 
+                  class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-xl transition-all duration-300 font-semibold text-sm">
+            <i class="fas fa-calendar-plus mr-1"></i>Schedule
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function getCardGradient(center) {
+  if (center.verified) {
+    return 'from-green-400 to-blue-500';
+  } else if (center.rating >= 4) {
+    return 'from-blue-400 to-purple-500';
+  } else {
+    return 'from-purple-400 to-pink-500';
+  }
+}
+
+function calculateDistance(coord1, coord2) {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (coord2[0] - coord1[0]) * Math.PI / 180;
+  const dLon = (coord2[1] - coord1[1]) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(coord1[0] * Math.PI / 180) * Math.cos(coord2[0] * Math.PI / 180) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+function updateDistances() {
+  if (!userLocation) return;
+  
+  // Update distances in existing UI elements
+  filterCenters();
+}
+
+function addCustomControls() {
+  // Add location control
+  const locationControl = L.Control.extend({
+    onAdd: function(map) {
+      const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+      container.style.backgroundColor = 'white';
+      container.style.backgroundImage = "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z\"/><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M15 11a3 3 0 11-6 0 3 3 0 016 0z\"/></svg>')";
+      container.style.backgroundSize = '20px 20px';
+      container.style.backgroundRepeat = 'no-repeat';
+      container.style.backgroundPosition = 'center';
+      container.style.width = '34px';
+      container.style.height = '34px';
+      container.style.cursor = 'pointer';
+      container.title = 'Find my location';
+      
+      container.onclick = function() {
+        getUserLocation();
+      };
+      
+      return container;
+    }
+  });
+
+  new locationControl({position: 'topright'}).addTo(map);
+  
+  // Add fullscreen control
+  const fullscreenControl = L.Control.extend({
+    onAdd: function(map) {
+      const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+      container.innerHTML = '<i class="fas fa-expand"></i>';
+      container.style.backgroundColor = 'white';
+      container.style.width = '34px';
+      container.style.height = '34px';
+      container.style.lineHeight = '34px';
+      container.style.textAlign = 'center';
+      container.style.cursor = 'pointer';
+      container.title = 'Toggle fullscreen';
+      
+      container.onclick = function() {
+        toggleFullscreen();
+      };
+      
+      return container;
+    }
+  });
+
+  new fullscreenControl({position: 'topright'}).addTo(map);
+}
+
+function toggleFullscreen() {
+  const mapContainer = document.getElementById('centers-map');
+  if (!mapContainer) return;
+
+  if (!document.fullscreenElement) {
+    mapContainer.requestFullscreen().then(() => {
+      mapContainer.style.height = '100vh';
+      map.invalidateSize();
+    });
+  } else {
+    document.exitFullscreen().then(() => {
+      mapContainer.style.height = '500px';
+      map.invalidateSize();
+    });
+  }
+}
+
+function focusOnCenter(lat, lng) {
+  if (map) {
+    map.setView([lat, lng], 15);
+    trackEvent('center_focused', { lat, lng });
+  }
+}
+
+function showMapError(message) {
+  const mapContainer = document.getElementById('centers-map');
+  if (!mapContainer) return;
+
+  mapContainer.innerHTML = `
+    <div class="flex items-center justify-center h-full bg-gray-100 rounded-2xl">
+      <div class="text-center p-8">
+        <div class="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+          <i class="fas fa-exclamation-triangle text-red-500 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Map Error</h3>
+        <p class="text-gray-600 mb-4">${message}</p>
+        <button onclick="window.location.reload()" class="btn btn-primary">
+          <i class="fas fa-refresh mr-2"></i>Reload Page
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// Global functions for HTML onclick handlers
+window.getDirections = function(lat, lng) {
+  if (userLocation) {
+    const url = `https://www.google.com/maps/dir/${userLocation[0]},${userLocation[1]}/${lat},${lng}`;
+    window.open(url, '_blank');
+  } else {
+    const url = `https://www.google.com/maps/search/${lat},${lng}`;
+    window.open(url, '_blank');
+  }
+  trackEvent('directions_requested', { lat, lng });
+};
+
+window.schedulePickup = function(centerId) {
+  console.log('📅 Scheduling pickup for center:', centerId);
+  window.scrollToSection('pickup');
+  
+  // Pre-fill center information if available
+  const center = centersData.find(c => c.id === centerId);
+  if (center && window.prefillPickupForm) {
+    window.prefillPickupForm(center);
+  }
+  
+  trackEvent('pickup_scheduled', { center_id: centerId });
+  
+  if (window.EZero?.utils?.showNotification) {
+    window.EZero.utils.showNotification('Redirecting to pickup form...', 'info');
+  }
+};
+
+window.resetFilters = function() {
+  currentFilters = {
+    itemType: 'all',
+    searchQuery: '',
+    radius: 50
+  };
+  
+  // Reset UI elements
+  const searchInput = document.getElementById('location-search');
+  const itemFilter = document.getElementById('item-filter');
+  
+  if (searchInput) searchInput.value = '';
+  if (itemFilter) itemFilter.value = 'all';
+  
+  // Refresh display
+  filterCenters();
+  
+  console.log('🔄 Filters reset');
+};
+
+function trackEvent(eventName, data = {}) {
+  console.log(`📊 Event: ${eventName}`, data);
+  // In a real app, send to analytics service
+}
+
+// Auto-initialize map when page loads
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMap);
+} else {
+  initMap();
+} 
+                  class="btn btn-primary">
+            <i class="fas fa-directions mr-2"></i>Get Directions
+          </button>
+          <button onclick="schedulePickup('${center.id}')" 
+                  class="btn btn-secondary">
+            <i class="fas fa-calendar-plus mr-2"></i>Schedule Pickup
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  detailsContainer.classList.remove('hidden');
+}
+
         // Add user location marker
         const userIcon = L.divIcon({
           className: 'user-location-marker',
