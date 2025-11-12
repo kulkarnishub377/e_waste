@@ -1,89 +1,493 @@
-{
+{{{
+
   "centers": [
-    {
+
+    {  "centers": [  "centers": [
+
       "id": 1,
-      "name": "E-Zero Center Pune",
+
+      "name": "E-Zero Center Pune - Main Branch",    {    {
+
       "lat": 18.5204,
-      "lng": 73.8567,
-      "address": "123 Green Street, Pune, Maharashtra 411001",
-      "certificates": ["ISO 14001", "EPR Certified", "CPCB Approved"],
-      "accepts": ["phones", "laptops", "batteries", "chargers", "printers"],
-      "verified": true,
+
+      "lng": 73.8567,      "id": 1,      "id": 1,
+
+      "address": "123 Green Street, Shivaji Nagar, Pune, Maharashtra 411005",
+
+      "certificates": ["ISO 14001", "EPR Certified", "CPCB Approved", "Responsible Recycling (R2)"],      "name": "E-Zero Center Pune - Main Branch",      "name": "E-Zero Center Pune - Main Branch",
+
+      "accepts": ["phones", "laptops", "tablets", "batteries", "chargers", "printers", "monitors", "keyboards", "mice", "speakers", "routers", "cables"],
+
+      "verified": true,      "lat": 18.5204,      "lat": 18.5204,
+
       "rating": 4.8,
-      "contact": "+91-9876543210",
-      "hours": "9 AM - 6 PM",
-      "services": ["Free pickup", "Data destruction", "Certificate of disposal"],
-      "capacity": "High"
+
+      "contact": "+91-9876543210",      "lng": 73.8567,      "lng": 73.8567,
+
+      "hours": "9:00 AM - 6:00 PM",
+
+      "services": ["Free doorstep pickup", "Secure data destruction", "Certificate of responsible recycling", "Cash payments", "Online tracking"],      "address": "123 Green Street, Shivaji Nagar, Pune, Maharashtra 411005",      "address": "123 Green Street, Shivaji Nagar, Pune, Maharashtra 411005",
+
+      "capacity": "High",
+
+      "processingTime": "24-48 hours",      "certificates": ["ISO 14001", "EPR Certified", "CPCB Approved", "Responsible Recycling (R2)"],      "certificates": ["ISO 14001", "EPR Certified", "CPCB Approved", "Responsible Recycling (R2)"],
+
+      "pickupRadius": "25km",
+
+      "specialties": ["Enterprise IT equipment", "Data center decommissioning"],      "accepts": ["phones", "laptops", "tablets", "batteries", "chargers", "printers", "monitors", "keyboards", "mice", "speakers", "routers", "cables"],      "accepts": ["phones", "laptops", "tablets", "batteries", "chargers", "printers", "monitors", "keyboards", "mice", "speakers", "routers", "cables"],
+
+      "reviews": 1247,
+
+      "established": "2022"      "verified": true,      "verified": true,
+
     },
-    {
+
+    {      "rating": 4.8,      "rating": 4.8,
+
       "id": 2,
-      "name": "GreenRecycle Mumbai",
+
+      "name": "GreenRecycle Mumbai - Andheri",      "contact": "+91-9876543210",      "contact": "+91-9876543210",
+
       "lat": 19.0760,
-      "lng": 72.8777,
-      "address": "456 Eco Lane, Mumbai, Maharashtra 400001",
-      "certificates": ["CPCB Approved", "ISO 9001"],
-      "accepts": ["appliances", "batteries", "monitors", "keyboards"],
-      "verified": true,
+
+      "lng": 72.8777,      "hours": "9:00 AM - 6:00 PM",      "hours": "9:00 AM - 6:00 PM",
+
+      "address": "456 Eco Lane, Andheri West, Mumbai, Maharashtra 400058",
+
+      "certificates": ["CPCB Approved", "ISO 9001", "OHSAS 18001"],      "services": ["Free doorstep pickup", "Secure data destruction", "Certificate of responsible recycling", "Cash payments", "Online tracking"],      "services": ["Free doorstep pickup", "Secure data destruction", "Certificate of responsible recycling", "Cash payments", "Online tracking"],
+
+      "accepts": ["appliances", "batteries", "monitors", "keyboards", "printers", "scanners", "projectors", "UPS systems"],
+
+      "verified": true,      "capacity": "High",      "capacity": "High",
+
       "rating": 4.6,
-      "contact": "+91-9876543211",
-      "hours": "10 AM - 5 PM",
-      "services": ["Home pickup", "Bulk collection", "Recycling certificate"],
-      "capacity": "Medium"
+
+      "contact": "+91-9876543211",      "processingTime": "24-48 hours",      "processingTime": "24-48 hours",
+
+      "hours": "10:00 AM - 5:00 PM",
+
+      "services": ["Home pickup", "Bulk collection", "Recycling certificate", "Asset management", "Scheduled collections"],      "pickupRadius": "25km",      "pickupRadius": "25km",
+
+      "capacity": "Medium",
+
+      "processingTime": "48-72 hours",      "specialties": ["Enterprise IT equipment", "Data center decommissioning"],      "specialties": ["Enterprise IT equipment", "Data center decommissioning"],
+
+      "pickupRadius": "30km",
+
+      "specialties": ["Large appliances", "Commercial electronics"],      "reviews": 1247,      "reviews": 1247,
+
+      "reviews": 892,
+
+      "established": "2021"      "established": "2022"      "established": "2022"
+
     },
-    {
+
+    {    },    },
+
       "id": 3,
-      "name": "TechWaste Delhi",
+
+      "name": "TechWaste Delhi - Connaught Place",    {    {
+
       "lat": 28.7041,
-      "lng": 77.1025,
-      "address": "789 Recycle Road, Delhi 110001",
-      "certificates": ["Pending"],
-      "accepts": ["phones", "laptops", "tablets"],
-      "verified": false,
-      "rating": 3.9,
-      "contact": "+91-9876543212",
-      "hours": "8 AM - 7 PM",
-      "services": ["Pickup service", "Basic recycling"],
-      "capacity": "Low"
+
+      "lng": 77.1025,      "id": 2,      "id": 2,
+
+      "address": "789 Recycle Road, Connaught Place, New Delhi 110001",
+
+      "certificates": ["CPCB Approved", "ISO 14001"],      "name": "GreenRecycle Mumbai - Andheri",      "name": "GreenRecycle Mumbai - Andheri",
+
+      "accepts": ["phones", "laptops", "tablets", "smartwatches", "earbuds", "chargers", "power banks"],
+
+      "verified": true,      "lat": 19.0760,      "lat": 19.0760,
+
+      "rating": 4.3,
+
+      "contact": "+91-9876543212",      "lng": 72.8777,      "lng": 72.8777,
+
+      "hours": "8:00 AM - 7:00 PM",
+
+      "services": ["Pickup service", "Basic recycling", "Device testing", "Data wiping"],      "address": "456 Eco Lane, Andheri West, Mumbai, Maharashtra 400058",      "address": "456 Eco Lane, Andheri West, Mumbai, Maharashtra 400058",
+
+      "capacity": "High",
+
+      "processingTime": "12-24 hours",      "certificates": ["CPCB Approved", "ISO 9001", "OHSAS 18001"],      "certificates": ["CPCB Approved", "ISO 9001", "OHSAS 18001"],
+
+      "pickupRadius": "20km",
+
+      "specialties": ["Mobile devices", "Consumer electronics"],      "accepts": ["appliances", "batteries", "monitors", "keyboards", "printers", "scanners", "projectors", "UPS systems"],      "accepts": ["appliances", "batteries", "monitors", "keyboards", "printers", "scanners", "projectors", "UPS systems"],
+
+      "reviews": 654,
+
+      "established": "2023"      "verified": true,      "verified": true,
+
     },
-    {
+
+    {      "rating": 4.6,      "rating": 4.6,
+
       "id": 4,
-      "name": "EcoCircuit Bangalore",
-      "lat": 12.9716,
-      "lng": 77.5946,
-      "address": "321 Tech Park, Bangalore, Karnataka 560001",
-      "certificates": ["ISO 14001", "EPR Certified", "BIS Approved"],
-      "accepts": ["servers", "networking", "storage", "laptops", "phones"],
-      "verified": true,
-      "rating": 4.9,
-      "contact": "+91-9876543213",
-      "hours": "9 AM - 8 PM",
-      "services": ["Enterprise pickup", "Secure data destruction", "Compliance reporting"],
-      "capacity": "High"
+
+      "name": "EcoCircuit Bangalore - Koramangala",      "contact": "+91-9876543211",      "contact": "+91-9876543211",
+
+      "lat": 12.9352,
+
+      "lng": 77.6245,      "hours": "10:00 AM - 5:00 PM",      "hours": "10:00 AM - 5:00 PM",
+
+      "address": "321 Circuit Avenue, Koramangala, Bangalore, Karnataka 560034",
+
+      "certificates": ["ISO 14001", "CPCB Approved", "E-waste Recycler License"],      "services": ["Home pickup", "Bulk collection", "Recycling certificate", "Asset management", "Scheduled collections"],      "services": ["Home pickup", "Bulk collection", "Recycling certificate", "Asset management", "Scheduled collections"],
+
+      "accepts": ["servers", "networking equipment", "storage devices", "motherboards", "RAM", "CPUs", "graphic cards"],
+
+      "verified": true,      "capacity": "Medium",      "capacity": "Medium",
+
+      "rating": 4.7,
+
+      "contact": "+91-9876543213",      "processingTime": "48-72 hours",      "processingTime": "48-72 hours",
+
+      "hours": "9:30 AM - 6:30 PM",
+
+      "services": ["IT asset disposal", "Data center recycling", "Refurbishment", "Precious metal recovery"],      "pickupRadius": "30km",      "pickupRadius": "30km",
+
+      "capacity": "High",
+
+      "processingTime": "72-96 hours",      "specialties": ["Large appliances", "Commercial electronics"],      "specialties": ["Large appliances", "Commercial electronics"],
+
+      "pickupRadius": "35km",
+
+      "specialties": ["IT infrastructure", "Server recycling"],      "reviews": 892,      "reviews": 892,
+
+      "reviews": 567,
+
+      "established": "2020"      "established": "2021"      "established": "2021"
+
     },
-    {
+
+    {    },    },
+
       "id": 5,
-      "name": "Digital Detox Chennai",
+
+      "name": "PureRecycle Chennai - T. Nagar",    {    {
+
       "lat": 13.0827,
-      "lng": 80.2707,
-      "address": "654 Green Avenue, Chennai, Tamil Nadu 600001",
-      "certificates": ["CPCB Approved", "TNPCB Certified"],
-      "accepts": ["tv", "monitors", "printers", "cables", "adapters"],
-      "verified": true,
-      "rating": 4.4,
-      "contact": "+91-9876543214",
-      "hours": "10 AM - 6 PM",
-      "services": ["Home collection", "Corporate service", "Awareness programs"],
-      "capacity": "Medium"
+
+      "lng": 80.2707,      "id": 3,      "id": 3,
+
+      "address": "654 Clean Street, T. Nagar, Chennai, Tamil Nadu 600017",
+
+      "certificates": ["CPCB Approved", "TNPCB Certified", "ISO 9001"],      "name": "TechWaste Delhi - Connaught Place",      "name": "TechWaste Delhi - Connaught Place",
+
+      "accepts": ["TVs", "washing machines", "refrigerators", "ACs", "microwaves", "fans", "small appliances"],
+
+      "verified": true,      "lat": 28.7041,      "lat": 28.7041,
+
+      "rating": 4.5,
+
+      "contact": "+91-9876543214",      "lng": 77.1025,      "lng": 77.1025,
+
+      "hours": "9:00 AM - 5:00 PM",
+
+      "services": ["Home pickup", "White goods recycling", "Component recovery", "Environmental reporting"],      "address": "789 Recycle Road, Connaught Place, New Delhi 110001",      "address": "789 Recycle Road, Connaught Place, New Delhi 110001",
+
+      "capacity": "Medium",
+
+      "processingTime": "48-72 hours",      "certificates": ["CPCB Approved", "ISO 14001"],      "certificates": ["CPCB Approved", "ISO 14001"],
+
+      "pickupRadius": "25km",
+
+      "specialties": ["Large appliances", "Home electronics"],      "accepts": ["phones", "laptops", "tablets", "smartwatches", "earbuds", "chargers", "power banks"],      "accepts": ["phones", "laptops", "tablets", "smartwatches", "earbuds", "chargers", "power banks"],
+
+      "reviews": 423,
+
+      "established": "2022"      "verified": true,      "verified": true,
+
     },
-    {
+
+    {      "rating": 4.3,      "rating": 4.3,
+
       "id": 6,
-      "name": "WasteWise Kolkata",
+
+      "name": "SmartWaste Hyderabad - Banjara Hills",      "contact": "+91-9876543212",      "contact": "+91-9876543212",
+
+      "lat": 17.3850,
+
+      "lng": 78.4867,      "hours": "8:00 AM - 7:00 PM",      "hours": "8:00 AM - 7:00 PM",
+
+      "address": "987 Smart Avenue, Banjara Hills, Hyderabad, Telangana 500034",
+
+      "certificates": ["TSPCB Approved", "ISO 14001", "Responsible Recycling (R2)"],      "services": ["Pickup service", "Basic recycling", "Device testing", "Data wiping"],      "services": ["Pickup service", "Basic recycling", "Device testing", "Data wiping"],
+
+      "accepts": ["smartphones", "tablets", "laptops", "gaming consoles", "VR headsets", "smart home devices"],
+
+      "verified": true,      "capacity": "High",      "capacity": "High",
+
+      "rating": 4.9,
+
+      "contact": "+91-9876543215",      "processingTime": "12-24 hours",      "processingTime": "12-24 hours",
+
+      "hours": "10:00 AM - 7:00 PM",
+
+      "services": ["Express pickup", "Premium recycling", "Device valuation", "Trade-in programs"],      "pickupRadius": "20km",      "pickupRadius": "20km",
+
+      "capacity": "High",
+
+      "processingTime": "24 hours",      "specialties": ["Mobile devices", "Consumer electronics"],      "specialties": ["Mobile devices", "Consumer electronics"],
+
+      "pickupRadius": "40km",
+
+      "specialties": ["Premium devices", "Gaming equipment"],      "reviews": 654,      "reviews": 654,
+
+      "reviews": 789,
+
+      "established": "2021"      "established": "2023"      "established": "2023"
+
+    },
+
+    {    },    },
+
+      "id": 7,
+
+      "name": "EarthSaver Kolkata - Salt Lake",    {    {
+
       "lat": 22.5726,
-      "lng": 88.3639,
-      "address": "987 Eco Street, Kolkata, West Bengal 700001",
-      "certificates": ["WBPCB Approved"],
-      "accepts": ["phones", "chargers", "batteries", "small appliances"],
-      "verified": false,
+
+      "lng": 88.3639,      "id": 4,      "id": 4,
+
+      "address": "147 Earth Plaza, Salt Lake City, Kolkata, West Bengal 700091",
+
+      "certificates": ["WBPCB Approved", "ISO 9001", "Green Business Certification"],      "name": "EcoCircuit Bangalore - Koramangala",      "name": "EcoCircuit Bangalore - Koramangala",
+
+      "accepts": ["computers", "printers", "photocopiers", "fax machines", "scanners", "projectors"],
+
+      "verified": true,      "lat": 12.9352,      "lat": 12.9352,
+
+      "rating": 4.4,
+
+      "contact": "+91-9876543216",      "lng": 77.6245,      "lng": 77.6245,
+
+      "hours": "9:00 AM - 6:00 PM",
+
+      "services": ["Office pickup", "Document destruction", "Bulk recycling", "Compliance reporting"],      "address": "321 Circuit Avenue, Koramangala, Bangalore, Karnataka 560034",      "address": "321 Circuit Avenue, Koramangala, Bangalore, Karnataka 560034",
+
+      "capacity": "Medium",
+
+      "processingTime": "48-72 hours",      "certificates": ["ISO 14001", "CPCB Approved", "E-waste Recycler License"],      "certificates": ["ISO 14001", "CPCB Approved", "E-waste Recycler License"],
+
+      "pickupRadius": "30km",
+
+      "specialties": ["Office equipment", "Bulk collections"],      "accepts": ["servers", "networking equipment", "storage devices", "motherboards", "RAM", "CPUs", "graphic cards"],      "accepts": ["servers", "networking equipment", "storage devices", "motherboards", "RAM", "CPUs", "graphic cards"],
+
+      "reviews": 345,
+
+      "established": "2023"      "verified": true,      "verified": true,
+
+    },
+
+    {      "rating": 4.7,      "rating": 4.7,
+
+      "id": 8,
+
+      "name": "FutureRecycle Ahmedabad - Satellite",      "contact": "+91-9876543213",      "contact": "+91-9876543213",
+
+      "lat": 23.0225,
+
+      "lng": 72.5714,      "hours": "9:30 AM - 6:30 PM",      "hours": "9:30 AM - 6:30 PM",
+
+      "address": "258 Future Road, Satellite, Ahmedabad, Gujarat 380015",
+
+      "certificates": ["GPCB Approved", "ISO 14001", "EPR Authorized"],      "services": ["IT asset disposal", "Data center recycling", "Refurbishment", "Precious metal recovery"],      "services": ["IT asset disposal", "Data center recycling", "Refurbishment", "Precious metal recovery"],
+
+      "accepts": ["solar panels", "inverters", "batteries", "LED lights", "electrical cables", "transformers"],
+
+      "verified": true,      "capacity": "High",      "capacity": "High",
+
+      "rating": 4.6,
+
+      "contact": "+91-9876543217",      "processingTime": "72-96 hours",      "processingTime": "72-96 hours",
+
+      "hours": "8:30 AM - 5:30 PM",
+
+      "services": ["Solar panel recycling", "Electrical waste", "Hazardous material handling", "Environmental audit"],      "pickupRadius": "35km",      "pickupRadius": "35km",
+
+      "capacity": "High",
+
+      "processingTime": "72-96 hours",      "specialties": ["IT infrastructure", "Server recycling"],      "specialties": ["IT infrastructure", "Server recycling"],
+
+      "pickupRadius": "50km",
+
+      "specialties": ["Renewable energy equipment", "Electrical waste"],      "reviews": 567,      "reviews": 567,
+
+      "reviews": 234,
+
+      "established": "2020"      "established": "2020"      "established": "2020"
+
+    }
+
+  ]    },    },
+
+}
+    {    {
+
+      "id": 5,      "id": 5,
+
+      "name": "PureRecycle Chennai - T. Nagar",      "name": "PureRecycle Chennai - T. Nagar",
+
+      "lat": 13.0827,      "lat": 13.0827,
+
+      "lng": 80.2707,      "lng": 80.2707,
+
+      "address": "654 Clean Street, T. Nagar, Chennai, Tamil Nadu 600017",      "address": "654 Clean Street, T. Nagar, Chennai, Tamil Nadu 600017",
+
+      "certificates": ["CPCB Approved", "TNPCB Certified", "ISO 9001"],      "certificates": ["CPCB Approved", "TNPCB Certified", "ISO 9001"],
+
+      "accepts": ["TVs", "washing machines", "refrigerators", "ACs", "microwaves", "fans", "small appliances"],      "accepts": ["TVs", "washing machines", "refrigerators", "ACs", "microwaves", "fans", "small appliances"],
+
+      "verified": true,      "verified": true,
+
+      "rating": 4.5,      "rating": 4.5,
+
+      "contact": "+91-9876543214",      "contact": "+91-9876543214",
+
+      "hours": "9:00 AM - 5:00 PM",      "hours": "9:00 AM - 5:00 PM",
+
+      "services": ["Home pickup", "White goods recycling", "Component recovery", "Environmental reporting"],      "services": ["Home pickup", "White goods recycling", "Component recovery", "Environmental reporting"],
+
+      "capacity": "Medium",      "capacity": "Medium",
+
+      "processingTime": "48-72 hours",      "processingTime": "48-72 hours",
+
+      "pickupRadius": "25km",      "pickupRadius": "25km",
+
+      "specialties": ["Large appliances", "Home electronics"],      "specialties": ["Large appliances", "Home electronics"],
+
+      "reviews": 423,      "reviews": 423,
+
+      "established": "2022"      "established": "2022"
+
+    },    },
+
+    {    {
+
+      "id": 6,      "id": 6,
+
+      "name": "SmartWaste Hyderabad - Banjara Hills",      "name": "SmartWaste Hyderabad - Banjara Hills",
+
+      "lat": 17.3850,      "lat": 17.3850,
+
+      "lng": 78.4867,      "lng": 78.4867,
+
+      "address": "987 Smart Avenue, Banjara Hills, Hyderabad, Telangana 500034",      "address": "987 Smart Avenue, Banjara Hills, Hyderabad, Telangana 500034",
+
+      "certificates": ["TSPCB Approved", "ISO 14001", "Responsible Recycling (R2)"],      "certificates": ["TSPCB Approved", "ISO 14001", "Responsible Recycling (R2)"],
+
+      "accepts": ["smartphones", "tablets", "laptops", "gaming consoles", "VR headsets", "smart home devices"],      "accepts": ["smartphones", "tablets", "laptops", "gaming consoles", "VR headsets", "smart home devices"],
+
+      "verified": true,      "verified": true,
+
+      "rating": 4.9,      "rating": 4.9,
+
+      "contact": "+91-9876543215",      "contact": "+91-9876543215",
+
+      "hours": "10:00 AM - 7:00 PM",      "hours": "10:00 AM - 7:00 PM",
+
+      "services": ["Express pickup", "Premium recycling", "Device valuation", "Trade-in programs"],      "services": ["Express pickup", "Premium recycling", "Device valuation", "Trade-in programs"],
+
+      "capacity": "High",      "capacity": "High",
+
+      "processingTime": "24 hours",      "processingTime": "24 hours",
+
+      "pickupRadius": "40km",      "pickupRadius": "40km",
+
+      "specialties": ["Premium devices", "Gaming equipment"],      "specialties": ["Premium devices", "Gaming equipment"],
+
+      "reviews": 789,      "reviews": 789,
+
+      "established": "2021"      "established": "2021"
+
+    },    },
+
+    {    {
+
+      "id": 7,      "id": 7,
+
+      "name": "EarthSaver Kolkata - Salt Lake",      "name": "EarthSaver Kolkata - Salt Lake",
+
+      "lat": 22.5726,      "lat": 22.5726,
+
+      "lng": 88.3639,      "lng": 88.3639,
+
+      "address": "147 Earth Plaza, Salt Lake City, Kolkata, West Bengal 700091",      "address": "147 Earth Plaza, Salt Lake City, Kolkata, West Bengal 700091",
+
+      "certificates": ["WBPCB Approved", "ISO 9001", "Green Business Certification"],      "certificates": ["WBPCB Approved", "ISO 9001", "Green Business Certification"],
+
+      "accepts": ["computers", "printers", "photocopiers", "fax machines", "scanners", "projectors"],      "accepts": ["computers", "printers", "photocopiers", "fax machines", "scanners", "projectors"],
+
+      "verified": true,      "verified": true,
+
+      "rating": 4.4,      "rating": 4.4,
+
+      "contact": "+91-9876543216",      "contact": "+91-9876543216",
+
+      "hours": "9:00 AM - 6:00 PM",      "hours": "9:00 AM - 6:00 PM",
+
+      "services": ["Office pickup", "Document destruction", "Bulk recycling", "Compliance reporting"],      "services": ["Office pickup", "Document destruction", "Bulk recycling", "Compliance reporting"],
+
+      "capacity": "Medium",      "capacity": "Medium",
+
+      "processingTime": "48-72 hours",      "processingTime": "48-72 hours",
+
+      "pickupRadius": "30km",      "pickupRadius": "30km",
+
+      "specialties": ["Office equipment", "Bulk collections"],      "specialties": ["Office equipment", "Bulk collections"],
+
+      "reviews": 345,      "reviews": 345,
+
+      "established": "2023"      "established": "2023"
+
+    },    },
+
+    {    {
+
+      "id": 8,      "id": 8,
+
+      "name": "FutureRecycle Ahmedabad - Satellite",      "name": "FutureRecycle Ahmedabad - Satellite",
+
+      "lat": 23.0225,      "lat": 23.0225,
+
+      "lng": 72.5714,      "lng": 72.5714,
+
+      "address": "258 Future Road, Satellite, Ahmedabad, Gujarat 380015",      "address": "258 Future Road, Satellite, Ahmedabad, Gujarat 380015",
+
+      "certificates": ["GPCB Approved", "ISO 14001", "EPR Authorized"],      "certificates": ["GPCB Approved", "ISO 14001", "EPR Authorized"],
+
+      "accepts": ["solar panels", "inverters", "batteries", "LED lights", "electrical cables", "transformers"],      "accepts": ["solar panels", "inverters", "batteries", "LED lights", "electrical cables", "transformers"],
+
+      "verified": true,      "verified": true,
+
+      "rating": 4.6,      "rating": 4.6,
+
+      "contact": "+91-9876543217",      "contact": "+91-9876543217",
+
+      "hours": "8:30 AM - 5:30 PM",      "hours": "8:30 AM - 5:30 PM",
+
+      "services": ["Solar panel recycling", "Electrical waste", "Hazardous material handling", "Environmental audit"],      "services": ["Solar panel recycling", "Electrical waste", "Hazardous material handling", "Environmental audit"],
+
+      "capacity": "High",      "capacity": "High",
+
+      "processingTime": "72-96 hours",      "processingTime": "72-96 hours",
+
+      "pickupRadius": "50km",      "pickupRadius": "50km",
+
+      "specialties": ["Renewable energy equipment", "Electrical waste"],      "specialties": ["Renewable energy equipment", "Electrical waste"],
+
+      "reviews": 234,      "reviews": 234,
+
+      "established": "2020"      "established": "2020"
+
+    }    }
+
+  ]  ]
+
+}}
       "rating": 4.1,
       "contact": "+91-9876543215",
       "hours": "9 AM - 5 PM",
