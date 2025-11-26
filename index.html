@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="theme-color" content="#10B981">
+  <meta name="theme-color" content="#059669">
 
   <!-- Primary Meta Tags -->
   <title>E-Zero - AI-Powered E-Waste Management Platform</title>
@@ -42,8 +42,8 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://unpkg.com">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Fonts - Using Poppins for more modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Core CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -51,10 +51,12 @@
 
   <!-- External Libraries -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
   <!-- Scripts -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js" defer></script>
@@ -62,6 +64,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js" defer></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -86,152 +89,167 @@
   }
   </script>
 
+  <!-- Custom Animations CSS -->
+  <style>
+    @keyframes ripple { to { transform: scale(2); opacity: 0; } }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+    @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .animate-spin-slow { animation: spin-slow 3s linear infinite; }
+    .animate-in { opacity: 1 !important; transform: translateY(0) !important; }
+    .glass-card { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .floating { animation: float 3s ease-in-out infinite; }
+    .select-arrow { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E"); background-position: right 12px center; background-repeat: no-repeat; background-size: 20px; }
+    .bg-pattern-dots { background-image: radial-gradient(circle, #059669 1px, transparent 1px); background-size: 20px 20px; }
+  </style>
+
   <!-- Security Headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.e-zero.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.e-zero.com;">
 </head>
 
-<body class="bg-gradient-to-br from-slate-50 via-green-50 to-blue-50 min-h-screen font-['Inter'] antialiased">
+<body class="bg-gray-50 min-h-screen antialiased overflow-x-hidden" style="font-family: 'Poppins', sans-serif;">
+  <!-- Loading Screen -->
+  <div id="page-loader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 transition-opacity duration-500">
+    <div class="text-center">
+      <div class="relative mb-6">
+        <div class="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center animate-pulse">
+          <i class="fas fa-recycle text-white text-4xl animate-spin-slow"></i>
+        </div>
+        <div class="absolute -inset-2 bg-white/10 rounded-3xl animate-ping"></div>
+      </div>
+      <h2 class="text-2xl font-bold text-white mb-2">E-Zero</h2>
+      <p class="text-white/80 text-sm">Loading your eco-journey...</p>
+      <div class="mt-6 w-48 h-1 bg-white/30 rounded-full overflow-hidden mx-auto">
+        <div id="loading-bar" class="h-full bg-white rounded-full transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Skip to main content for accessibility -->
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-green-600 text-white px-4 py-2 rounded-lg z-50">
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-emerald-600 text-white px-4 py-2 rounded-lg z-50">
     Skip to main content
   </a>
 
-  <!-- Header -->
-  <header class="bg-white/95 backdrop-blur-lg shadow-xl sticky top-0 z-40 border-b border-green-100/50" role="banner">
+  <!-- Premium Header -->
+  <header class="bg-white/95 backdrop-blur-xl shadow-lg shadow-gray-100/50 sticky top-0 z-40 border-b border-gray-100" role="banner">
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" role="navigation" aria-label="Main navigation">
-      <div class="flex justify-between items-center h-20">
+      <div class="flex justify-between items-center h-18 py-3">
         <!-- Logo & Brand -->
-        <div class="flex items-center space-x-4">
-          <div class="relative group">
-            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-              <i class="fas fa-recycle text-white text-xl"></i>
+        <div class="flex items-center space-x-3 group cursor-pointer" onclick="scrollToSection('home')">
+          <div class="relative">
+            <div class="w-11 h-11 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200/50 group-hover:shadow-xl group-hover:shadow-emerald-300/50 transition-all duration-300 group-hover:scale-105">
+              <i class="fas fa-recycle text-white text-lg"></i>
             </div>
-            <div class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse border-2 border-white"></div>
+            <div class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-emerald-400 rounded-full animate-pulse border-2 border-white"></div>
           </div>
           <div>
-            <h1 class="text-2xl font-bold bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 class="text-xl font-extrabold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent tracking-tight">
               E-Zero
             </h1>
-            <p class="text-xs text-gray-500 hidden sm:block font-medium">AI-Powered Recycling</p>
+            <p class="text-[10px] text-gray-500 font-medium tracking-wider uppercase">AI-Powered Recycling</p>
           </div>
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-8">
-          <a href="#home" class="nav-link text-gray-700 hover:text-green-600 font-medium transition-all duration-200 relative group px-3 py-2 rounded-lg hover:bg-green-50" data-section="home">
-            <i class="fas fa-home mr-2"></i>Home
-            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#centers" class="nav-link text-gray-700 hover:text-green-600 font-medium transition-all duration-200 relative group px-3 py-2 rounded-lg hover:bg-green-50" data-section="centers">
-            <i class="fas fa-map-marked-alt mr-2"></i>Centers
-            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#pickup" class="nav-link text-gray-700 hover:text-green-600 font-medium transition-all duration-200 relative group px-3 py-2 rounded-lg hover:bg-green-50" data-section="pickup">
-            <i class="fas fa-calendar-plus mr-2"></i>Pickup
-            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#rewards" class="nav-link text-gray-700 hover:text-green-600 font-medium transition-all duration-200 relative group px-3 py-2 rounded-lg hover:bg-green-50" data-section="rewards">
-            <i class="fas fa-gift mr-2"></i>Rewards
-            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#impact" class="nav-link text-gray-700 hover:text-green-600 font-medium transition-all duration-200 relative group px-3 py-2 rounded-lg hover:bg-green-50" data-section="impact">
-            <i class="fas fa-chart-line mr-2"></i>Impact
-            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-green-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
+        <div class="hidden lg:flex items-center">
+          <div class="flex items-center bg-gray-50/80 rounded-full px-2 py-1.5 space-x-1">
+            <a href="#home" class="nav-link text-gray-600 hover:text-emerald-600 font-medium transition-all duration-300 relative px-4 py-2 rounded-full hover:bg-white hover:shadow-md" data-section="home">
+              <i class="fas fa-home mr-2 text-sm"></i>Home
+            </a>
+            <a href="#centers" class="nav-link text-gray-600 hover:text-emerald-600 font-medium transition-all duration-300 relative px-4 py-2 rounded-full hover:bg-white hover:shadow-md" data-section="centers">
+              <i class="fas fa-map-marker-alt mr-2 text-sm"></i>Centers
+            </a>
+            <a href="#pickup" class="nav-link text-gray-600 hover:text-emerald-600 font-medium transition-all duration-300 relative px-4 py-2 rounded-full hover:bg-white hover:shadow-md" data-section="pickup">
+              <i class="fas fa-truck mr-2 text-sm"></i>Pickup
+            </a>
+            <a href="#rewards" class="nav-link text-gray-600 hover:text-emerald-600 font-medium transition-all duration-300 relative px-4 py-2 rounded-full hover:bg-white hover:shadow-md" data-section="rewards">
+              <i class="fas fa-award mr-2 text-sm"></i>Rewards
+            </a>
+            <a href="#impact" class="nav-link text-gray-600 hover:text-emerald-600 font-medium transition-all duration-300 relative px-4 py-2 rounded-full hover:bg-white hover:shadow-md" data-section="impact">
+              <i class="fas fa-chart-pie mr-2 text-sm"></i>Impact
+            </a>
+          </div>
         </div>
 
         <!-- Right Side Actions -->
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2">
           <!-- Language Selector -->
-          <div class="relative">
-            <button id="lang-selector" class="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-gray-50" aria-label="Select language" aria-haspopup="true">
-              <i class="fas fa-globe text-lg"></i>
-              <span id="current-lang" class="font-medium">EN</span>
-              <i class="fas fa-chevron-down text-xs transition-transform" id="lang-chevron"></i>
+          <div class="relative hidden sm:block">
+            <button id="lang-selector" class="flex items-center space-x-1.5 text-gray-600 hover:text-emerald-600 transition-colors p-2.5 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-200" aria-label="Select language" aria-haspopup="true">
+              <i class="fas fa-globe text-base"></i>
+              <span id="current-lang" class="font-semibold text-sm">EN</span>
+              <i class="fas fa-chevron-down text-[10px] transition-transform" id="lang-chevron"></i>
             </button>
-            <div id="lang-dropdown" class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 hidden z-10 py-2" role="menu">
-              <button class="lang-option w-full text-left px-4 py-3 hover:bg-green-50 transition-colors rounded-t-xl flex items-center space-x-3" data-lang="en" role="menuitem">
-                <span class="text-sm font-medium">English</span>
+            <div id="lang-dropdown" class="absolute right-0 mt-2 w-36 bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 hidden z-10 py-1.5 overflow-hidden" role="menu">
+              <button class="lang-option w-full text-left px-4 py-2.5 hover:bg-emerald-50 transition-colors flex items-center space-x-2.5 group" data-lang="en" role="menuitem">
+                <span class="text-sm font-medium group-hover:text-emerald-600">🇺🇸 English</span>
               </button>
-              <button class="lang-option w-full text-left px-4 py-3 hover:bg-green-50 transition-colors flex items-center space-x-3" data-lang="hi" role="menuitem">
-                <span class="text-sm font-medium">हिंदी</span>
+              <button class="lang-option w-full text-left px-4 py-2.5 hover:bg-emerald-50 transition-colors flex items-center space-x-2.5 group" data-lang="hi" role="menuitem">
+                <span class="text-sm font-medium group-hover:text-emerald-600">🇮🇳 हिंदी</span>
               </button>
-              <button class="lang-option w-full text-left px-4 py-3 hover:bg-green-50 transition-colors rounded-b-xl flex items-center space-x-3" data-lang="mr" role="menuitem">
-                <span class="text-sm font-medium">मराठी</span>
+              <button class="lang-option w-full text-left px-4 py-2.5 hover:bg-emerald-50 transition-colors flex items-center space-x-2.5 group" data-lang="mr" role="menuitem">
+                <span class="text-sm font-medium group-hover:text-emerald-600">🇮🇳 मराठी</span>
               </button>
             </div>
           </div>
 
           <!-- Notifications -->
           <div class="relative">
-            <button id="notification-btn" class="relative text-gray-700 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-gray-50" aria-label="Notifications" aria-haspopup="true">
-              <i class="fas fa-bell text-xl"></i>
-              <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold animate-pulse" id="notification-badge">3</span>
+            <button id="notification-btn" class="relative text-gray-600 hover:text-emerald-600 transition-colors p-2.5 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-200" aria-label="Notifications" aria-haspopup="true">
+              <i class="fas fa-bell text-lg"></i>
+              <span class="absolute top-1 right-1 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold animate-bounce" id="notification-badge">3</span>
             </button>
-            <div id="notification-dropdown" class="absolute right-0 mt-2 w-96 bg-white rounded-xl shadow-2xl border border-gray-100 hidden z-10 max-h-96 overflow-hidden" role="menu">
-              <div class="p-4 border-b border-gray-100 bg-gradient-to-r from-green-50 to-blue-50">
-                <h3 class="font-bold text-gray-900 flex items-center">
-                  <i class="fas fa-bell mr-2 text-green-600"></i>
+            <div id="notification-dropdown" class="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl shadow-gray-200/50 border border-gray-100 hidden z-10 overflow-hidden" role="menu">
+              <div class="p-4 bg-gradient-to-r from-emerald-500 to-teal-500">
+                <h3 class="font-bold text-white flex items-center text-base">
+                  <i class="fas fa-bell mr-2"></i>
                   Notifications
                 </h3>
-                <p class="text-sm text-gray-600 mt-1">Stay updated with your activities</p>
+                <p class="text-emerald-100 text-xs mt-0.5">Stay updated with your activities</p>
               </div>
-              <div class="max-h-80 overflow-y-auto">
-                <div class="notification-item p-4 border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors" role="menuitem">
+              <div class="max-h-72 overflow-y-auto">
+                <div class="notification-item p-3 border-b border-gray-50 hover:bg-emerald-50/50 cursor-pointer transition-colors" role="menuitem">
                   <div class="flex items-start space-x-3">
-                    <div class="flex-shrink-0">
-                      <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-gift text-green-600"></i>
-                      </div>
+                    <div class="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <i class="fas fa-gift text-emerald-600 text-sm"></i>
                     </div>
                     <div class="flex-1 min-w-0">
-                      <p class="text-sm font-medium text-gray-900">Reward Earned!</p>
-                      <p class="text-sm text-gray-600">You earned 50 points for recycling</p>
-                      <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                      <p class="text-sm font-semibold text-gray-900">Reward Earned!</p>
+                      <p class="text-xs text-gray-500 mt-0.5">You earned 50 points for recycling</p>
+                      <p class="text-[10px] text-gray-400 mt-1 flex items-center"><i class="far fa-clock mr-1"></i>2 hours ago</p>
                     </div>
-                    <div class="flex-shrink-0">
-                      <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                    </div>
+                    <div class="w-2 h-2 bg-emerald-500 rounded-full flex-shrink-0 mt-2"></div>
                   </div>
                 </div>
-                <div class="notification-item p-4 border-b border-gray-50 hover:bg-gray-50 cursor-pointer transition-colors" role="menuitem">
+                <div class="notification-item p-3 border-b border-gray-50 hover:bg-cyan-50/50 cursor-pointer transition-colors" role="menuitem">
                   <div class="flex items-start space-x-3">
-                    <div class="flex-shrink-0">
-                      <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-calendar-check text-blue-600"></i>
-                      </div>
+                    <div class="w-10 h-10 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <i class="fas fa-calendar-check text-cyan-600 text-sm"></i>
                     </div>
                     <div class="flex-1 min-w-0">
-                      <p class="text-sm font-medium text-gray-900">Pickup Scheduled</p>
-                      <p class="text-sm text-gray-600">Your pickup is confirmed for tomorrow</p>
-                      <p class="text-xs text-gray-400 mt-1">5 hours ago</p>
+                      <p class="text-sm font-semibold text-gray-900">Pickup Scheduled</p>
+                      <p class="text-xs text-gray-500 mt-0.5">Your pickup is confirmed for tomorrow</p>
+                      <p class="text-[10px] text-gray-400 mt-1 flex items-center"><i class="far fa-clock mr-1"></i>5 hours ago</p>
                     </div>
-                    <div class="flex-shrink-0">
-                      <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    </div>
+                    <div class="w-2 h-2 bg-cyan-500 rounded-full flex-shrink-0 mt-2"></div>
                   </div>
                 </div>
-                <div class="notification-item p-4 hover:bg-gray-50 cursor-pointer transition-colors" role="menuitem">
+                <div class="notification-item p-3 hover:bg-purple-50/50 cursor-pointer transition-colors" role="menuitem">
                   <div class="flex items-start space-x-3">
-                    <div class="flex-shrink-0">
-                      <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-trophy text-purple-600"></i>
-                      </div>
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <i class="fas fa-trophy text-purple-600 text-sm"></i>
                     </div>
                     <div class="flex-1 min-w-0">
-                      <p class="text-sm font-medium text-gray-900">Achievement Unlocked!</p>
-                      <p class="text-sm text-gray-600">Congratulations on becoming an Eco Warrior</p>
-                      <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                      <p class="text-sm font-semibold text-gray-900">Achievement Unlocked!</p>
+                      <p class="text-xs text-gray-500 mt-0.5">Congratulations on becoming an Eco Warrior</p>
+                      <p class="text-[10px] text-gray-400 mt-1 flex items-center"><i class="far fa-clock mr-1"></i>1 day ago</p>
                     </div>
-                    <div class="flex-shrink-0">
-                      <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    </div>
+                    <div class="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0 mt-2"></div>
                   </div>
                 </div>
               </div>
-              <div class="p-3 border-t border-gray-100 bg-gray-50">
-                <button class="w-full text-center text-sm text-green-600 hover:text-green-700 font-medium transition-colors">
-                  View All Notifications
+              <div class="p-3 border-t border-gray-100 bg-gray-50/50">
+                <button class="w-full text-center text-sm text-emerald-600 hover:text-emerald-700 font-semibold transition-colors flex items-center justify-center">
+                  View All <i class="fas fa-arrow-right ml-2 text-xs"></i>
                 </button>
               </div>
             </div>
@@ -239,71 +257,113 @@
 
           <!-- User Menu -->
           <div class="relative">
-            <button id="user-menu-btn" class="flex items-center space-x-2 text-gray-700 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-gray-50" aria-label="User menu" aria-haspopup="true">
-              <div class="w-9 h-9 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold shadow-md">
+            <button id="user-menu-btn" class="flex items-center space-x-2 text-gray-700 hover:text-emerald-600 transition-colors p-1.5 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-200" aria-label="User menu" aria-haspopup="true">
+              <div class="w-9 h-9 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-md shadow-emerald-200/50">
                 JD
               </div>
               <div class="hidden md:block text-left">
-                <div class="text-sm font-semibold">John Doe</div>
-                <div class="text-xs text-gray-500">Level 3 Eco Warrior</div>
+                <div class="text-sm font-semibold text-gray-800">John Doe</div>
+                <div class="text-[10px] text-emerald-600 font-medium flex items-center"><i class="fas fa-medal mr-1"></i>Level 3 Eco Warrior</div>
               </div>
-              <i class="fas fa-chevron-down text-xs transition-transform" id="user-chevron"></i>
+              <i class="fas fa-chevron-down text-[10px] text-gray-400 hidden md:block transition-transform" id="user-chevron"></i>
             </button>
-            <div id="user-dropdown" class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 hidden z-10 py-2" role="menu">
-              <div class="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-green-50 to-blue-50">
-                <p class="text-sm font-bold text-gray-900">John Doe</p>
-                <p class="text-sm text-gray-600">john@example.com</p>
-                <div class="flex items-center mt-2">
-                  <div class="flex-1 bg-gray-200 rounded-full h-2">
-                    <div class="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full" style="width: 65%"></div>
+            <div id="user-dropdown" class="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl shadow-gray-200/50 border border-gray-100 hidden z-10 overflow-hidden" role="menu">
+              <div class="p-4 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500">
+                <div class="flex items-center space-x-3">
+                  <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-white font-bold backdrop-blur-sm">
+                    JD
                   </div>
-                  <span class="text-xs text-gray-600 ml-2">650/1000 XP</span>
+                  <div>
+                    <p class="font-bold text-white">John Doe</p>
+                    <p class="text-emerald-100 text-xs">john@example.com</p>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div class="flex items-center justify-between text-xs text-white/80 mb-1">
+                    <span>Level 3 Progress</span>
+                    <span>650/1000 XP</span>
+                  </div>
+                  <div class="h-1.5 bg-white/20 rounded-full overflow-hidden">
+                    <div class="bg-white h-full rounded-full" style="width: 65%"></div>
+                  </div>
                 </div>
               </div>
-              <a href="#profile" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors" role="menuitem">
-                <i class="fas fa-user mr-3 text-gray-400"></i>Profile & Settings
-              </a>
-              <a href="#history" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors" role="menuitem">
-                <i class="fas fa-history mr-3 text-gray-400"></i>Pickup History
-              </a>
-              <a href="#rewards" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors" role="menuitem">
-                <i class="fas fa-gift mr-3 text-gray-400"></i>My Rewards
-              </a>
-              <div class="border-t border-gray-100 my-1"></div>
-              <button id="theme-toggle" class="w-full text-left flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 transition-colors" role="menuitem">
-                <i class="fas fa-moon mr-3 text-gray-400"></i>Dark Mode
-              </button>
-              <div class="border-t border-gray-100 my-1"></div>
-              <button class="w-full text-left flex items-center px-4 py-3 text-sm text-red-600 hover:bg-gray-50 transition-colors" role="menuitem">
-                <i class="fas fa-sign-out-alt mr-3"></i>Sign Out
-              </button>
+              <div class="p-2">
+                <a href="#profile" class="flex items-center px-3 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 rounded-xl transition-colors group" role="menuitem">
+                  <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-100">
+                    <i class="fas fa-user text-gray-500 text-sm group-hover:text-emerald-600"></i>
+                  </div>
+                  <span class="font-medium">Profile & Settings</span>
+                </a>
+                <a href="#history" class="flex items-center px-3 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 rounded-xl transition-colors group" role="menuitem">
+                  <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-100">
+                    <i class="fas fa-history text-gray-500 text-sm group-hover:text-emerald-600"></i>
+                  </div>
+                  <span class="font-medium">Pickup History</span>
+                </a>
+                <a href="#rewards" class="flex items-center px-3 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 rounded-xl transition-colors group" role="menuitem">
+                  <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-100">
+                    <i class="fas fa-gift text-gray-500 text-sm group-hover:text-emerald-600"></i>
+                  </div>
+                  <span class="font-medium">My Rewards</span>
+                </a>
+                <button id="theme-toggle" class="w-full flex items-center px-3 py-2.5 text-sm text-gray-700 hover:bg-purple-50 rounded-xl transition-colors group" role="menuitem">
+                  <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-purple-100">
+                    <i class="fas fa-moon text-gray-500 text-sm group-hover:text-purple-600"></i>
+                  </div>
+                  <span class="font-medium">Dark Mode</span>
+                </button>
+              </div>
+              <div class="p-2 border-t border-gray-100">
+                <button class="w-full flex items-center px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-xl transition-colors" role="menuitem">
+                  <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                    <i class="fas fa-sign-out-alt text-red-500 text-sm"></i>
+                  </div>
+                  <span class="font-medium">Sign Out</span>
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- Mobile Menu Button -->
-          <button id="mobile-menu-btn" class="lg:hidden text-gray-700 hover:text-green-600 transition-colors p-2 rounded-lg hover:bg-gray-50" aria-label="Toggle mobile menu" aria-expanded="false">
-            <i class="fas fa-bars text-xl"></i>
+          <button id="mobile-menu-btn" class="lg:hidden text-gray-600 hover:text-emerald-600 transition-colors p-2.5 rounded-xl hover:bg-gray-50 border border-transparent hover:border-gray-200" aria-label="Toggle mobile menu" aria-expanded="false">
+            <i class="fas fa-bars text-lg" id="mobile-menu-icon"></i>
           </button>
         </div>
       </div>
 
       <!-- Mobile Navigation -->
-      <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-100 py-4 shadow-lg">
+      <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-100 py-3 px-2">
         <div class="flex flex-col space-y-1">
-          <a href="#home" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg transition-colors" data-section="home">
-            <i class="fas fa-home mr-3"></i>Home
+          <a href="#home" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-xl transition-colors font-medium" data-section="home">
+            <div class="w-9 h-9 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+              <i class="fas fa-home text-gray-500"></i>
+            </div>
+            Home
           </a>
-          <a href="#centers" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg transition-colors" data-section="centers">
-            <i class="fas fa-map-marked-alt mr-3"></i>Centers
+          <a href="#centers" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-xl transition-colors font-medium" data-section="centers">
+            <div class="w-9 h-9 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+              <i class="fas fa-map-marker-alt text-gray-500"></i>
+            </div>
+            Find Centers
           </a>
-          <a href="#pickup" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg transition-colors" data-section="pickup">
-            <i class="fas fa-calendar-plus mr-3"></i>Pickup
+          <a href="#pickup" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-xl transition-colors font-medium" data-section="pickup">
+            <div class="w-9 h-9 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+              <i class="fas fa-truck text-gray-500"></i>
+            </div>
+            Schedule Pickup
           </a>
-          <a href="#rewards" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg transition-colors" data-section="rewards">
-            <i class="fas fa-gift mr-3"></i>Rewards
+          <a href="#rewards" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-xl transition-colors font-medium" data-section="rewards">
+            <div class="w-9 h-9 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+              <i class="fas fa-award text-gray-500"></i>
+            </div>
+            Rewards
           </a>
-          <a href="#impact" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-green-50 rounded-lg transition-colors" data-section="impact">
-            <i class="fas fa-chart-line mr-3"></i>Impact
+          <a href="#impact" class="mobile-nav-link flex items-center px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-xl transition-colors font-medium" data-section="impact">
+            <div class="w-9 h-9 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
+              <i class="fas fa-chart-pie text-gray-500"></i>
+            </div>
+            Your Impact
           </a>
         </div>
       </div>
@@ -312,201 +372,396 @@
 
   <!-- Main Content -->
   <main id="main-content" class="relative">
-    <!-- AI-Powered Hero Section (Redesigned) -->
+    <!-- Premium Hero Section -->
     <section id="home" class="relative overflow-hidden min-h-screen flex items-center">
-      <!-- Animated Gradient Background -->
-      <div class="absolute inset-0 -z-10" aria-hidden="true" style="background: linear-gradient(135deg, rgba(16,185,129,0.9), rgba(59,130,246,0.9), rgba(147,51,234,0.9)); filter: saturate(1.05);">
-        <svg class="w-full h-full opacity-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <defs>
-            <pattern id="hero-grid" width="12" height="12" patternUnits="userSpaceOnUse">
-              <path d="M12 0 L0 0 0 12" fill="none" stroke="white" stroke-width="0.4" opacity="0.08"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#hero-grid)" />
-        </svg>
-      </div>
-
-      <!-- Floating interactive widgets -->
-      <div class="absolute top-16 left-12 floating interactive-card" data-speed="0.2" role="button" tabindex="0" aria-label="AI Brain Widget">
-        <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20 hover:scale-110 transition-transform">
-          <i class="fas fa-brain text-white text-2xl"></i>
+      <!-- Animated Background -->
+      <div class="absolute inset-0 -z-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700"></div>
+        <!-- Animated Mesh -->
+        <div class="absolute inset-0 opacity-30">
+          <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <pattern id="hero-grid-pattern" width="8" height="8" patternUnits="userSpaceOnUse">
+                <circle cx="1" cy="1" r="0.5" fill="white" opacity="0.3"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hero-grid-pattern)" />
+          </svg>
         </div>
-        <div class="mt-2 text-xs text-white/85 text-center">AI Brain</div>
+        <!-- Floating Shapes -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-teal-400/10 rounded-full blur-3xl"></div>
       </div>
 
-      <div class="absolute top-36 right-20 floating interactive-card" data-speed="0.18" role="button" tabindex="0" aria-label="AI Bot Widget">
-        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20 hover:scale-110 transition-transform">
-          <i class="fas fa-robot text-white text-xl"></i>
+      <!-- Floating Elements -->
+      <div class="absolute top-24 left-8 hidden lg:block" data-aos="fade-right" data-aos-delay="600">
+        <div class="glass-card p-4 rounded-2xl backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all cursor-pointer group">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+              <i class="fas fa-brain text-white text-xl"></i>
+            </div>
+            <div>
+              <p class="text-white font-semibold text-sm">AI-Powered</p>
+              <p class="text-white/70 text-xs">Smart Detection</p>
+            </div>
+          </div>
         </div>
-        <div class="mt-2 text-xs text-white/85 text-center">Bot</div>
       </div>
 
-      <div class="absolute bottom-36 left-20 floating interactive-card" data-speed="0.22" role="button" tabindex="0" aria-label="Magic AI Widget">
-        <div class="w-20 h-20 bg-white/18 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/18 hover:scale-110 transition-transform">
-          <i class="fas fa-magic text-white text-2xl"></i>
+      <div class="absolute top-40 right-12 hidden lg:block" data-aos="fade-left" data-aos-delay="800">
+        <div class="glass-card p-4 rounded-2xl backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+              <i class="fas fa-shield-alt text-white text-xl"></i>
+            </div>
+            <div>
+              <p class="text-white font-semibold text-sm">Secure</p>
+              <p class="text-white/70 text-xs">Data Protected</p>
+            </div>
+          </div>
         </div>
-        <div class="mt-2 text-xs text-white/85 text-center">Magic AI</div>
       </div>
 
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div class="absolute bottom-32 left-16 hidden lg:block" data-aos="fade-up" data-aos-delay="1000">
+        <div class="glass-card p-4 rounded-2xl backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-500 rounded-xl flex items-center justify-center shadow-lg">
+              <i class="fas fa-leaf text-white text-xl"></i>
+            </div>
+            <div>
+              <p class="text-white font-semibold text-sm">Eco-Friendly</p>
+              <p class="text-white/70 text-xs">100% Green</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
         <div class="text-center">
-          <div class="mb-8 fade-in-up">
-            <div class="inline-flex items-center bg-white/10 backdrop-blur rounded-full px-6 py-3 mb-6 border border-white/10">
-              <i class="fas fa-sparkles text-yellow-300 mr-3 animate-pulse"></i>
-              <span class="text-white font-medium">AI-Powered Recycling Platform</span>
-              <button id="voice-search-btn" class="ml-3 text-white/90 hover:text-yellow-300 transition-colors" title="Voice Commands" aria-label="Voice commands">
-                <i class="fas fa-microphone"></i>
+          <!-- Badge -->
+          <div class="mb-8" data-aos="fade-down" data-aos-duration="800">
+            <div class="inline-flex items-center bg-white/10 backdrop-blur-xl rounded-full px-5 py-2.5 border border-white/20 shadow-lg">
+              <span class="relative flex h-2.5 w-2.5 mr-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span class="text-white font-semibold text-sm">🚀 AI-Powered Recycling Platform</span>
+              <button id="voice-search-btn" class="ml-4 text-white/80 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-white/10" title="Voice Commands" aria-label="Voice commands">
+                <i class="fas fa-microphone text-sm"></i>
               </button>
             </div>
+          </div>
 
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold text-white leading-tight tracking-tight mb-6">
-              Turn Your <span class="text-yellow-300 relative">E-Waste
-                <svg class="absolute -bottom-3 left-0 w-full opacity-80" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0,8 Q50,0 100,8" stroke="currentColor" stroke-width="3" fill="none"/>
+          <!-- Main Heading -->
+          <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight mb-6">
+              Transform Your
+              <span class="relative inline-block">
+                <span class="bg-gradient-to-r from-yellow-300 via-amber-300 to-orange-300 bg-clip-text text-transparent"> E-Waste</span>
+                <svg class="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
+                  <path d="M2 8C40 4 80 4 100 6C120 8 160 8 198 4" stroke="url(#underline-gradient)" stroke-width="4" stroke-linecap="round"/>
+                  <defs>
+                    <linearGradient id="underline-gradient" x1="0" y1="0" x2="200" y2="0">
+                      <stop offset="0%" stop-color="#FCD34D"/>
+                      <stop offset="100%" stop-color="#F97316"/>
+                    </linearGradient>
+                  </defs>
                 </svg>
-              </span><br>
-              into <span class="text-yellow-300">Smart Rewards</span>
+              </span>
+              <br class="hidden sm:block">
+              Into <span class="bg-gradient-to-r from-yellow-300 to-amber-300 bg-clip-text text-transparent">Smart Rewards</span>
             </h1>
+          </div>
 
-            <div class="mx-auto max-w-3xl text-lg md:text-xl text-white/95 mb-8 fade-in-up">
-              Experience the future of e-waste management with AI-driven insights, predictive scheduling,
-              personalized rewards, and real-time environmental impact tracking.
-            </div>
+          <!-- Subtitle -->
+          <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            <p class="mx-auto max-w-2xl text-base sm:text-lg lg:text-xl text-white/90 mb-10 leading-relaxed px-4">
+              Experience the future of e-waste management with <span class="font-semibold text-yellow-300">AI-driven insights</span>, 
+              predictive scheduling, personalized rewards, and real-time environmental impact tracking.
+            </p>
           </div>
 
           <!-- CTA Buttons -->
-          <div class="flex flex-col sm:flex-row gap-5 justify-center mb-14 fade-in-up">
-            <button onclick="scrollToSection('centers')" class="btn-ripple relative overflow-hidden bg-white text-green-600 px-8 py-4 rounded-3xl font-semibold text-lg shadow-lg hover:scale-105 transition-transform">
-              <span class="flex items-center gap-3">
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16 px-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+            <button onclick="scrollToSection('centers')" class="group relative overflow-hidden bg-white text-emerald-600 px-8 py-4 rounded-2xl font-bold text-base shadow-xl shadow-emerald-900/20 hover:shadow-2xl hover:shadow-emerald-900/30 transition-all duration-300 hover:-translate-y-1">
+              <span class="relative z-10 flex items-center justify-center gap-3">
                 <i class="fas fa-search"></i>
-                AI Smart Search
+                Find Centers Nearby
+                <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+              </span>
+              <div class="absolute inset-0 bg-gradient-to-r from-emerald-50 to-cyan-50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </button>
+
+            <button onclick="scrollToSection('pickup')" class="group relative overflow-hidden border-2 border-white/50 text-white px-8 py-4 rounded-2xl font-bold text-base backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:-translate-y-1">
+              <span class="flex items-center justify-center gap-3">
+                <i class="fas fa-truck"></i>
+                Schedule Pickup
+                <i class="fas fa-calendar-alt"></i>
               </span>
             </button>
 
-            <button onclick="scrollToSection('pickup')" class="btn-ripple relative overflow-hidden border-2 border-white text-white px-8 py-4 rounded-3xl font-semibold text-lg hover:bg-white hover:text-green-600 transition-colors">
-              <span class="flex items-center gap-3">
-                <i class="fas fa-calendar-plus"></i>
-                Smart Scheduling
-              </span>
-            </button>
-
-            <button onclick="scrollToSection('rewards')" class="btn-ripple relative overflow-hidden bg-yellow-400 text-green-800 px-8 py-4 rounded-3xl font-semibold text-lg shadow-lg hover:scale-105 transition-transform">
-              <span class="flex items-center gap-3">
+            <button onclick="scrollToSection('rewards')" class="group relative overflow-hidden bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900 px-8 py-4 rounded-2xl font-bold text-base shadow-xl shadow-amber-900/20 hover:shadow-2xl hover:shadow-amber-900/30 transition-all duration-300 hover:-translate-y-1">
+              <span class="flex items-center justify-center gap-3">
                 <i class="fas fa-gift"></i>
-                AI Rewards
+                Earn Rewards
+                <i class="fas fa-coins"></i>
               </span>
             </button>
           </div>
 
-          <!-- Live Stats -->
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center interactive-card">
-              <div class="text-3xl font-black text-white mb-2 counter" id="waste-counter">15,247</div>
-              <div class="text-sm text-white/80">E-waste Recycled (kg)</div>
-              <div class="text-xs text-green-200 mt-2">+12 kg today</div>
+          <!-- Live Stats Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto px-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="800">
+            <div class="glass-card rounded-2xl p-5 backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
+              <div class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-400/30 to-emerald-600/30 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <i class="fas fa-recycle text-emerald-300 text-xl"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-white mb-1 counter" id="waste-counter">15,247</div>
+                <div class="text-xs sm:text-sm text-white/70 font-medium">E-waste Recycled</div>
+                <div class="text-[10px] text-emerald-300 mt-1.5 flex items-center"><i class="fas fa-arrow-up mr-1"></i>+12 kg today</div>
+              </div>
             </div>
 
-            <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center interactive-card">
-              <div class="text-3xl font-black text-white mb-2 counter" id="users-counter">8,924</div>
-              <div class="text-sm text-white/80">Active Users</div>
-              <div class="text-xs text-blue-200 mt-2">+5 users online</div>
+            <div class="glass-card rounded-2xl p-5 backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
+              <div class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-cyan-400/30 to-cyan-600/30 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <i class="fas fa-users text-cyan-300 text-xl"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-white mb-1 counter" id="users-counter">8,924</div>
+                <div class="text-xs sm:text-sm text-white/70 font-medium">Active Users</div>
+                <div class="text-[10px] text-cyan-300 mt-1.5 flex items-center"><span class="relative flex h-2 w-2 mr-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-300"></span></span>5 online now</div>
+              </div>
             </div>
 
-            <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center interactive-card">
-              <div class="text-3xl font-black text-white mb-2 counter" id="co2-counter">2,156</div>
-              <div class="text-sm text-white/80">CO₂ Saved (kg)</div>
-              <div class="text-xs text-green-200 mt-2">+8 kg saved today</div>
+            <div class="glass-card rounded-2xl p-5 backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
+              <div class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-400/30 to-green-600/30 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <i class="fas fa-cloud text-green-300 text-xl"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-white mb-1 counter" id="co2-counter">2,156</div>
+                <div class="text-xs sm:text-sm text-white/70 font-medium">CO₂ Saved (kg)</div>
+                <div class="text-[10px] text-green-300 mt-1.5 flex items-center"><i class="fas fa-leaf mr-1"></i>+8 kg today</div>
+              </div>
             </div>
 
-            <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center interactive-card">
-              <div class="text-3xl font-black text-white mb-2 counter" id="ai-insights-counter">47,392</div>
-              <div class="text-sm text-white/80">AI Insights</div>
-              <div class="text-xs text-purple-200 mt-2">+23 insights today</div>
+            <div class="glass-card rounded-2xl p-5 backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/15 transition-all duration-300 group cursor-pointer">
+              <div class="flex flex-col items-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-400/30 to-purple-600/30 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <i class="fas fa-lightbulb text-purple-300 text-xl"></i>
+                </div>
+                <div class="text-2xl sm:text-3xl font-black text-white mb-1 counter" id="ai-insights-counter">47,392</div>
+                <div class="text-xs sm:text-sm text-white/70 font-medium">AI Insights</div>
+                <div class="text-[10px] text-purple-300 mt-1.5 flex items-center"><i class="fas fa-sparkles mr-1"></i>+23 today</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Scroll Indicator -->
-      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer" onclick="scrollToSection('centers')" aria-hidden="false">
-        <div class="w-8 h-14 border-2 border-white/60 rounded-full flex justify-center pt-2">
-          <div class="w-1.5 h-3 bg-white/60 rounded-full animate-pulse"></div>
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer" onclick="scrollToSection('features')" data-aos="fade-up" data-aos-delay="1200">
+        <div class="flex flex-col items-center text-white/80 hover:text-white transition-colors group">
+          <p class="text-xs font-medium mb-3 tracking-wider uppercase">Explore More</p>
+          <div class="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2 group-hover:border-white/60 transition-colors">
+            <div class="w-1.5 h-2.5 bg-white/60 rounded-full animate-bounce group-hover:bg-white/80"></div>
+          </div>
         </div>
-        <p class="text-white/80 text-sm mt-2 text-center">Explore AI Features</p>
+      </div>
+    </section>
+
+    <!-- Features Overview Section -->
+    <section id="features" class="py-20 bg-white relative overflow-hidden">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-5 bg-pattern-dots"></div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <!-- Section Header -->
+        <div class="text-center mb-16" data-aos="fade-up">
+          <div class="inline-flex items-center bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full mb-4 font-semibold text-sm">
+            <i class="fas fa-star mr-2"></i>
+            Why Choose E-Zero
+          </div>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            Revolutionizing <span class="bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">E-Waste</span> Management
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Our AI-powered platform makes recycling electronics easier, more rewarding, and impactful for our planet.
+          </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div class="group relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-8 border border-emerald-100 hover:shadow-2xl hover:shadow-emerald-100/50 transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+            <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-emerald-200/50 group-hover:scale-110 transition-transform">
+              <i class="fas fa-brain text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">AI-Powered Detection</h3>
+            <p class="text-gray-600 mb-4">Smart image recognition identifies your e-waste instantly and provides accurate recycling guidance.</p>
+            <div class="flex items-center text-emerald-600 font-semibold text-sm group-hover:text-emerald-700">
+              Learn more <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="group relative bg-gradient-to-br from-cyan-50 to-blue-50 rounded-3xl p-8 border border-cyan-100 hover:shadow-2xl hover:shadow-cyan-100/50 transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-cyan-200/50 group-hover:scale-110 transition-transform">
+              <i class="fas fa-map-marked-alt text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Center Finder</h3>
+            <p class="text-gray-600 mb-4">Find the nearest recycling centers with real-time availability and optimized route suggestions.</p>
+            <div class="flex items-center text-cyan-600 font-semibold text-sm group-hover:text-cyan-700">
+              Explore centers <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="group relative bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-8 border border-purple-100 hover:shadow-2xl hover:shadow-purple-100/50 transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
+            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-200/50 group-hover:scale-110 transition-transform">
+              <i class="fas fa-truck text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Doorstep Pickup</h3>
+            <p class="text-gray-600 mb-4">Schedule convenient pickups from your location. Our eco-fleet handles the rest responsibly.</p>
+            <div class="flex items-center text-purple-600 font-semibold text-sm group-hover:text-purple-700">
+              Schedule now <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="group relative bg-gradient-to-br from-amber-50 to-yellow-50 rounded-3xl p-8 border border-amber-100 hover:shadow-2xl hover:shadow-amber-100/50 transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
+            <div class="w-16 h-16 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-amber-200/50 group-hover:scale-110 transition-transform">
+              <i class="fas fa-coins text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Earn Rewards</h3>
+            <p class="text-gray-600 mb-4">Get points for every item recycled. Redeem for gift cards, discounts, or donate to environmental causes.</p>
+            <div class="flex items-center text-amber-600 font-semibold text-sm group-hover:text-amber-700">
+              View rewards <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="group relative bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-8 border border-green-100 hover:shadow-2xl hover:shadow-green-100/50 transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="500">
+            <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-200/50 group-hover:scale-110 transition-transform">
+              <i class="fas fa-chart-line text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Impact Dashboard</h3>
+            <p class="text-gray-600 mb-4">Track your environmental contribution with detailed analytics and personalized insights.</p>
+            <div class="flex items-center text-green-600 font-semibold text-sm group-hover:text-green-700">
+              View impact <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="group relative bg-gradient-to-br from-rose-50 to-red-50 rounded-3xl p-8 border border-rose-100 hover:shadow-2xl hover:shadow-rose-100/50 transition-all duration-500 hover:-translate-y-2" data-aos="fade-up" data-aos-delay="600">
+            <div class="w-16 h-16 bg-gradient-to-br from-rose-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-rose-200/50 group-hover:scale-110 transition-transform">
+              <i class="fas fa-shield-alt text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Data Security</h3>
+            <p class="text-gray-600 mb-4">Your devices are wiped securely before recycling with certified data destruction protocols.</p>
+            <div class="flex items-center text-rose-600 font-semibold text-sm group-hover:text-rose-700">
+              Learn more <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- AI-Powered Centers Section -->
-    <section id="centers" class="py-24 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <div class="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full mb-6">
-            <i class="fas fa-search text-green-600 mr-2"></i>
-            AI Smart Search
+    <section id="centers" class="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-100 rounded-full blur-3xl opacity-30"></div>
+      <div class="absolute bottom-0 left-0 w-72 h-72 bg-cyan-100 rounded-full blur-3xl opacity-30"></div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <div class="inline-flex items-center bg-cyan-100 text-cyan-700 px-4 py-2 rounded-full mb-4 font-semibold text-sm">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            Smart Center Locator
           </div>
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Find Your Nearest <span class="text-green-600">Recycling Center</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+            Find <span class="bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">Recycling Centers</span> Near You
           </h2>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-            Our AI-powered search helps you locate the best recycling centers with real-time availability,
-            optimized routes, and personalized recommendations.
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            AI-powered search helps you discover verified recycling centers with real-time availability and optimal routes.
           </p>
         </div>
 
-        <!-- AI Search Interface -->
-        <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-3xl p-8 mb-12 shadow-xl">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Search Interface -->
+        <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 p-6 lg:p-8 mb-10 border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             <!-- Search Controls -->
-            <div class="lg:col-span-1">
-              <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                <i class="fas fa-search text-green-600 mr-3"></i>
-                AI Search
-              </h3>
+            <div class="lg:col-span-1 space-y-6">
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center">
+                  <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mr-3 shadow-lg shadow-emerald-200/50">
+                    <i class="fas fa-search text-white"></i>
+                  </div>
+                  Search Centers
+                </h3>
 
-              <!-- Location Input -->
-              <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Your Location</label>
-                <div class="relative">
-                  <input type="text" id="location-search" placeholder="Enter your location or use GPS"
-                         class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent pr-12">
-                  <button id="gps-btn" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-green-600 transition-colors">
-                    <i class="fas fa-crosshairs text-lg"></i>
-                  </button>
+                <!-- Location Input -->
+                <div class="mb-5">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">Your Location</label>
+                  <div class="relative">
+                    <input type="text" id="location-search" placeholder="Enter your address or city"
+                           class="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all pr-12 text-gray-700 placeholder-gray-400">
+                    <button id="gps-btn" class="absolute right-3 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600 hover:bg-emerald-200 transition-colors">
+                      <i class="fas fa-location-crosshairs"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Item Type Filter -->
+                <div class="mb-5">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">E-waste Type</label>
+                  <select id="item-filter" class="w-full px-4 py-3.5 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-700 appearance-none bg-white cursor-pointer select-arrow">
+                    <option value="">All Categories</option>
+                    <option value="laptop">💻 Laptops & Computers</option>
+                    <option value="mobile">📱 Mobile Phones</option>
+                    <option value="tv">📺 TVs & Monitors</option>
+                    <option value="battery">🔋 Batteries</option>
+                    <option value="printer">🖨️ Printers & Peripherals</option>
+                    <option value="other">⚡ Other Electronics</option>
+                  </select>
                 </div>
               </div>
 
-              <!-- Item Type Filter -->
-              <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 mb-2">E-waste Type</label>
-                <select id="item-filter" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                  <option value="">All Items</option>
-                  <option value="laptop">Laptops & Computers</option>
-                  <option value="mobile">Mobile Phones</option>
-                  <option value="tv">TVs & Monitors</option>
-                  <option value="battery">Batteries</option>
-                  <option value="printer">Printers & Peripherals</option>
-                  <option value="other">Other Electronics</option>
-                </select>
-              </div>
-
-              <!-- AI Recommendations -->
-              <div class="bg-white rounded-xl p-4 border border-green-200">
-                <h4 class="font-semibold text-gray-900 mb-3 flex items-center">
-                  <i class="fas fa-brain text-purple-600 mr-2"></i>
+              <!-- AI Recommendations Card -->
+              <div class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-5 border border-emerald-100">
+                <h4 class="font-bold text-gray-900 mb-4 flex items-center text-sm">
+                  <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-2.5 shadow-md">
+                    <i class="fas fa-magic text-white text-sm"></i>
+                  </div>
                   AI Recommendations
                 </h4>
-                <div class="space-y-2 text-sm text-gray-600">
-                  <div class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                    Best rated center: EcoTech Hub
+                <div class="space-y-3">
+                  <div class="flex items-center bg-white/80 rounded-xl px-3 py-2.5 border border-emerald-100/50">
+                    <div class="w-7 h-7 bg-emerald-100 rounded-lg flex items-center justify-center mr-2.5">
+                      <i class="fas fa-star text-emerald-600 text-xs"></i>
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-xs font-semibold text-gray-900">Best Rated</p>
+                      <p class="text-[11px] text-gray-500">EcoTech Hub • 4.9★</p>
+                    </div>
                   </div>
-                  <div class="flex items-center">
-                    <i class="fas fa-clock text-blue-500 mr-2"></i>
-                    Peak hours: 10 AM - 2 PM
+                  <div class="flex items-center bg-white/80 rounded-xl px-3 py-2.5 border border-cyan-100/50">
+                    <div class="w-7 h-7 bg-cyan-100 rounded-lg flex items-center justify-center mr-2.5">
+                      <i class="fas fa-clock text-cyan-600 text-xs"></i>
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-xs font-semibold text-gray-900">Best Time</p>
+                      <p class="text-[11px] text-gray-500">10AM - 2PM (Less busy)</p>
+                    </div>
                   </div>
-                  <div class="flex items-center">
-                    <i class="fas fa-route text-purple-500 mr-2"></i>
-                    15 min drive from your location
+                  <div class="flex items-center bg-white/80 rounded-xl px-3 py-2.5 border border-purple-100/50">
+                    <div class="w-7 h-7 bg-purple-100 rounded-lg flex items-center justify-center mr-2.5">
+                      <i class="fas fa-route text-purple-600 text-xs"></i>
+                    </div>
+                    <div class="flex-1">
+                      <p class="text-xs font-semibold text-gray-900">Nearest</p>
+                      <p class="text-[11px] text-gray-500">15 min drive from you</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -514,38 +769,39 @@
 
             <!-- Map Container -->
             <div class="lg:col-span-2">
-              <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-                <div id="centers-map" class="h-96 lg:h-[500px]"></div>
+              <div class="bg-gray-100 rounded-2xl shadow-inner overflow-hidden border border-gray-200">
+                <div id="centers-map" class="h-80 lg:h-[450px]"></div>
               </div>
 
-              <!-- Center Details -->
-              <div id="center-details" class="mt-6 bg-white rounded-xl p-6 shadow-lg hidden">
+              <!-- Center Details Panel -->
+              <div id="center-details" class="mt-4 bg-gradient-to-r from-emerald-50 to-cyan-50 rounded-2xl p-5 shadow-sm border border-emerald-100 hidden">
                 <div class="flex items-start space-x-4">
                   <div class="flex-shrink-0">
-                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center">
-                      <i class="fas fa-recycle text-white text-2xl"></i>
+                    <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200/50">
+                      <i class="fas fa-recycle text-white text-xl"></i>
                     </div>
                   </div>
-                  <div class="flex-1">
-                    <h4 id="center-name" class="text-xl font-bold text-gray-900">EcoTech Recycling Center</h4>
-                    <p id="center-address" class="text-gray-600 mb-3">123 Green Street, Eco City, EC 12345</p>
-                    <div class="flex items-center space-x-4 text-sm">
-                      <span class="flex items-center text-green-600">
-                        <i class="fas fa-star mr-1"></i>
-                        <span id="center-rating">4.8</span>
+                  <div class="flex-1 min-w-0">
+                    <h4 id="center-name" class="text-lg font-bold text-gray-900">EcoTech Recycling Center</h4>
+                    <p id="center-address" class="text-gray-600 text-sm mb-2">123 Green Street, Eco City, EC 12345</p>
+                    <div class="flex flex-wrap items-center gap-3 text-sm">
+                      <span class="flex items-center text-amber-600 bg-amber-50 px-2.5 py-1 rounded-lg">
+                        <i class="fas fa-star mr-1.5"></i>
+                        <span id="center-rating" class="font-semibold">4.8</span>
                       </span>
-                      <span class="flex items-center text-blue-600">
-                        <i class="fas fa-clock mr-1"></i>
+                      <span class="flex items-center text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">
+                        <i class="fas fa-clock mr-1.5"></i>
                         <span id="center-hours">Open until 6 PM</span>
                       </span>
-                      <span class="flex items-center text-purple-600">
-                        <i class="fas fa-route mr-1"></i>
+                      <span class="flex items-center text-cyan-600 bg-cyan-50 px-2.5 py-1 rounded-lg">
+                        <i class="fas fa-route mr-1.5"></i>
                         <span id="center-distance">2.3 km</span>
                       </span>
                     </div>
                   </div>
-                  <button class="bg-green-600 text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-colors font-semibold">
-                    Schedule Pickup
+                  <button onclick="scrollToSection('pickup')" class="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-5 py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-200/50 transition-all duration-300 font-semibold text-sm whitespace-nowrap flex items-center">
+                    <i class="fas fa-calendar-plus mr-2"></i>
+                    Schedule
                   </button>
                 </div>
               </div>
@@ -553,93 +809,113 @@
           </div>
         </div>
 
-        <!-- AI-Powered Center Cards -->
-        <div id="centers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Center Card Template -->
-          <div class="center-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-            <div class="relative">
-              <div class="h-48 bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center">
-                <i class="fas fa-recycle text-white text-4xl"></i>
+        <!-- Center Cards Grid -->
+        <div class="mb-6 flex items-center justify-between" data-aos="fade-up">
+          <h3 class="text-xl font-bold text-gray-900">Nearby Centers</h3>
+          <button class="text-emerald-600 hover:text-emerald-700 font-semibold text-sm flex items-center">
+            View All <i class="fas fa-arrow-right ml-2"></i>
+          </button>
+        </div>
+        
+        <div id="centers-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Center Card 1 -->
+          <div class="center-card bg-white rounded-2xl shadow-lg shadow-gray-100/50 overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-emerald-100/30 transition-all duration-300 hover:-translate-y-1 group" data-aos="fade-up" data-aos-delay="100">
+            <div class="relative h-40 bg-gradient-to-br from-emerald-400 via-teal-400 to-cyan-500 flex items-center justify-center overflow-hidden">
+              <div class="absolute inset-0 bg-black/10"></div>
+              <i class="fas fa-recycle text-white/90 text-5xl relative z-10 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute top-3 right-3 bg-white rounded-xl px-2.5 py-1.5 shadow-lg flex items-center">
+                <i class="fas fa-star text-amber-400 mr-1 text-sm"></i>
+                <span class="text-gray-900 font-bold text-sm">4.9</span>
               </div>
-              <div class="absolute top-4 right-4">
-                <span class="bg-white bg-opacity-90 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
-                  <i class="fas fa-star mr-1"></i>4.8
-                </span>
+              <div class="absolute top-3 left-3 bg-emerald-500 text-white text-xs font-bold px-2.5 py-1 rounded-lg flex items-center">
+                <i class="fas fa-check-circle mr-1"></i>Verified
               </div>
             </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">EcoTech Recycling Center</h3>
-              <p class="text-gray-600 mb-4">123 Green Street, Eco City</p>
+            <div class="p-5">
+              <h3 class="text-lg font-bold text-gray-900 mb-1.5">EcoTech Recycling Center</h3>
+              <p class="text-gray-500 text-sm mb-3 flex items-start">
+                <i class="fas fa-map-marker-alt text-emerald-500 mr-2 mt-0.5"></i>
+                123 Green Street, Eco City
+              </p>
               <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
-                <span><i class="fas fa-clock mr-1"></i>Open until 6 PM</span>
-                <span><i class="fas fa-route mr-1"></i>2.3 km</span>
+                <span class="flex items-center"><i class="far fa-clock mr-1.5 text-emerald-500"></i>Open until 6 PM</span>
+                <span class="flex items-center"><i class="fas fa-route mr-1.5 text-cyan-500"></i>2.3 km</span>
               </div>
-              <div class="flex flex-wrap gap-2 mb-4">
-                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs">Laptops</span>
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">Mobiles</span>
-                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs">Batteries</span>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-lg text-xs font-medium">💻 Laptops</span>
+                <span class="bg-cyan-100 text-cyan-700 px-2.5 py-1 rounded-lg text-xs font-medium">📱 Mobiles</span>
+                <span class="bg-purple-100 text-purple-700 px-2.5 py-1 rounded-lg text-xs font-medium">🔋 Batteries</span>
               </div>
-              <button class="w-full bg-gradient-to-r from-green-500 to-blue-600 text-white py-3 rounded-xl hover:from-green-600 hover:to-blue-700 transition-all duration-300 font-semibold">
-                Schedule Pickup
+              <button class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-200/50 transition-all duration-300 font-semibold text-sm flex items-center justify-center">
+                <i class="fas fa-calendar-plus mr-2"></i>Schedule Pickup
               </button>
             </div>
           </div>
 
-          <!-- Duplicate cards for demo -->
-          <div class="center-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-            <div class="relative">
-              <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
-                <i class="fas fa-microchip text-white text-4xl"></i>
+          <!-- Center Card 2 -->
+          <div class="center-card bg-white rounded-2xl shadow-lg shadow-gray-100/50 overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-cyan-100/30 transition-all duration-300 hover:-translate-y-1 group" data-aos="fade-up" data-aos-delay="200">
+            <div class="relative h-40 bg-gradient-to-br from-cyan-400 via-blue-400 to-indigo-500 flex items-center justify-center overflow-hidden">
+              <div class="absolute inset-0 bg-black/10"></div>
+              <i class="fas fa-microchip text-white/90 text-5xl relative z-10 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute top-3 right-3 bg-white rounded-xl px-2.5 py-1.5 shadow-lg flex items-center">
+                <i class="fas fa-star text-amber-400 mr-1 text-sm"></i>
+                <span class="text-gray-900 font-bold text-sm">4.8</span>
               </div>
-              <div class="absolute top-4 right-4">
-                <span class="bg-white bg-opacity-90 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
-                  <i class="fas fa-star mr-1"></i>4.9
-                </span>
+              <div class="absolute top-3 left-3 bg-cyan-500 text-white text-xs font-bold px-2.5 py-1 rounded-lg flex items-center">
+                <i class="fas fa-check-circle mr-1"></i>Verified
               </div>
             </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">Green Circuit Solutions</h3>
-              <p class="text-gray-600 mb-4">456 Tech Avenue, Innovation City</p>
+            <div class="p-5">
+              <h3 class="text-lg font-bold text-gray-900 mb-1.5">Green Circuit Solutions</h3>
+              <p class="text-gray-500 text-sm mb-3 flex items-start">
+                <i class="fas fa-map-marker-alt text-cyan-500 mr-2 mt-0.5"></i>
+                456 Tech Avenue, Innovation City
+              </p>
               <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
-                <span><i class="fas fa-clock mr-1"></i>Open until 8 PM</span>
-                <span><i class="fas fa-route mr-1"></i>3.7 km</span>
+                <span class="flex items-center"><i class="far fa-clock mr-1.5 text-emerald-500"></i>Open until 8 PM</span>
+                <span class="flex items-center"><i class="fas fa-route mr-1.5 text-cyan-500"></i>3.7 km</span>
               </div>
-              <div class="flex flex-wrap gap-2 mb-4">
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs">TVs</span>
-                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs">Monitors</span>
-                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs">Printers</span>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="bg-cyan-100 text-cyan-700 px-2.5 py-1 rounded-lg text-xs font-medium">📺 TVs</span>
+                <span class="bg-purple-100 text-purple-700 px-2.5 py-1 rounded-lg text-xs font-medium">🖥️ Monitors</span>
+                <span class="bg-amber-100 text-amber-700 px-2.5 py-1 rounded-lg text-xs font-medium">🖨️ Printers</span>
               </div>
-              <button class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 font-semibold">
-                Schedule Pickup
+              <button class="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-3 rounded-xl hover:shadow-lg hover:shadow-cyan-200/50 transition-all duration-300 font-semibold text-sm flex items-center justify-center">
+                <i class="fas fa-calendar-plus mr-2"></i>Schedule Pickup
               </button>
             </div>
           </div>
 
-          <div class="center-card bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-            <div class="relative">
-              <div class="h-48 bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center">
-                <i class="fas fa-bolt text-white text-4xl"></i>
+          <!-- Center Card 3 -->
+          <div class="center-card bg-white rounded-2xl shadow-lg shadow-gray-100/50 overflow-hidden border border-gray-100 hover:shadow-xl hover:shadow-purple-100/30 transition-all duration-300 hover:-translate-y-1 group" data-aos="fade-up" data-aos-delay="300">
+            <div class="relative h-40 bg-gradient-to-br from-purple-400 via-pink-400 to-rose-500 flex items-center justify-center overflow-hidden">
+              <div class="absolute inset-0 bg-black/10"></div>
+              <i class="fas fa-bolt text-white/90 text-5xl relative z-10 group-hover:scale-110 transition-transform"></i>
+              <div class="absolute top-3 right-3 bg-white rounded-xl px-2.5 py-1.5 shadow-lg flex items-center">
+                <i class="fas fa-star text-amber-400 mr-1 text-sm"></i>
+                <span class="text-gray-900 font-bold text-sm">4.7</span>
               </div>
-              <div class="absolute top-4 right-4">
-                <span class="bg-white bg-opacity-90 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
-                  <i class="fas fa-star mr-1"></i>4.7
-                </span>
+              <div class="absolute top-3 left-3 bg-purple-500 text-white text-xs font-bold px-2.5 py-1 rounded-lg flex items-center">
+                <i class="fas fa-check-circle mr-1"></i>Verified
               </div>
             </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">PowerCycle Eco Center</h3>
-              <p class="text-gray-600 mb-4">789 Energy Street, Green Valley</p>
+            <div class="p-5">
+              <h3 class="text-lg font-bold text-gray-900 mb-1.5">PowerCycle Eco Center</h3>
+              <p class="text-gray-500 text-sm mb-3 flex items-start">
+                <i class="fas fa-map-marker-alt text-purple-500 mr-2 mt-0.5"></i>
+                789 Energy Street, Green Valley
+              </p>
               <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
-                <span><i class="fas fa-clock mr-1"></i>Open until 7 PM</span>
-                <span><i class="fas fa-route mr-1"></i>4.1 km</span>
+                <span class="flex items-center"><i class="far fa-clock mr-1.5 text-emerald-500"></i>Open until 7 PM</span>
+                <span class="flex items-center"><i class="fas fa-route mr-1.5 text-cyan-500"></i>4.1 km</span>
               </div>
-              <div class="flex flex-wrap gap-2 mb-4">
-                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs">Batteries</span>
-                <span class="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-xs">Chargers</span>
-                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs">Cables</span>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="bg-purple-100 text-purple-700 px-2.5 py-1 rounded-lg text-xs font-medium">🔋 Batteries</span>
+                <span class="bg-pink-100 text-pink-700 px-2.5 py-1 rounded-lg text-xs font-medium">🔌 Chargers</span>
+                <span class="bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-lg text-xs font-medium">🔗 Cables</span>
               </div>
-              <button class="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white py-3 rounded-xl hover:from-purple-600 hover:to-pink-700 transition-all duration-300 font-semibold">
-                Schedule Pickup
+              <button class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-xl hover:shadow-lg hover:shadow-purple-200/50 transition-all duration-300 font-semibold text-sm flex items-center justify-center">
+                <i class="fas fa-calendar-plus mr-2"></i>Schedule Pickup
               </button>
             </div>
           </div>
@@ -1303,76 +1579,130 @@
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        <!-- Brand -->
-        <div class="md:col-span-2">
-          <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-blue-600 rounded-xl flex items-center justify-center mr-4">
-              <i class="fas fa-recycle text-white text-xl"></i>
+  <!-- Premium Footer -->
+  <footer class="bg-gray-900 text-white relative overflow-hidden">
+    <!-- Decorative Background -->
+    <div class="absolute inset-0 opacity-5">
+      <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+          <pattern id="footer-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="1" fill="white" opacity="0.3"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#footer-grid)" />
+      </svg>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <!-- Main Footer Content -->
+      <div class="py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
+          <!-- Brand & Description -->
+          <div class="lg:col-span-2">
+            <div class="flex items-center space-x-3 mb-5">
+              <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
+                <i class="fas fa-recycle text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">E-Zero</h3>
+                <p class="text-xs text-gray-500">AI-Powered Recycling</p>
+              </div>
             </div>
-            <h3 class="text-2xl font-bold">E-Zero</h3>
+            <p class="text-gray-400 mb-6 max-w-sm leading-relaxed">
+              Transforming e-waste into rewards with AI-powered recycling solutions. Join thousands of eco-warriors making a positive environmental impact.
+            </p>
+            
+            <!-- Social Links -->
+            <div class="flex space-x-3">
+              <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gradient-to-br hover:from-emerald-500 hover:to-teal-500 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 group">
+                <i class="fab fa-facebook-f text-gray-400 group-hover:text-white transition-colors"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gradient-to-br hover:from-cyan-500 hover:to-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/25 group">
+                <i class="fab fa-twitter text-gray-400 group-hover:text-white transition-colors"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gradient-to-br hover:from-pink-500 hover:to-rose-500 transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/25 group">
+                <i class="fab fa-instagram text-gray-400 group-hover:text-white transition-colors"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 group">
+                <i class="fab fa-linkedin-in text-gray-400 group-hover:text-white transition-colors"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-gradient-to-br hover:from-red-500 hover:to-red-600 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25 group">
+                <i class="fab fa-youtube text-gray-400 group-hover:text-white transition-colors"></i>
+              </a>
+            </div>
           </div>
-          <p class="text-gray-400 mb-6 max-w-md">
-            Transforming e-waste into rewards with AI-powered recycling solutions.
-            Join thousands making a positive environmental impact.
-          </p>
-          <div class="flex space-x-4">
-            <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
+
+          <!-- Quick Links -->
+          <div>
+            <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-5">Quick Links</h4>
+            <ul class="space-y-3">
+              <li><a href="#home" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Home</a></li>
+              <li><a href="#centers" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Find Centers</a></li>
+              <li><a href="#pickup" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Schedule Pickup</a></li>
+              <li><a href="#rewards" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Rewards</a></li>
+              <li><a href="#impact" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Your Impact</a></li>
+            </ul>
           </div>
-        </div>
 
-        <!-- Quick Links -->
-        <div>
-          <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-          <ul class="space-y-2">
-            <li><a href="#home" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
-            <li><a href="#centers" class="text-gray-400 hover:text-white transition-colors">Find Centers</a></li>
-            <li><a href="#pickup" class="text-gray-400 hover:text-white transition-colors">Schedule Pickup</a></li>
-            <li><a href="#rewards" class="text-gray-400 hover:text-white transition-colors">Rewards</a></li>
-            <li><a href="#impact" class="text-gray-400 hover:text-white transition-colors">Impact</a></li>
-          </ul>
-        </div>
+          <!-- Support -->
+          <div>
+            <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-5">Support</h4>
+            <ul class="space-y-3">
+              <li><a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Help Center</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Contact Us</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>FAQ</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Privacy Policy</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors flex items-center group"><i class="fas fa-chevron-right text-[10px] mr-2 text-gray-600 group-hover:text-emerald-400 transition-colors"></i>Terms of Service</a></li>
+            </ul>
+          </div>
 
-        <!-- Support -->
-        <div>
-          <h4 class="text-lg font-semibold mb-4">Support</h4>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
-          </ul>
+          <!-- Newsletter -->
+          <div>
+            <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-5">Stay Updated</h4>
+            <p class="text-gray-400 text-sm mb-4">Subscribe for eco-tips and exclusive rewards.</p>
+            <form class="space-y-3">
+              <div class="relative">
+                <input type="email" placeholder="Enter your email" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/50 transition-all text-sm">
+              </div>
+              <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300 flex items-center justify-center">
+                <i class="fas fa-paper-plane mr-2"></i>Subscribe
+              </button>
+            </form>
+            
+            <!-- Badges -->
+            <div class="flex items-center space-x-3 mt-5">
+              <div class="flex items-center bg-gray-800 rounded-lg px-3 py-2">
+                <i class="fas fa-shield-alt text-emerald-400 mr-2 text-sm"></i>
+                <span class="text-xs text-gray-400">Secure</span>
+              </div>
+              <div class="flex items-center bg-gray-800 rounded-lg px-3 py-2">
+                <i class="fas fa-leaf text-green-400 mr-2 text-sm"></i>
+                <span class="text-xs text-gray-400">Eco-certified</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Bottom Bar -->
-      <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-400 text-sm">
-          © 2024 E-Zero. All rights reserved. Powered by AI for a sustainable future.
-        </p>
-        <div class="flex items-center space-x-4 mt-4 md:mt-0">
-          <div class="flex items-center text-green-400">
-            <i class="fas fa-shield-alt mr-2"></i>
-            <span class="text-sm">AI Secured</span>
-          </div>
-          <div class="flex items-center text-blue-400">
-            <i class="fas fa-clock mr-2"></i>
-            <span class="text-sm">24/7 Support</span>
+      <div class="border-t border-gray-800 py-6">
+        <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <p class="text-gray-500 text-sm text-center md:text-left">
+            © 2024 E-Zero. All rights reserved. Powered by AI for a sustainable future.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-4">
+            <div class="flex items-center text-emerald-400">
+              <i class="fas fa-robot mr-2 text-sm"></i>
+              <span class="text-xs">AI Powered</span>
+            </div>
+            <div class="flex items-center text-cyan-400">
+              <i class="fas fa-headset mr-2 text-sm"></i>
+              <span class="text-xs">24/7 Support</span>
+            </div>
+            <div class="flex items-center text-purple-400">
+              <i class="fas fa-globe mr-2 text-sm"></i>
+              <span class="text-xs">Global Network</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1388,6 +1718,57 @@
 
   <!-- Advanced Features Scripts -->
   <script>
+    // Initialize AOS Library
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize AOS
+      if (typeof AOS !== 'undefined') {
+        AOS.init({
+          duration: 800,
+          easing: 'ease-out-cubic',
+          once: true,
+          offset: 50,
+          delay: 0,
+        });
+      }
+      
+      // Loading Screen Management
+      const pageLoader = document.getElementById('page-loader');
+      const loadingBar = document.getElementById('loading-bar');
+      
+      if (pageLoader && loadingBar) {
+        let progress = 0;
+        const loadingInterval = setInterval(() => {
+          progress += Math.random() * 15 + 5;
+          if (progress >= 100) {
+            progress = 100;
+            clearInterval(loadingInterval);
+            setTimeout(() => {
+              pageLoader.style.opacity = '0';
+              setTimeout(() => {
+                pageLoader.style.display = 'none';
+                document.body.style.overflow = 'auto';
+              }, 500);
+            }, 300);
+          }
+          loadingBar.style.width = progress + '%';
+        }, 150);
+      }
+    });
+
+    // Global scroll to section function
+    window.scrollToSection = function(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const headerOffset = 80;
+        const elementPosition = section.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    };
+
     // Enhanced Animations and Interactions
     class AdvancedAnimations {
       constructor() {
@@ -1397,12 +1778,10 @@
       init() {
         this.setupScrollAnimations();
         this.setupParallaxEffects();
-        this.setupTypingAnimation();
         this.setupFloatingElements();
         this.setupAdvancedCounters();
-        this.setupDynamicBackgrounds();
         this.setupInteractiveElements();
-        this.setupAIEffects();
+        this.setupGlassCards();
       }
 
       setupScrollAnimations() {
@@ -1418,52 +1797,26 @@
         document.querySelectorAll('.animate-on-scroll').forEach(el => {
           observer.observe(el);
         });
-
-        // Smooth scrolling with easing
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-          anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-              target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-              });
-            }
-          });
-        });
       }
 
       setupParallaxEffects() {
+        let ticking = false;
         window.addEventListener('scroll', () => {
-          const scrolled = window.pageYOffset;
-          const parallaxElements = document.querySelectorAll('.parallax');
-          
-          parallaxElements.forEach(element => {
-            const speed = element.dataset.speed || 0.5;
-            const yPos = -(scrolled * speed);
-            element.style.transform = `translateY(${yPos}px)`;
-          });
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              const scrolled = window.pageYOffset;
+              const parallaxElements = document.querySelectorAll('.parallax');
+              
+              parallaxElements.forEach(element => {
+                const speed = element.dataset.speed || 0.5;
+                const yPos = -(scrolled * speed);
+                element.style.transform = 'translateY(' + yPos + 'px)';
+              });
+              ticking = false;
+            });
+            ticking = true;
+          }
         });
-      }
-
-      setupTypingAnimation() {
-        const typingElement = document.querySelector('.typing-animation');
-        if (typingElement) {
-          const text = typingElement.textContent;
-          typingElement.textContent = '';
-          let i = 0;
-          
-          const typeWriter = () => {
-            if (i < text.length) {
-              typingElement.textContent += text.charAt(i);
-              i++;
-              setTimeout(typeWriter, 100);
-            }
-          };
-          
-          setTimeout(typeWriter, 1000);
-        }
       }
 
       setupFloatingElements() {
@@ -1471,7 +1824,6 @@
         floatingElements.forEach((element, index) => {
           const delay = index * 200;
           const duration = 3000 + (index * 500);
-          
           element.style.animationDelay = delay + 'ms';
           element.style.animationDuration = duration + 'ms';
         });
@@ -1479,24 +1831,25 @@
 
       setupAdvancedCounters() {
         const counters = document.querySelectorAll('.counter');
-        const options = {
-          threshold: 0.5,
-          triggerOnce: true
-        };
-
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
               this.animateCounter(entry.target);
+              entry.target.classList.add('counted');
             }
           });
-        }, options);
+        }, { threshold: 0.5 });
 
         counters.forEach(counter => observer.observe(counter));
       }
 
       animateCounter(element) {
-        const target = parseInt(element.textContent.replace(/\D/g, ''));
+        const text = element.textContent;
+        const numericMatch = text.match(/[\d,]+/);
+        if (!numericMatch) return;
+        
+        const target = parseInt(numericMatch[0].replace(/,/g, ''));
+        const suffix = text.replace(/[\d,]+/, '');
         const duration = 2000;
         const step = target / (duration / 16);
         let current = 0;
@@ -1507,38 +1860,19 @@
             current = target;
             clearInterval(timer);
           }
-          
-          const suffix = element.textContent.match(/[^\d]/g)?.join('') || '';
           element.textContent = Math.floor(current).toLocaleString() + suffix;
         }, 16);
       }
 
-      setupDynamicBackgrounds() {
-        // Gradient animation
-        const heroSection = document.getElementById('home');
-        if (heroSection) {
-          let angle = 0;
-          setInterval(() => {
-            angle += 0.5;
-            heroSection.style.background = `linear-gradient(${angle}deg, 
-              rgba(16, 185, 129, 0.9), 
-              rgba(59, 130, 246, 0.9), 
-              rgba(147, 51, 234, 0.9))`;
-          }, 50);
-        }
-      }
-
       setupInteractiveElements() {
-        // Enhanced hover effects
-        document.querySelectorAll('.interactive-card').forEach(card => {
+        // Enhanced hover effects for cards
+        document.querySelectorAll('.interactive-card, .glass-card').forEach(card => {
           card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
-            this.style.boxShadow = '0 20px 40px rgba(0,0,0,0.1)';
+            this.style.transform = 'translateY(-5px) scale(1.02)';
           });
 
           card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0) scale(1)';
-            this.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
           });
         });
 
@@ -1551,17 +1885,7 @@
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
             
-            ripple.style.cssText = `
-              position: absolute;
-              border-radius: 50%;
-              background: rgba(255,255,255,0.6);
-              transform: scale(0);
-              animation: ripple 0.6s linear;
-              width: ${size}px;
-              height: ${size}px;
-              left: ${x}px;
-              top: ${y}px;
-            `;
+            ripple.style.cssText = 'position: absolute; border-radius: 50%; background: rgba(255,255,255,0.6); transform: scale(0); animation: ripple 0.6s linear; width: ' + size + 'px; height: ' + size + 'px; left: ' + x + 'px; top: ' + y + 'px;';
             
             this.appendChild(ripple);
             setTimeout(() => ripple.remove(), 600);
@@ -1569,127 +1893,17 @@
         });
       }
 
-      setupAIEffects() {
-        // AI typing effect for insights
-        const aiInsights = [
-          "Analyzing your recycling patterns...",
-          "Optimizing pickup routes with AI...",
-          "Calculating environmental impact...",
-          "Personalizing your rewards...",
-          "AI insights ready!"
-        ];
-
-        const aiTextElement = document.querySelector('.ai-insights-text');
-        if (aiTextElement) {
-          let currentInsight = 0;
-          
-          setInterval(() => {
-            aiTextElement.style.opacity = '0';
-            setTimeout(() => {
-              aiTextElement.textContent = aiInsights[currentInsight];
-              aiTextElement.style.opacity = '1';
-              currentInsight = (currentInsight + 1) % aiInsights.length;
-            }, 300);
-          }, 3000);
-        }
-
-        // Floating AI particles
-        this.createAIParticles();
-      }
-
-      createAIParticles() {
-        const particleContainer = document.createElement('div');
-        particleContainer.className = 'ai-particles';
-        particleContainer.style.cssText = `
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 1;
-        `;
-        document.body.appendChild(particleContainer);
-
-        for (let i = 0; i < 20; i++) {
-          const particle = document.createElement('div');
-          particle.className = 'ai-particle';
-          particle.style.cssText = `
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: linear-gradient(45deg, #10B981, #3B82F6);
-            border-radius: 50%;
-            animation: float ${3 + Math.random() * 4}s ease-in-out infinite;
-            left: ${Math.random() * 100}%;
-            top: ${Math.random() * 100}%;
-            animation-delay: ${Math.random() * 2}s;
-          `;
-          particleContainer.appendChild(particle);
-        }
+      setupGlassCards() {
+        document.querySelectorAll('.glass-card').forEach(card => {
+          card.style.transition = 'all 0.3s ease';
+        });
       }
     }
 
-    // Enhanced Page Load Experience
+    // Page Load Manager
     class PageLoadManager {
       constructor() {
-        this.createLoadingScreen();
         this.initializeApp();
-      }
-
-      createLoadingScreen() {
-        const loader = document.createElement('div');
-        loader.id = 'page-loader';
-        loader.innerHTML = `
-          <div class="loader-content">
-            <div class="loader-logo">
-              <i class="fas fa-recycle"></i>
-            </div>
-            <div class="loader-text">
-              <h3>E-Zero</h3>
-              <p>Loading AI-Powered Experience...</p>
-            </div>
-            <div class="loader-progress">
-              <div class="progress-bar"></div>
-            </div>
-          </div>
-        `;
-        loader.style.cssText = `
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, #10B981, #3B82F6);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 9999;
-          transition: opacity 0.5s ease;
-        `;
-        document.body.appendChild(loader);
-
-        // Simulate loading progress
-        const progressBar = loader.querySelector('.progress-bar');
-        let progress = 0;
-        const interval = setInterval(() => {
-          progress += Math.random() * 15;
-          if (progress >= 100) {
-            progress = 100;
-            clearInterval(interval);
-            setTimeout(() => this.hideLoader(), 500);
-          }
-          progressBar.style.width = progress + '%';
-        }, 200);
-      }
-
-      hideLoader() {
-        const loader = document.getElementById('page-loader');
-        loader.style.opacity = '0';
-        setTimeout(() => {
-          loader.remove();
-          this.startAnimations();
-        }, 500);
       }
 
       initializeApp() {
@@ -1699,26 +1913,15 @@
         });
       }
 
-      startAnimations() {
-        // Trigger entrance animations
-        document.querySelectorAll('.fade-in-up').forEach((el, index) => {
-          setTimeout(() => {
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-          }, index * 100);
-        });
-      }
-
       setupAdvancedFeatures() {
         this.setupVoiceCommands();
-        this.setupAdvancedSearch();
         this.setupRealTimeUpdates();
-        this.setupBrowserNotifications();
       }
 
       setupVoiceCommands() {
-        if ('webkitSpeechRecognition' in window) {
-          const recognition = new webkitSpeechRecognition();
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          const recognition = new SpeechRecognition();
           recognition.continuous = false;
           recognition.lang = 'en-US';
 
@@ -1726,69 +1929,40 @@
           if (voiceBtn) {
             voiceBtn.addEventListener('click', () => {
               recognition.start();
-              voiceBtn.innerHTML = '<i class="fas fa-microphone animate-pulse"></i>';
+              voiceBtn.innerHTML = '<i class="fas fa-microphone animate-pulse text-yellow-300"></i>';
             });
 
             recognition.onresult = (event) => {
               const command = event.results[0][0].transcript.toLowerCase();
               this.processVoiceCommand(command);
-              voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+              voiceBtn.innerHTML = '<i class="fas fa-microphone text-sm"></i>';
+            };
+
+            recognition.onerror = () => {
+              voiceBtn.innerHTML = '<i class="fas fa-microphone text-sm"></i>';
             };
           }
         }
       }
 
       processVoiceCommand(command) {
-        if (command.includes('search') || command.includes('find')) {
-          document.getElementById('centers').scrollIntoView({ behavior: 'smooth' });
+        if (command.includes('search') || command.includes('find') || command.includes('center')) {
+          scrollToSection('centers');
         } else if (command.includes('schedule') || command.includes('pickup')) {
-          document.getElementById('pickup').scrollIntoView({ behavior: 'smooth' });
-        } else if (command.includes('rewards')) {
-          document.getElementById('rewards').scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-
-      setupAdvancedSearch() {
-        const searchInput = document.getElementById('location-input');
-        if (searchInput) {
-          let debounceTimer;
-          searchInput.addEventListener('input', (e) => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-              this.performAdvancedSearch(e.target.value);
-            }, 300);
-          });
-        }
-      }
-
-      performAdvancedSearch(query) {
-        // Simulate AI-powered search
-        const suggestions = [
-          'EcoTech Recycling Center - 2.3km',
-          'Green Circuit Solutions - 3.7km',
-          'PowerCycle Eco Center - 4.1km'
-        ];
-        
-        // Show search suggestions with animation
-        const suggestionsContainer = document.getElementById('search-suggestions');
-        if (suggestionsContainer && query.length > 2) {
-          suggestionsContainer.innerHTML = suggestions
-            .filter(s => s.toLowerCase().includes(query.toLowerCase()))
-            .map(suggestion => `
-              <div class="suggestion-item p-3 hover:bg-green-50 cursor-pointer transition-colors">
-                <i class="fas fa-map-marker-alt text-green-600 mr-2"></i>
-                ${suggestion}
-              </div>
-            `).join('');
-          suggestionsContainer.classList.remove('hidden');
+          scrollToSection('pickup');
+        } else if (command.includes('rewards') || command.includes('points')) {
+          scrollToSection('rewards');
+        } else if (command.includes('impact') || command.includes('analytics')) {
+          scrollToSection('impact');
+        } else if (command.includes('home')) {
+          scrollToSection('home');
         }
       }
 
       setupRealTimeUpdates() {
-        // Simulate real-time data updates
+        // Simulate real-time stat updates
         setInterval(() => {
           this.updateLiveStats();
-          this.updateNotifications();
         }, 30000);
       }
 
@@ -1802,170 +1976,21 @@
         stats.forEach(stat => {
           const element = document.getElementById(stat.id);
           if (element) {
-            const current = parseInt(element.textContent.replace(/\D/g, ''));
-            const newValue = current + stat.increment;
-            element.textContent = newValue.toLocaleString();
-            
-            // Add visual feedback
-            element.style.color = '#10B981';
-            setTimeout(() => {
-              element.style.color = '';
-            }, 1000);
+            const text = element.textContent;
+            const numericMatch = text.match(/[\d,]+/);
+            if (numericMatch) {
+              const current = parseInt(numericMatch[0].replace(/,/g, ''));
+              const suffix = text.replace(/[\d,]+/, '');
+              const newValue = current + stat.increment;
+              element.textContent = newValue.toLocaleString() + suffix;
+            }
           }
         });
       }
-
-      setupBrowserNotifications() {
-        if ('Notification' in window) {
-          Notification.requestPermission().then(permission => {
-            if (permission === 'granted') {
-              // Schedule periodic notifications about environmental impact
-              setTimeout(() => {
-                new Notification('E-Zero Impact Update', {
-                  body: 'Great job! You\'ve saved 12kg CO₂ this week.',
-                  icon: '/assets/favicon.ico'
-                });
-              }, 60000);
-            }
-          });
-        }
-      }
-
-      updateNotifications() {
-        const badge = document.getElementById('notification-badge');
-        if (badge) {
-          const currentCount = parseInt(badge.textContent) || 0;
-          if (Math.random() > 0.7) { // 30% chance of new notification
-            badge.textContent = currentCount + 1;
-            badge.classList.add('animate-bounce');
-            setTimeout(() => badge.classList.remove('animate-bounce'), 1000);
-          }
-        }
-      }
     }
 
-    // Enhanced CSS Animations
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes ripple {
-        to {
-          transform: scale(2);
-          opacity: 0;
-        }
-      }
-
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
-      }
-
-      @keyframes pulse-glow {
-        0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
-        50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
-      }
-
-      .animate-in {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        transition: all 0.6s ease;
-      }
-
-      .fade-in-up {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.6s ease;
-      }
-
-      .floating {
-        animation: float 3s ease-in-out infinite;
-      }
-
-      .interactive-card {
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .btn-ripple {
-        position: relative;
-        overflow: hidden;
-      }
-
-      .ai-particle {
-        opacity: 0.7;
-      }
-
-      .loader-content {
-        text-align: center;
-        color: white;
-      }
-
-      .loader-logo {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-        animation: pulse 2s infinite;
-      }
-
-      .loader-progress {
-        width: 200px;
-        height: 4px;
-        background: rgba(255,255,255,0.3);
-        border-radius: 2px;
-        overflow: hidden;
-        margin-top: 2rem;
-      }
-
-      .progress-bar {
-        height: 100%;
-        background: white;
-        border-radius: 2px;
-        transition: width 0.3s ease;
-        width: 0%;
-      }
-
-      .typing-animation::after {
-        content: '|';
-        animation: blink 1s infinite;
-      }
-
-      @keyframes blink {
-        0%, 50% { opacity: 1; }
-        51%, 100% { opacity: 0; }
-      }
-
-      .ai-insights-text {
-        transition: opacity 0.3s ease;
-      }
-
-      .suggestion-item {
-        border-bottom: 1px solid #e5e7eb;
-      }
-
-      .suggestion-item:last-child {
-        border-bottom: none;
-      }
-
-      .parallax {
-        will-change: transform;
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Initialize enhanced page experience
+    // Initialize
     new PageLoadManager();
-
-    // Enhanced error handling
-    window.addEventListener('error', (e) => {
-      console.error('Application error:', e.error);
-      // Could send to analytics service
-    });
-
-    // Performance monitoring
-    window.addEventListener('load', () => {
-      const perfData = performance.timing;
-      const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-      console.log(`Page load time: ${pageLoadTime}ms`);
-    });
   </script>
 
   <!-- PWA Service Worker Registration -->
@@ -1974,10 +1999,10 @@
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js')
           .then(function(registration) {
-            console.log('SW registered: ', registration);
+            console.log('ServiceWorker registered:', registration.scope);
           })
-          .catch(function(registrationError) {
-            console.log('SW registration failed: ', registrationError);
+          .catch(function(error) {
+            console.log('ServiceWorker registration failed:', error);
           });
       });
     }
