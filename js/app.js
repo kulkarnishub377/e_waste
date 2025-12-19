@@ -111,6 +111,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     initLottieHero();
     initGSAPInteractions();
     
+    // Hide loader
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+      loader.style.opacity = '0';
+      setTimeout(() => loader.remove(), 500);
+    }
+    
     setTimeout(() => {
       window.EZero.utils.showNotification('Welcome to E-Zero! 🌱', 'success');
     }, 2000);
