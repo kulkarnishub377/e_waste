@@ -320,4 +320,4 @@ window.EZero = {
 // ============================================
 // EXPORTS
 // ============================================
-export { showNotification, formatNumber };
+export { showNotification };
