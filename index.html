@@ -16,7 +16,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -713,91 +713,43 @@
           <p>We pay you for your e-waste! Calculate your earnings instantly and get a quote.</p>
         </div>
         
-        <div class="calculator-container">
-          <div class="calculator-card">
-            <div class="calculator-form">
-              <h4><i class="fas fa-box"></i> Select Your E-Waste Items</h4>
-              <p class="calc-subtitle">We pay you for each item based on its condition and type</p>
-              
-              <div class="calc-items-grid">
-                <!-- Computers -->
-                <div class="calc-item" data-item="laptops" data-price="800">
-                  <div class="calc-item-icon"><i class="fas fa-laptop"></i></div>
-                  <div class="calc-item-info">
-                    <span class="calc-item-name">Laptops</span>
-                    <span class="calc-item-price earn">Earn ₹800/unit</span>
-                  </div>
-                  <div class="calc-item-qty">
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('laptops', -1)">-</button>
-                    <span id="calc-qty-laptops">0</span>
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('laptops', 1)">+</button>
-                  </div>
-                </div>
-                
-                <div class="calc-item" data-item="desktops" data-price="600">
-                  <div class="calc-item-icon"><i class="fas fa-desktop"></i></div>
-                  <div class="calc-item-info">
-                    <span class="calc-item-name">Desktop Computers</span>
-                    <span class="calc-item-price earn">Earn ₹600/unit</span>
-                  </div>
-                  <div class="calc-item-qty">
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('desktops', -1)">-</button>
-                    <span id="calc-qty-desktops">0</span>
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('desktops', 1)">+</button>
-                  </div>
-                </div>
-                
-                <!-- Mobile & Tablets -->
-                <div class="calc-item" data-item="phones" data-price="300">
-                  <div class="calc-item-icon"><i class="fas fa-mobile-alt"></i></div>
-                  <div class="calc-item-info">
-                    <span class="calc-item-name">Mobile Phones</span>
-                    <span class="calc-item-price earn">Earn ₹300/unit</span>
-                  </div>
-                  <div class="calc-item-qty">
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('phones', -1)">-</button>
-                    <span id="calc-qty-phones">0</span>
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('phones', 1)">+</button>
-                  </div>
-                </div>
-                
-                <div class="calc-item" data-item="tablets" data-price="400">
-                  <div class="calc-item-icon"><i class="fas fa-tablet-alt"></i></div>
-                  <div class="calc-item-info">
-                    <span class="calc-item-name">Tablets/iPads</span>
-                    <span class="calc-item-price earn">Earn ₹400/unit</span>
-                  </div>
-                  <div class="calc-item-qty">
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('tablets', -1)">-</button>
-                    <span id="calc-qty-tablets">0</span>
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('tablets', 1)">+</button>
-                  </div>
-                </div>
-                
-                <!-- Displays -->
-                <div class="calc-item" data-item="monitors" data-price="350">
-                  <div class="calc-item-icon"><i class="fas fa-tv"></i></div>
-                  <div class="calc-item-info">
-                    <span class="calc-item-name">Monitors/TVs</span>
-                    <span class="calc-item-price earn">Earn ₹350/unit</span>
-                  </div>
-                  <div class="calc-item-qty">
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('monitors', -1)">-</button>
-                    <span id="calc-qty-monitors">0</span>
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('monitors', 1)">+</button>
-                  </div>
-                </div>
-                
-                <!-- Printers & Peripherals -->
-                <div class="calc-item" data-item="printers" data-price="450">
-                  <div class="calc-item-icon"><i class="fas fa-print"></i></div>
-                  <div class="calc-item-info">
-                    <span class="calc-item-name">Printers/Scanners</span>
-                    <span class="calc-item-price earn">Earn ₹450/unit</span>
-                  </div>
-                  <div class="calc-item-qty">
-                    <button class="calc-qty-btn" onclick="calcUpdateQty('printers', -1)">-</button>
-                    <span id="calc-qty-printers">0</span>
+        <div class="calculator-layout">
+          <!-- Left: Items Grid -->
+          <div class="calculator-main">
+            <div class="calculator-header">
+              <h4><i class="fas fa-desktop"></i> Select Items to Recycle</h4>
+              <span>Click items to add</span>
+            </div>
+            
+            <div class="calc-items-grid" id="items-grid">
+              <!-- JavaScript will populate this -->
+              <div class="text-center p-5">
+                <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
+                <p class="mt-2 text-muted">Loading calculator items...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Summary Sidebar -->
+          <div class="calculator-sidebar">
+            <div class="summary-card">
+              <div class="summary-header">
+                <span class="summary-label">Potential Earnings</span>
+                <div class="total-amount" id="total-points">₹0</div>
+                <span class="total-badge" id="total-items">0 items selected</span>
+              </div>
+
+              <div class="summary-actions">
+                <button class="btn btn-primary btn-lg btn-block" onclick="openPickupModal()">
+                  <i class="fas fa-truck"></i> Schedule Pickup
+                </button>
+                <p class="estimate-note">
+                  <i class="fas fa-info-circle"></i> Estimated value based on working condition
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
                     <button class="calc-qty-btn" onclick="calcUpdateQty('printers', 1)">+</button>
                   </div>
                 </div>

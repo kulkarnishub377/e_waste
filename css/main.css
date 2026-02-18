@@ -1,0 +1,24 @@
+/* ============================================
+   MAIN STYLESHEET
+   Imports all modules. 
+   ============================================ */
+
+/* Base */
+@import 'base/variables.css';
+@import 'base/reset.css';
+
+/* Layout */
+@import 'layout/header.css';
+@import 'layout/hero.css';
+
+/* Components */
+@import 'components/buttons.css';
+@import 'components/cards.css';
+@import 'components/calculator.css';
+
+/* Footer & other global sections (simulated here for now or added later) */
+.footer {
+  background: var(--gray-900);
+  color: var(--white);
+  padding: var(--space-16) 0;
+}

@@ -442,7 +442,7 @@
     Object.keys(ITEMS).forEach(item => {
       const el = document.getElementById(`qty-${item}`);
       if (el) el.textContent = '0';
-      document.querySelector(`[data-item="${item}"]`)?.classList.remove('selected');
+      document.querySelector(`[data-item="${item}"]`)?.classList.remove('active');
     });
 
     // Reset summary
@@ -472,9 +472,9 @@
     el.textContent = qty;
 
     // Update card visual state
-    const card = el.closest('.item-select-card');
+    const card = el.closest('.calc-item-card');
     if (card) {
-      card.classList.toggle('selected', qty > 0);
+      card.classList.toggle('active', qty > 0);
     }
 
     updateItemsSummary();
@@ -486,14 +486,19 @@
     if (!container) return;
 
     container.innerHTML = Object.entries(ITEMS).map(([key, item]) => `
-      <div class="item-select-card" data-item="${key}">
-        <div class="item-icon"><i class="fas ${item.icon}"></i></div>
-        <div class="item-name">${item.name}</div>
-        <div class="item-points" style="color:#059669; font-weight:700;">₹${item.earn} each</div>
-        <div class="item-qty-control">
-          <button class="qty-btn" type="button" onclick="updateQty('${key}', -1)">-</button>
-          <span class="qty-value" id="qty-${key}">0</span>
-          <button class="qty-btn" type="button" onclick="updateQty('${key}', 1)">+</button>
+      <div class="calc-item-card" data-item="${key}" onclick="if(event.target.closest('button')) return; updateQty('${key}', 1)">
+        <div class="calc-card-top">
+          <div class="calc-card-icon"><i class="fas ${item.icon}"></i></div>
+          <div class="calc-card-info">
+            <div class="calc-card-title">${item.name}</div>
+            <div class="calc-card-price">Earn ₹${item.earn}</div>
+          </div>
+        </div>
+        
+        <div class="calc-card-actions">
+          <button class="calc-btn" type="button" onclick="event.stopPropagation(); updateQty('${key}', -1)">-</button>
+          <span class="calc-qty" id="qty-${key}">0</span>
+          <button class="calc-btn" type="button" onclick="event.stopPropagation(); updateQty('${key}', 1)">+</button>
         </div>
       </div>
     `).join('');
