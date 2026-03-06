@@ -18,9 +18,15 @@
         </div>
       </div>
       
-      <div style="display: flex; gap: 1rem;">
+      <div style="display: flex; gap: 1rem; align-items: center;">
         <a href="{% url 'accounts:profile_edit' %}" class="btn btn-secondary"><i class="fas fa-cog"></i> Settings</a>
         <a href="{% url 'bookings:create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> New Pickup</a>
+        <form method="post" action="{% url 'accounts:logout' %}" style="margin: 0; display: inline-block;">
+          {% csrf_token %}
+          <button type="submit" class="btn" style="background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.75rem 1rem;">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </form>
       </div>
     </div>
 

@@ -65,8 +65,10 @@ function initMap() {
               </div>
             `;
             card.addEventListener('click', () => {
-              map.setView([center.lat, center.lng], 14);
-              marker.openPopup();
+              map.flyTo([center.lat, center.lng], 15, { animate: true, duration: 1.5 });
+              setTimeout(() => {
+                marker.openPopup();
+              }, 1500);
             });
             sidebarList.appendChild(card);
           }

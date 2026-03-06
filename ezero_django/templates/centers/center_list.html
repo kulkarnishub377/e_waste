@@ -13,7 +13,7 @@
 
   <!-- Map and Sidebar Container -->
   <div class="container mb-8">
-    <div class="glass-panel" style="display: flex; flex-direction: column; @media(min-width: 900px){flex-direction:row;} height: 85vh; min-height: 700px; padding: 0; overflow: hidden;">
+    <div class="glass-panel map-container-split">
       
       <!-- Finder Sidebar -->
       <div style="flex: 0 0 380px; background: rgba(3, 7, 18, 0.9); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column;">
@@ -51,8 +51,38 @@
 
 <!-- Advanced Map Styles -->
 <style>
+  /* Map Layout Container */
+  .map-container-split {
+    display: flex;
+    flex-direction: column-reverse;
+    height: 85vh;
+    min-height: 700px;
+    padding: 0;
+    overflow: hidden;
+  }
+  @media (min-width: 900px) {
+    .map-container-split {
+      flex-direction: row;
+    }
+  }
+
+  /* Custom Sidebar Scrollbar */
+  #centers-sidebar-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  #centers-sidebar-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  #centers-sidebar-list::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.3);
+    border-radius: 10px;
+  }
+  #centers-sidebar-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(16, 185, 129, 0.6);
+  }
+
   /* Customizing Leaflet to match the Dark Space theme cleanly */
-  .leaflet-container { background: #020617 !important; font-family: var(--font-body); }
+  .leaflet-container { background: #020617 !important; font-family: var(--font-body); z-index: 10; }
   
   /* Make standard OSM tiles a beautiful slate-dark mode cleanly */
   .leaflet-tile-pane { filter: invert(90%) hue-rotate(180deg) brightness(85%) contrast(85%) sepia(20%); }
@@ -77,10 +107,158 @@
   .ezero-marker.regular { background: var(--grad-primary); box-shadow: 0 0 15px rgba(16,185,129,0.5); border: 2px solid #fff; color: #fff; font-size: 14px;}
 </style>
 
-<!-- Load Map JS -->
+<!-- Load Map JS Inline to bypass caching -->
 {% endblock %}
+
 {% block extra_scripts %}
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-<script src="{% static 'js/map.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mapContainer = document.getElementById('centers-map');
+    if (!mapContainer) return;
+
+    // Dark theme map using Leaflet
+    const map = L.map('centers-map', { zoomControl: false }).setView([21.1458, 79.0882], 5);
+    
+    // Custom controls
+    L.control.zoom({ position: 'topright' }).addTo(map);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap',
+      maxZoom: 18,
+    }).addTo(map);
+    
+    setTimeout(() => { map.invalidateSize(); }, 500);
+
+    const apiUrl = '/centers/api/';
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        if (data.centers && data.centers.length > 0) {
+          const markers = L.markerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true
+          });
+
+          const sidebarList = document.getElementById('centers-sidebar-list');
+          if (sidebarList) {
+            sidebarList.innerHTML = '';
+          }
+          
+          let cards = [];
+          
+          data.centers.forEach((center, index) => {
+            // Leaflet Marker Icon Customization
+            const markerHtml = `
+              <div style="width: 36px; height: 36px; background: var(--grad-primary); border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 15px rgba(16,185,129,0.5); display: flex; align-items: center; justify-content: center; color: #fff; transform: translateY(-50%);">
+                <i class="fas fa-recycle" style="font-size: 14px;"></i>
+              </div>
+            `;
+            const customIcon = L.divIcon({
+              className: 'custom-ezero-icon',
+              html: markerHtml,
+              iconSize: [36, 36],
+              iconAnchor: [18, 18],
+              popupAnchor: [0, -18]
+            });
+
+            const marker = L.marker([center.lat, center.lng], {icon: customIcon});
+            
+            // Premium Popup Binding
+            marker.bindPopup(`
+              <div style="padding: 0.5rem; text-align: left;">
+                <div class="custom-popup-title"><i class="fas fa-building text-accent mr-2"></i> ${center.name}</div>
+                <div class="custom-popup-body">
+                  <p style="margin-bottom:0.5rem;"><i class="fas fa-map-marker-alt text-cyan mr-2"></i> ${center.address}</p>
+                  <p style="margin-bottom:0.5rem;"><i class="fas fa-clock text-warning mr-2"></i> ${center.hours}</p>
+                  ${center.contact ? `<p style="margin-bottom:0.5rem;"><i class="fas fa-phone text-accent mr-2"></i> ${center.contact}</p>` : ''}
+                </div>
+              </div>
+            `);
+            markers.addLayer(marker);
+
+            // Responsive Sidebar List Item
+            if (sidebarList) {
+              const card = document.createElement('div');
+              card.className = 'sidebar-item glass-panel';
+              card.style.marginBottom = '1rem';
+              card.dataset.city = center.city || '';
+              card.dataset.name = center.name || '';
+              
+              let servicesHtml = Array.isArray(center.services) 
+                  ? center.services.slice(0, 3).map(s => `<span class="badge badge-cyan" style="font-size:0.6rem; padding: 0.2rem 0.4rem;">${s}</span>`).join('')
+                  : '';
+
+              card.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                  <h5 style="color:var(--text-pure); margin-bottom:0.5rem; font-family:var(--font-display); font-size:1.1rem; line-height:1.2;">${center.name}</h5>
+                  <div style="background: rgba(16,185,129,0.1); padding: 0.2rem 0.5rem; border-radius: var(--radius-sm); color: var(--accent-light); font-size: 0.75rem; font-weight: 600;">
+                    <i class="fas fa-star"></i> ${center.rating}
+                  </div>
+                </div>
+                <p style="color:var(--text-muted); font-size:0.875rem; margin-bottom:0.75rem; line-height:1.4;">
+                  <i class="fas fa-map-marker-alt text-cyan"></i> ${center.address}
+                </p>
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                  ${servicesHtml}
+                </div>
+              `;
+              
+              card.addEventListener('click', () => {
+                // Remove active styling from all
+                document.querySelectorAll('.sidebar-item').forEach(c => c.style.borderColor = 'var(--glass-border)');
+                // Add active styling to clicked
+                card.style.borderColor = 'var(--accent-primary)';
+                
+                // Fly to Map Location
+                map.flyTo([center.lat, center.lng], 16, { animate: true, duration: 1.5 });
+                setTimeout(() => marker.openPopup(), 1500);
+
+                // On Mobile, scroll to top so map is visible
+                if(window.innerWidth < 900) {
+                  window.scrollTo({ top: mapContainer.offsetTop - 100, behavior: 'smooth' });
+                }
+              });
+
+              sidebarList.appendChild(card);
+              cards.push(card);
+            }
+          });
+
+          map.addLayer(markers);
+
+          // Advanced Search Feature
+          const searchInput = document.getElementById('center-search');
+          if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+              const query = e.target.value.toLowerCase().trim();
+              let visibleCount = 0;
+              cards.forEach(card => {
+                const searchString = (card.dataset.city + ' ' + card.dataset.name + ' ' + card.innerText).toLowerCase();
+                if (searchString.includes(query)) {
+                  card.style.display = 'block';
+                  visibleCount++;
+                } else {
+                  card.style.display = 'none';
+                }
+              });
+              
+              // No Results indicator
+              let emptyMsg = document.getElementById('no-results-msg');
+              if (visibleCount === 0) {
+                if (!emptyMsg) {
+                  sidebarList.insertAdjacentHTML('beforeend', `<div id="no-results-msg" style="text-align:center; padding: 2rem; color:var(--text-muted);"><i class="fas fa-search-minus fa-2x mb-3"></i><p>No facilities found matching your search.</p></div>`);
+                }
+              } else if (emptyMsg) {
+                emptyMsg.remove();
+              }
+            });
+          }
+        }
+      })
+      .catch(err => console.error('API Error:', err));
+  });
+</script>
 {% endblock %}
