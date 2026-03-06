@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Schedule Pickup | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="booking-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-badge"><i class="fas fa-truck"></i> Book a Pickup</span>
+      <h2>Schedule E-Waste Pickup</h2>
+      <p>Fill in your details and we'll arrange a free pickup at your location.</p>
+    </div>
+
+    <div class="booking-form-card">
+      <form method="post" class="booking-form">
+        {% csrf_token %}
+
+        <h3><i class="fas fa-user"></i> Your Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            {{ form.name }}
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number *</label>
+            {{ form.phone }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            {{ form.email }}
+          </div>
+          <div class="form-group">
+            <label class="form-label">Company Name (Optional)</label>
+            {{ form.company }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pickup Address *</label>
+          {{ form.address }}
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">City *</label>
+            {{ form.city }}
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pincode *</label>
+            {{ form.pincode }}
+          </div>
+        </div>
+
+        {% if form.errors %}
+        <div class="form-error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">
+          <i class="fas fa-calendar-check"></i> Schedule Pickup
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

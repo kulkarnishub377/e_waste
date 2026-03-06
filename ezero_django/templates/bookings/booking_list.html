@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}My Bookings | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="bookings-list-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>My Bookings</h2>
+    </div>
+    {% if bookings %}
+    <div class="bookings-table-wrapper">
+      <table class="bookings-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th><th>Date</th><th>City</th><th>Status</th><th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for booking in bookings %}
+          <tr>
+            <td><strong>{{ booking.booking_id }}</strong></td>
+            <td>{{ booking.pickup_date|date:"d M Y" }}</td>
+            <td>{{ booking.city }}</td>
+            <td><span class="status-badge status-{{ booking.status }}">{{ booking.get_status_display }}</span></td>
+            <td><a href="{% url 'bookings:detail' booking.booking_id %}" class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i> View</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <i class="fas fa-box-open"></i>
+      <h4>No bookings yet</h4>
+      <a href="{% url 'bookings:create' %}" class="btn btn-primary"><i class="fas fa-truck"></i> Schedule Pickup</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load core_tags %}
+
+{% block title %}Pricing Calculator | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="calculator-section" id="calculator">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-badge"><i class="fas fa-calculator"></i> Pricing Calculator</span>
+      <h2>Know What You'll Earn</h2>
+      <p>We pay you for your e-waste! Calculate your earnings instantly.</p>
+    </div>
+
+    <div class="calculator-layout">
+      <div class="calculator-main">
+        <div class="calculator-header">
+          <h4><i class="fas fa-desktop"></i> Select Items to Recycle</h4>
+          <span>Click + to add items</span>
+        </div>
+        <div class="calc-items-grid" id="items-grid">
+          {% for item in items %}
+          <div class="calc-item" data-item="{{ item.slug }}" data-price="{{ item.price_per_unit }}">
+            <div class="calc-item-icon"><i class="{{ item.icon }}"></i></div>
+            <div class="calc-item-info">
+              <span class="calc-item-name">{{ item.name }}</span>
+              <span class="calc-item-price earn">Earn ₹{{ item.price_per_unit }}/{{ item.unit }}</span>
+            </div>
+            <div class="calc-item-qty">
+              <button class="calc-qty-btn" onclick="calcUpdateQty('{{ item.slug }}', -1)">-</button>
+              <span id="calc-qty-{{ item.slug }}">0</span>
+              <button class="calc-qty-btn" onclick="calcUpdateQty('{{ item.slug }}', 1)">+</button>
+            </div>
+          </div>
+          {% empty %}
+          <p class="text-center">Calculator items will appear when data is seeded.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="calculator-sidebar">
+        <div class="summary-card">
+          <div class="summary-header">
+            <span class="summary-label">Potential Earnings</span>
+            <div class="total-amount" id="total-points">₹0</div>
+            <span class="total-badge" id="total-items">0 items selected</span>
+          </div>
+          <div class="summary-actions">
+            <a href="{% url 'bookings:create' %}" class="btn btn-primary btn-lg btn-block">
+              <i class="fas fa-truck"></i> Schedule Pickup
+            </a>
+            <p class="estimate-note">
+              <i class="fas fa-info-circle"></i> Estimated value based on working condition
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

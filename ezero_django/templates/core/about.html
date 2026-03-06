@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="about-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-badge"><i class="fas fa-info-circle"></i> About Us</span>
+      <h2>About E-Zero Technologies</h2>
+      <p>India's most trusted e-waste recycling partner since 2009.</p>
+    </div>
+
+    <div class="about-content">
+      <div class="about-text">
+        <h3>Our Mission</h3>
+        <p>At E-Zero, we are committed to creating a sustainable future by responsibly managing electronic waste. Our mission is to ensure that every piece of e-waste is processed in an environmentally safe manner, recovering valuable materials while protecting communities from hazardous substances.</p>
+
+        <h3>Our Story</h3>
+        <p>Founded in 2009, E-Zero has grown from a small recycling facility in Pune to India's leading e-waste management company. With 25+ processing facilities across the country, we serve 500+ corporate clients and thousands of individual customers.</p>
+
+        <h3>Our Values</h3>
+        <div class="values-grid">
+          <div class="value-card">
+            <i class="fas fa-leaf"></i>
+            <h4>Environmental Responsibility</h4>
+            <p>Zero landfill policy with 98% material recovery rate.</p>
+          </div>
+          <div class="value-card">
+            <i class="fas fa-lock"></i>
+            <h4>Data Security</h4>
+            <p>NIST-compliant data destruction with full documentation.</p>
+          </div>
+          <div class="value-card">
+            <i class="fas fa-certificate"></i>
+            <h4>Compliance</h4>
+            <p>Fully certified by CPCB, ISO 14001, R2, and OHSAS 18001.</p>
+          </div>
+          <div class="value-card">
+            <i class="fas fa-handshake"></i>
+            <h4>Trust</h4>
+            <p>Transparent processes with complete documentation trail.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

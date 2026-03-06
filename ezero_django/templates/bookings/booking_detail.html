@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking {{ booking.booking_id }} | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="booking-detail-section">
+  <div class="container">
+    <div class="invoice-preview">
+      <div class="invoice-header">
+        <div class="invoice-logo">
+          <i class="fas fa-recycle"></i>
+          <span>E-Zero</span>
+        </div>
+        <div class="invoice-meta">
+          <div class="invoice-id">Booking #{{ booking.booking_id }}</div>
+          <div class="invoice-date">{{ booking.created_at|date:"d M Y, h:i A" }}</div>
+        </div>
+      </div>
+
+      <div class="invoice-section">
+        <h4>Customer Details</h4>
+        <div class="invoice-details">
+          <p><strong>Name:</strong> {{ booking.name }}</p>
+          <p><strong>Email:</strong> {{ booking.email }}</p>
+          <p><strong>Phone:</strong> {{ booking.phone }}</p>
+          {% if booking.company %}<p><strong>Company:</strong> {{ booking.company }}</p>{% endif %}
+        </div>
+      </div>
+
+      <div class="invoice-section">
+        <h4>Pickup Details</h4>
+        <div class="invoice-details">
+          <p><strong>Address:</strong> {{ booking.address }}, {{ booking.city }} - {{ booking.pincode }}</p>
+          <p><strong>Date:</strong> {{ booking.pickup_date|date:"d M Y" }}</p>
+          <p><strong>Time Slot:</strong> {{ booking.get_pickup_time_slot_display }}</p>
+          <p><strong>Status:</strong> <span class="status-badge status-{{ booking.status }}">{{ booking.get_status_display }}</span></p>
+        </div>
+      </div>
+
+      {% if booking.items.all %}
+      <div class="invoice-section">
+        <h4>Items Summary</h4>
+        <table class="invoice-table">
+          <thead>
+            <tr><th>Item</th><th>Qty</th><th>Condition</th><th>Est. Value</th></tr>
+          </thead>
+          <tbody>
+            {% for item in booking.items.all %}
+            <tr>
+              <td>{{ item.item_type }} {% if item.brand %}({{ item.brand }}){% endif %}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.get_condition_display }}</td>
+              <td>₹{{ item.estimated_value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+
+      <div class="invoice-section">
+        <h4>Services</h4>
+        <p>Data Destruction: {% if booking.data_destruction %}<span class="text-success">✓ Yes</span>{% else %}No{% endif %}</p>
+        <p>Compliance Certificate: {% if booking.compliance_certificate %}<span class="text-success">✓ Yes</span>{% else %}No{% endif %}</p>
+      </div>
+
+      <div class="invoice-footer">
+        <p>Thank you for choosing E-Zero for responsible e-waste recycling!</p>
+      </div>
+
+      <div class="print-actions">
+        <button class="btn btn-secondary" onclick="window.print()">
+          <i class="fas fa-print"></i> Print Invoice
+        </button>
+        <a href="{% url 'core:home' %}" class="btn btn-primary">
+          <i class="fas fa-home"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
