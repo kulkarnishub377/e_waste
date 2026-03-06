@@ -32,7 +32,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING('Clearing existing data...'))
             self._clear_all()
 
-        self.stdout.write(self.style.NOTICE('🌱 Seeding E-Zero database...'))
+        self.stdout.write(self.style.NOTICE('[SEED] Seeding E-Zero database...'))
 
         self._seed_site_stats()
         self._seed_services()
@@ -48,7 +48,7 @@ class Command(BaseCommand):
         self._seed_centers()
         self._seed_users()
 
-        self.stdout.write(self.style.SUCCESS('✅ Database seeded successfully!'))
+        self.stdout.write(self.style.SUCCESS('[OK] Database seeded successfully!'))
 
     def _clear_all(self):
         for model in [Service, ProcessStep, Advantage, Certification,
@@ -66,7 +66,7 @@ class Command(BaseCommand):
         ]
         for s in stats:
             SiteStat.objects.get_or_create(label=s['label'], defaults=s)
-        self.stdout.write(f'  ✓ {len(stats)} site stats')
+        self.stdout.write(f'  [+] {len(stats)} site stats')
 
     def _seed_services(self):
         services = [
@@ -115,7 +115,7 @@ class Command(BaseCommand):
         ]
         for s in services:
             Service.objects.get_or_create(name=s['name'], defaults=s)
-        self.stdout.write(f'  ✓ {len(services)} services')
+        self.stdout.write(f'  [+] {len(services)} services')
 
     def _seed_process_steps(self):
         steps = [
@@ -127,7 +127,7 @@ class Command(BaseCommand):
         ]
         for s in steps:
             ProcessStep.objects.get_or_create(number=s['number'], defaults=s)
-        self.stdout.write(f'  ✓ {len(steps)} process steps')
+        self.stdout.write(f'  [+] {len(steps)} process steps')
 
     def _seed_advantages(self):
         advantages = [
@@ -139,7 +139,7 @@ class Command(BaseCommand):
         ]
         for a in advantages:
             Advantage.objects.get_or_create(title=a['title'], defaults=a)
-        self.stdout.write(f'  ✓ {len(advantages)} advantages')
+        self.stdout.write(f'  [+] {len(advantages)} advantages')
 
     def _seed_certifications(self):
         certs = [
@@ -150,7 +150,7 @@ class Command(BaseCommand):
         ]
         for c in certs:
             Certification.objects.get_or_create(name=c['name'], defaults=c)
-        self.stdout.write(f'  ✓ {len(certs)} certifications')
+        self.stdout.write(f'  [+] {len(certs)} certifications')
 
     def _seed_faqs(self):
         faqs = [
@@ -163,7 +163,7 @@ class Command(BaseCommand):
         ]
         for f in faqs:
             FAQ.objects.get_or_create(question=f['question'], defaults=f)
-        self.stdout.write(f'  ✓ {len(faqs)} FAQs')
+        self.stdout.write(f'  [+] {len(faqs)} FAQs')
 
     def _seed_testimonials(self):
         testimonials = [
@@ -173,7 +173,7 @@ class Command(BaseCommand):
         ]
         for t in testimonials:
             Testimonial.objects.get_or_create(author_name=t['author_name'], defaults=t)
-        self.stdout.write(f'  ✓ {len(testimonials)} testimonials')
+        self.stdout.write(f'  [+] {len(testimonials)} testimonials')
 
     def _seed_accepted_items(self):
         items = [
@@ -188,7 +188,7 @@ class Command(BaseCommand):
         ]
         for item in items:
             AcceptedItemCategory.objects.get_or_create(name=item['name'], defaults=item)
-        self.stdout.write(f'  ✓ {len(items)} accepted item categories')
+        self.stdout.write(f'  [+] {len(items)} accepted item categories')
 
     def _seed_impact_stats(self):
         stats = [
@@ -199,7 +199,7 @@ class Command(BaseCommand):
         ]
         for s in stats:
             ImpactStat.objects.get_or_create(label=s['label'], defaults=s)
-        self.stdout.write(f'  ✓ {len(stats)} impact stats')
+        self.stdout.write(f'  [+] {len(stats)} impact stats')
 
     def _seed_calculator_items(self):
         items = [
@@ -224,7 +224,7 @@ class Command(BaseCommand):
         ]
         for svc in svc_options:
             ServiceOption.objects.get_or_create(name=svc['name'], defaults=svc)
-        self.stdout.write(f'  ✓ {len(items)} calculator items + {len(svc_options)} service options')
+        self.stdout.write(f'  [+] {len(items)} calculator items + {len(svc_options)} service options')
 
     def _seed_articles(self):
         articles = [
@@ -261,7 +261,7 @@ class Command(BaseCommand):
         ]
         for a in articles:
             Article.objects.get_or_create(slug=a['slug'], defaults=a)
-        self.stdout.write(f'  ✓ {len(articles)} articles')
+        self.stdout.write(f'  [+] {len(articles)} articles')
 
     def _seed_centers(self):
         # Try to load from existing JSON file
@@ -291,9 +291,9 @@ class Command(BaseCommand):
                     }
                 )
                 count += 1
-            self.stdout.write(f'  ✓ {count} centers (from centers.json)')
+            self.stdout.write(f'  [+] {count} centers (from centers.json)')
         else:
-            self.stdout.write(self.style.WARNING('  ⚠ centers.json not found, skipping centers'))
+            self.stdout.write(self.style.WARNING('  [!] centers.json not found, skipping centers'))
 
     def _seed_users(self):
         # Try to load from existing JSON file
@@ -329,9 +329,9 @@ class Command(BaseCommand):
                     profile.achievements = u.get('achievements', [])
                     profile.save()
                     count += 1
-            self.stdout.write(f'  ✓ {count} users (from users.json)')
+            self.stdout.write(f'  [+] {count} users (from users.json)')
         else:
-            self.stdout.write(self.style.WARNING('  ⚠ users.json not found, skipping users'))
+            self.stdout.write(self.style.WARNING('  [!] users.json not found, skipping users'))
 
         # Always create superuser
         if not User.objects.filter(is_superuser=True).exists():
@@ -342,4 +342,4 @@ class Command(BaseCommand):
                 first_name='Admin',
                 last_name='E-Zero',
             )
-            self.stdout.write(self.style.SUCCESS('  ✓ Superuser created (admin / EZero@2024)'))
+            self.stdout.write(self.style.SUCCESS('  [+] Superuser created (admin / EZero@2024)'))
