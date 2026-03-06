@@ -1,76 +1,100 @@
 {% extends 'base.html' %}
 {% load core_tags %}
 
-{% block title %}Pricing Calculator | {{ SITE_NAME }}{% endblock %}
+{% block title %}Pricing Estimator | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="section" style="min-height: calc(100vh - var(--header-height)); display: flex; align-items: center; padding-top: calc(var(--header-height) + var(--space-8));">
-  <!-- Glowing orb background -->
-  <div style="position:absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%); top: 50%; left: 30%; transform: translate(-50%, -50%); z-index: -1;"></div>
+<section style="padding: calc(var(--nav-height) + 4rem) 0 6rem; min-height: 100vh; position: relative;">
+  <!-- Glowing Hexagon Background Pattern -->
+  <div style="position:absolute; width: 100%; height: 100%; top: 0; left: 0; background-image: radial-gradient(circle at center, rgba(6, 182, 212, 0.05) 0%, transparent 60%); z-index: -1;"></div>
 
   <div class="container">
-    <header class="text-center scroll-animate mb-4">
-      <span class="badge badge-cyan mb-2"><i class="fas fa-calculator"></i> Value Estimator</span>
-      <h1 class="section-title-text" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem;">Instant Quote Calculator</h1>
-      <p style="margin: 0 auto; color: var(--text-secondary); max-width: 600px;">Select your e-waste items to instantly calculate their estimated recovery value. Prices reflect average working condition.</p>
-    </header>
+    <div class="text-center mb-8 reveal">
+      <div class="badge badge-cyan mb-3">Value Estimator</div>
+      <h1 class="text-gradient" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem;">Asset Recovery Matrix</h1>
+      <p style="margin: 0 auto; color: var(--text-muted); max-width: 600px; font-size: 1.125rem;">
+        Select your IT assets below to generate a real-time recovery estimate. Values reflect optimal processing yield.
+      </p>
+    </div>
 
-    <div class="grid-2 scroll-animate" style="gap: var(--space-8); max-width: 1000px; margin: 0 auto; align-items: start;">
+    <div class="grid-12" style="align-items: flex-start;">
       
-      <!-- Items Grid -->
-      <div class="card-glass" style="padding: var(--space-6);">
-        <h3 class="mb-3" style="font-size: var(--text-xl); border-bottom: 1px solid var(--border-glass); padding-bottom: 1rem;">
-          <i class="fas fa-desktop text-accent"></i> Select Items
-        </h3>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-4);" id="items-grid">
-          {% for item in items %}
-          <div class="calc-item" data-item="{{ item.slug }}" data-price="{{ item.price_per_unit }}" 
-               style="background: rgba(15, 22, 38, 0.4); border: 1px solid var(--border-glass); border-radius: var(--rad-lg); padding: var(--space-3); transition: all var(--trans-base); text-align: center;">
-            <div style="font-size: 1.75rem; color: var(--text-primary); margin-bottom: 0.5rem;"><i class="{{ item.icon }}"></i></div>
-            <div style="font-weight: 500; font-size: var(--text-sm); color: var(--text-primary);">{{ item.name }}</div>
-            <div style="font-size: var(--text-xs); color: var(--text-accent); margin-bottom: 0.75rem;">₹{{ item.price_per_unit }}/{{ item.unit }}</div>
-            
-            <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border-radius: var(--rad-full); padding: 0.25rem; border: 1px solid var(--border-glass);">
-              <button class="btn-icon" onclick="calcUpdateQty('{{ item.slug }}', -1)" style="width: 28px; height: 28px; border-radius: 50%; border: none; background: rgba(255,255,255,0.05); color: #fff; cursor: pointer; transition: background 0.2s;"><i class="fas fa-minus text-xs"></i></button>
-              <span id="calc-qty-{{ item.slug }}" style="font-weight: 600; min-width: 20px;">0</span>
-              <button class="btn-icon" onclick="calcUpdateQty('{{ item.slug }}', 1)" style="width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--accent-gradient); color: #fff; cursor: pointer; transition: transform 0.2s;"><i class="fas fa-plus text-xs"></i></button>
+      <!-- Inventory Grid (Takes up 8 columns on desktop) -->
+      <div class="reveal" style="grid-column: span 12; @media(min-width: 900px){grid-column: span 8;}">
+        <div class="glass-panel" style="padding: 2.5rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem; margin-bottom: 2rem; color: var(--text-pure); display: flex; align-items: center; gap: 0.75rem;">
+            <i class="fas fa-microchip text-accent"></i> Inventory Selection
+          </h3>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem;" id="items-grid">
+            {% for item in items %}
+            <div class="calc-item" data-item="{{ item.slug }}" data-price="{{ item.price_per_unit }}" 
+                 style="background: rgba(3, 7, 18, 0.6); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 1.5rem; transition: all 0.3s var(--ease-out); text-align: center; position: relative; overflow: hidden; box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);">
+              
+              <!-- Hover Glow -->
+              <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%); opacity: 0; transition: opacity 0.3s ease; pointer-events: none;" class="item-hover-glow"></div>
+
+              <div style="font-size: 2.5rem; color: var(--text-pure); margin-bottom: 1rem; position: relative; z-index: 1;"><i class="{{ item.icon }}"></i></div>
+              <div style="font-family: var(--font-display); font-weight: 600; font-size: 1.125rem; color: var(--text-pure); margin-bottom: 0.25rem; position: relative; z-index: 1;">{{ item.name }}</div>
+              <div style="font-size: 0.875rem; color: var(--cyan-light); margin-bottom: 1.5rem; font-weight: 500; position: relative; z-index: 1;">₹{{ item.price_per_unit }}/{{ item.unit }}</div>
+              
+              <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-base); border-radius: var(--radius-full); padding: 0.5rem; border: 1px solid var(--glass-border); position: relative; z-index: 1;">
+                <button type="button" class="btn-icon calc-minus" onclick="calcUpdateQty('{{ item.slug }}', -1)" style="width: 32px; height: 32px; border-radius: 50%; border: none; background: rgba(255,255,255,0.05); color: var(--text-muted); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;"><i class="fas fa-minus" style="font-size: 0.75rem;"></i></button>
+                <span id="calc-qty-{{ item.slug }}" style="font-family: var(--font-display); font-weight: 700; color: var(--text-pure); font-size: 1.125rem; min-width: 24px;">0</span>
+                <button type="button" class="btn-icon calc-plus" onclick="calcUpdateQty('{{ item.slug }}', 1)" style="width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--grad-primary); color: var(--bg-base); cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 10px rgba(16,185,129,0.4);"><i class="fas fa-plus" style="font-size: 0.75rem;"></i></button>
+              </div>
             </div>
+            {% empty %}
+            <p class="text-muted" style="grid-column: 1/-1;">System initialization pending. No assets available.</p>
+            {% endfor %}
           </div>
-          {% empty %}
-          <p class="text-muted">No items configured in the database.</p>
-          {% endfor %}
         </div>
       </div>
 
-      <!-- Summary Panel -->
-      <div style="position: sticky; top: calc(var(--header-height) + 2rem);">
-        <div class="card-glass" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
-          <h3 class="mb-4" style="font-size: var(--text-xl);">Estimated Value</h3>
-          
-          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: var(--space-6);">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-glass); padding-bottom: 1rem;">
-              <span style="color: var(--text-secondary);">Total Items</span>
-              <span id="total-items" style="font-weight: 600; color: #fff;">0</span>
+      <!-- Real-Time Metrics (Takes up 4 columns on desktop) -->
+      <div class="reveal reveal-delay-1" style="grid-column: span 12; @media(min-width: 900px){grid-column: span 4;} position: sticky; top: calc(var(--nav-height) + 2rem);">
+        <div class="glass-panel" style="background: linear-gradient(180deg, rgba(8, 145, 178, 0.1) 0%, rgba(11, 17, 33, 0.6) 100%); border-top-color: rgba(8, 145, 178, 0.4);">
+          <div style="padding: 2.5rem 2rem;">
+            <div style="font-family: var(--font-display); font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cyan-light); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-electric); box-shadow: 0 0 8px var(--accent-electric); animation: pulse 2s infinite;"></span> Live Projection
             </div>
+            <h3 style="font-size: 1.75rem; margin-bottom: 2rem; color: var(--text-pure);">Estimated Yield</h3>
             
-            <div style="display: flex; justify-content: space-between; align-items: end;">
-              <span style="color: var(--text-secondary);">Total Payout</span>
-              <div id="total-points" style="font-family: var(--font-heading); font-size: 3rem; font-weight: 800; color: var(--accent-primary); line-height: 1; text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);">₹0</div>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 3rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 1.25rem;">
+                <span style="color: var(--text-muted); font-size: 1rem;">Asset Count</span>
+                <span id="total-items" style="font-family: var(--font-display); font-weight: 600; color: var(--text-pure); font-size: 1.25rem;">0</span>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <span style="color: var(--text-muted); font-size: 1rem;">Projected Recovery Value</span>
+                <div id="total-points" style="font-family: var(--font-display); font-size: 3.5rem; font-weight: 800; background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.3));">₹0</div>
+              </div>
             </div>
-          </div>
 
-          <div style="background: rgba(15, 22, 38, 0.6); border-radius: var(--rad-md); padding: 1rem; margin-bottom: var(--space-6); font-size: var(--text-sm); color: var(--text-muted);">
-            <i class="fas fa-info-circle text-accent"></i> Final quote will be provided after physical evaluation of the devices.
-          </div>
+            <div style="background: rgba(3, 7, 18, 0.8); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 2rem; display: flex; gap: 1rem; align-items: flex-start;">
+              <i class="fas fa-shield-alt text-cyan" style="font-size: 1.25rem; margin-top: 2px;"></i>
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0; line-height: 1.5;">Quote subject to physical verification and diagnostic testing at our certified facilities.</p>
+            </div>
 
-          <a href="{% url 'bookings:create' %}" class="btn btn-primary" style="width: 100%; padding: 1.25rem;">
-            <i class="fas fa-truck"></i> Schedule Pickup Now
-          </a>
+            <a href="{% url 'bookings:create' %}" class="btn btn-primary" style="width: 100%; box-shadow: 0 0 20px rgba(16,185,129,0.4);">
+              <i class="fas fa-truck-loading"></i> Initialize Pickup
+            </a>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } 100% { opacity: 1; transform: scale(1); } }
+  .calc-item:hover { transform: translateY(-3px); border-color: rgba(16, 185, 129, 0.3); }
+  .calc-item:hover .item-hover-glow { opacity: 1; }
+  .calc-plus:hover { transform: scale(1.1); box-shadow: 0 0 15px rgba(16, 185, 129, 0.6) !important; }
+  .calc-minus:hover { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
+</style>
+
+<!-- Reusing existing logic but matching UI IDs -->
 {% endblock %}

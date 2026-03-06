@@ -1,59 +1,125 @@
 {% extends 'base.html' %}
+{% load static core_tags %}
 
-{% block title %}Contact Us | {{ SITE_NAME }}{% endblock %}
+{% block title %}Contact Enterprise | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="contact-section" id="contact">
-  <div class="container">
-    <div class="section-title">
-      <span class="section-badge"><i class="fas fa-envelope"></i> Contact Us</span>
-      <h2>Get in Touch</h2>
-      <p>Fill in your details and our team will get back to you within 24 hours.</p>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-form-card">
-        <form method="post" class="contact-form">
-          {% csrf_token %}
-          {% for field in form %}
-          <div class="form-group">
-            <label class="form-label">{{ field.label }}</label>
-            {{ field }}
-            {% if field.errors %}
-            <span class="field-error">{{ field.errors.0 }}</span>
-            {% endif %}
-          </div>
-          {% endfor %}
-          <button type="submit" class="btn btn-primary btn-lg btn-block">
-            <i class="fas fa-paper-plane"></i> Submit Request
-          </button>
-        </form>
-      </div>
-      <div class="contact-info">
-        <h3>Contact Information</h3>
-        <div class="contact-methods">
-          <div class="contact-method">
-            <div class="contact-method-icon"><i class="fas fa-phone-alt"></i></div>
-            <div class="contact-method-content">
-              <h4>Call Us</h4>
-              <p><a href="tel:+919876543210">{{ SITE_PHONE }}</a></p>
+<section style="min-height: 100vh; position: relative; padding: calc(var(--nav-height) + 4rem) 0 6rem; overflow: hidden;">
+  <!-- Cyber Nodes Background -->
+  <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-image: radial-gradient(var(--glass-border) 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3; z-index: -1;"></div>
+
+  <div class="container text-center mb-8 reveal">
+    <div class="badge badge-cyan mb-3">Enterprise Sales & Support</div>
+    <h1 class="text-gradient" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem;">Initiate Communication</h1>
+    <p style="color: var(--text-muted); font-size: 1.125rem; max-width: 600px; margin: 0 auto;">Connect with our enterprise logistics team or get answers regarding environmental compliance.</p>
+  </div>
+
+  <div class="container grid-12" style="align-items: flex-start;">
+    
+    <!-- Contact Info Panel (4 cols) -->
+    <div class="reveal reveal-delay-1" style="grid-column: span 12; @media(min-width: 900px){grid-column: span 4;}">
+      <div class="glass-panel" style="padding: 2.5rem; background: rgba(3, 7, 18, 0.8);">
+        <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 2rem; color: var(--text-pure); border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">Command Center</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-light); font-size: 1.25rem; flex-shrink: 0;"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <h4 style="font-size: 1rem; color: var(--text-pure); margin-bottom: 0.25rem;">Headquarters</h4>
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0; line-height: 1.5;">{{ EZERO_ADDRESS }}</p>
             </div>
           </div>
-          <div class="contact-method">
-            <div class="contact-method-icon"><i class="fas fa-envelope"></i></div>
-            <div class="contact-method-content">
-              <h4>Email Us</h4>
-              <p><a href="mailto:{{ SITE_EMAIL }}">{{ SITE_EMAIL }}</a></p>
+          
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(8, 145, 178, 0.1); display: flex; align-items: center; justify-content: center; color: var(--cyan-light); font-size: 1.25rem; flex-shrink: 0;"><i class="fas fa-envelope"></i></div>
+            <div>
+              <h4 style="font-size: 1rem; color: var(--text-pure); margin-bottom: 0.25rem;">Direct Link</h4>
+              <a href="mailto:{{ EZERO_EMAIL }}" style="font-size: 0.875rem; color: var(--text-muted); transition: color 0.3s; line-height: 1.5;">{{ EZERO_EMAIL }}<br>support@ezero.in</a>
             </div>
           </div>
-          <div class="contact-method">
-            <div class="contact-method-icon"><i class="fas fa-map-marker-alt"></i></div>
-            <div class="contact-method-content">
-              <h4>Head Office</h4>
-              <p>{{ SITE_ADDRESS }}</p>
+          
+          <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center; color: var(--warning); font-size: 1.25rem; flex-shrink: 0;"><i class="fas fa-headset"></i></div>
+            <div>
+              <h4 style="font-size: 1rem; color: var(--text-pure); margin-bottom: 0.25rem;">Priority Voice</h4>
+              <a href="tel:{{ EZERO_PHONE }}" style="font-size: 0.875rem; color: var(--text-muted); transition: color 0.3s; line-height: 1.5;">{{ EZERO_PHONE }}<br>Toll-Free: 1800-EZERO-00</a>
             </div>
           </div>
         </div>
+
+        <div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
+          <h4 style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Encrypted Channels</h4>
+          <div style="display: flex; gap: 1rem;">
+            <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: transform 0.3s, background 0.3s;"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: transform 0.3s, background 0.3s;"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <!-- Contact Form (8 cols) -->
+    <div class="reveal reveal-delay-2" style="grid-column: span 12; @media(min-width: 900px){grid-column: span 8;}">
+      <div class="glass-panel" style="padding: 3rem;">
+        <h3 style="font-family: var(--font-display); font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--text-pure);">Transmission Protocol</h3>
+        <p style="color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 2rem;">Secure data transmission to our logistics engineers. Standard response time is 120 minutes.</p>
+        
+        <form method="post" action="{% url 'contacts:contact' %}">
+          {% csrf_token %}
+          
+          {% if form.errors %}
+          <div style="background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--error); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 2rem;">
+            <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-display);"><i class="fas fa-exclamation-triangle"></i> Transmission Error</h4>
+            Please verify all required fields.
+          </div>
+          {% endif %}
+
+          <div class="grid-2" style="gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="form-group mb-0">
+              <label class="form-label">Full Name *</label>
+              {{ form.name }}
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label">Email Address *</label>
+              {{ form.email }}
+            </div>
+          </div>
+
+          <div class="grid-2" style="gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div class="form-group mb-0">
+              <label class="form-label">Phone Number *</label>
+              {{ form.phone }}
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label">Subject *</label>
+              {{ form.subject }}
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label class="form-label">Detailed Message *</label>
+            {{ form.message }}
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="padding: 1.25rem 3rem; font-size: 1.125rem;">
+            <i class="fas fa-paper-plane mr-2"></i> Transmit Data
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section Below Form -->
+  <div class="container mt-8 reveal">
+    <div class="text-center mb-6">
+      <h2 style="font-size: clamp(2rem, 4vw, 3rem);" class="text-gradient">Common Queries</h2>
+    </div>
+    <div class="grid-2">
+      {% for faq in faqs %}
+      <div class="glass-panel" style="padding: 2rem;">
+        <h4 style="font-family: var(--font-display); font-size: 1.125rem; color: var(--text-pure); margin-bottom: 0.75rem;"><i class="fas fa-question-circle text-cyan mr-2"></i> {{ faq.question }}</h4>
+        <p style="color: var(--text-muted); font-size: 0.9375rem; margin: 0; line-height: 1.6;">{{ faq.answer }}</p>
+      </div>
+      {% endfor %}
     </div>
   </div>
 </section>

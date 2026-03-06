@@ -3,67 +3,97 @@
 {% block title %}Schedule Pickup | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="booking-section">
-  <div class="container">
-    <div class="section-title">
-      <span class="section-badge"><i class="fas fa-truck"></i> Book a Pickup</span>
-      <h2>Schedule E-Waste Pickup</h2>
-      <p>Fill in your details and we'll arrange a free pickup at your location.</p>
-    </div>
+<section style="min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding: calc(var(--nav-height) + 4rem) 0 6rem;">
+  <!-- Electric Cyber Gradient -->
+  <div style="position:absolute; width: 60vw; height: 60vh; background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 60%); top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;"></div>
 
-    <div class="booking-form-card">
-      <form method="post" class="booking-form">
+  <div class="container" style="display: flex; justify-content: center;">
+    <div class="glass-panel reveal" style="width: 100%; max-width: 800px; padding: 3rem;">
+      <div class="text-center mb-6">
+        <div class="badge badge-cyan mb-3">Service Initialization</div>
+        <h1 class="text-gradient" style="font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem;">Schedule E-Waste Pickup</h1>
+        <p style="color: var(--text-muted); font-size: 1rem; max-width: 500px; margin: 0 auto;">Deploy our certified logistics team directly to your location for secure asset collection.</p>
+      </div>
+
+      <form method="post" action="{% url 'bookings:create' %}">
         {% csrf_token %}
+        
+        {% if form.errors %}
+        <div style="background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--error); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem; font-family: var(--font-body);">
+          <h4 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-display);"><i class="fas fa-exclamation-triangle"></i> Verification Failed</h4>
+          <ul style="padding-left: 1.5rem; list-style-type: none;">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+            <li style="font-size: 0.875rem;"><span style="color:var(--text-pure); font-weight:600;">{{ field|title }}:</span> {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
 
-        <h3><i class="fas fa-user"></i> Your Information</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Full Name *</label>
-            {{ form.name }}
+        <div class="grid-2" style="gap: 1.5rem;">
+          <div style="grid-column: span 2;">
+            <h4 style="font-family: var(--font-display); color: var(--text-pure); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; font-size: 1.25rem;"><i class="fas fa-map-marker-alt text-accent mr-2"></i> Location Details</h4>
           </div>
-          <div class="form-group">
-            <label class="form-label">Phone Number *</label>
-            {{ form.phone }}
+
+          <div class="form-group mb-0" style="grid-column: span 2;">
+            <label class="form-label">Pickup Address *</label>
+            {{ form.address }}
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Email Address *</label>
-            {{ form.email }}
-          </div>
-          <div class="form-group">
-            <label class="form-label">Company Name (Optional)</label>
-            {{ form.company }}
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Pickup Address *</label>
-          {{ form.address }}
-        </div>
-        <div class="form-row">
-          <div class="form-group">
+
+          <div class="form-group mb-0">
             <label class="form-label">City *</label>
             {{ form.city }}
           </div>
-          <div class="form-group">
+          
+          <div class="form-group mb-0">
             <label class="form-label">Pincode *</label>
             {{ form.pincode }}
           </div>
         </div>
 
-        {% if form.errors %}
-        <div class="form-error-message">
-          <i class="fas fa-exclamation-circle"></i>
-          {% for field, errors in form.errors.items %}
-            {% for error in errors %}
-            <p>{{ error }}</p>
-            {% endfor %}
-          {% endfor %}
-        </div>
-        {% endif %}
+        <div class="grid-2 mt-6" style="gap: 1.5rem;">
+          <div style="grid-column: span 2;">
+            <h4 style="font-family: var(--font-display); color: var(--text-pure); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; font-size: 1.25rem;"><i class="fas fa-calendar-alt text-cyan mr-2"></i> Scheduling</h4>
+          </div>
 
-        <button type="submit" class="btn btn-primary btn-lg btn-block">
-          <i class="fas fa-calendar-check"></i> Schedule Pickup
+          <div class="form-group mb-0">
+            <label class="form-label">Requested Date *</label>
+            {{ form.pickup_date }}
+          </div>
+          
+          <div class="form-group mb-0">
+            <label class="form-label">Preferred Time Slot *</label>
+            {{ form.time_slot }}
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h4 style="font-family: var(--font-display); color: var(--text-pure); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; font-size: 1.25rem;"><i class="fas fa-box-open text-warning mr-2"></i> Asset Information</h4>
+          
+          <div class="form-group">
+            <label class="form-label">Description of Items *</label>
+            <!-- Render textarea manually for full CSS control if needed, or rely on form.css -->
+            {{ form.items_description }}
+            <small style="color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 0.5rem; padding-left: 0.5rem;">Approximate quantities (e.g., 5 Laptops, 2 Servers, misc cables)</small>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Approximate Total Weight (kg) *</label>
+            {{ form.approximate_weight }}
+          </div>
+        </div>
+
+        <div style="background: rgba(8, 145, 178, 0.1); border: 1px solid rgba(8, 145, 178, 0.3); border-radius: var(--radius-md); padding: 1.5rem; margin: 2rem 0; display: flex; gap: 1rem; align-items: flex-start;">
+          <i class="fas fa-info-circle text-cyan" style="font-size: 1.5rem;"></i>
+          <div>
+            <h5 style="color: var(--cyan-light); margin-bottom: 0.25rem; font-size: 1rem; font-family: var(--font-display);">Standard Protocol</h5>
+            <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 0; line-height: 1.4;">Final valuations are verified by our certified technicians post-collection. Certificates of data destruction will be issued within 48 hours of processing.</p>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.25rem; font-size: 1.125rem; box-shadow: 0 0 30px rgba(16,185,129,0.3);">
+          <i class="fas fa-paper-plane"></i> Deploy Collection Team
         </button>
       </form>
     </div>

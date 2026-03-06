@@ -3,47 +3,67 @@
 {% block title %}About Us | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="about-section">
+<section style="min-height: 100vh; position: relative; padding-top: calc(var(--nav-height) + 4rem); padding-bottom: 6rem; overflow: hidden;">
+  <!-- Abstract Cyber Graphics -->
+  <div style="position:absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%); top: 10%; right: -200px; z-index: -1;"></div>
+  <div style="position:absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%); bottom: -200px; left: -200px; z-index: -1;"></div>
+
+  <div class="container reveal text-center mb-8">
+    <div class="badge badge-cyan mb-3">Our Mission</div>
+    <h1 class="text-gradient" style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 1.5rem;">Pioneering Zero-Waste <br> Technology Lifecycle</h1>
+    <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto;">We are India's premier authorized e-waste management authority, transforming linear consumption into a circular electronics economy.</p>
+  </div>
+
   <div class="container">
-    <div class="section-title">
-      <span class="section-badge"><i class="fas fa-info-circle"></i> About Us</span>
-      <h2>About E-Zero Technologies</h2>
-      <p>India's most trusted e-waste recycling partner since 2009.</p>
+    <div class="glass-panel reveal reveal-delay-1" style="padding: 4rem; display: flex; flex-direction: column; @media(min-width:900px){flex-direction:row;} gap: 4rem; align-items: center; margin-bottom: 4rem;">
+      <div style="flex: 1;">
+        <h2 style="font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text-pure);">The <span class="text-accent">E-Zero</span> Directive</h2>
+        <p style="font-size: 1rem; margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.8;">Founded with a core imperative to mitigate technical toxic runoff, E-Zero has evolved into the most trusted name in IT asset disposition across the subcontinent. We process thousands of tons of hazardous electronics annually.</p>
+        <p style="font-size: 1rem; margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.8;">By leveraging advanced mechanized segregation and metallurgical extraction processes, we guarantee a 0% landfill footprint while maintaining absolute data security through NIST-compliant sanitization protocols.</p>
+        
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--cyan-light); font-weight: 500; font-family: var(--font-display);"><i class="fas fa-check-circle"></i> ISO 14001:2015</div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--cyan-light); font-weight: 500; font-family: var(--font-display);"><i class="fas fa-check-circle"></i> R2v3 Certified</div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--cyan-light); font-weight: 500; font-family: var(--font-display);"><i class="fas fa-check-circle"></i> CPCB Auth</div>
+        </div>
+      </div>
+      
+      <div style="flex: 1; position: relative; width: 100%;">
+        <!-- Stylized image replacement box to maintain the advanced tech theme -->
+        <div style="width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-xl); background: rgba(3, 7, 18, 0.8); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(0,0,0,0.5);">
+          <!-- Circuit board lines generated via CSS gradients -->
+          <div style="position: absolute; width: 200%; height: 200%; background: linear-gradient(90deg, rgba(16,185,129,0.05) 1px, transparent 1px), linear-gradient(0deg, rgba(16,185,129,0.05) 1px, transparent 1px); background-size: 20px 20px; animation: slideBG 20s linear infinite;"></div>
+          
+          <i class="fas fa-microchip" style="font-size: 6rem; color: var(--accent-light); filter: drop-shadow(0 0 20px rgba(16,185,129,0.4)); opacity: 0.8;"></i>
+          
+          <!-- Glitch Overlay -->
+          <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(8,145,178,0.1); mix-blend-mode: overlay;"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="about-content">
-      <div class="about-text">
-        <h3>Our Mission</h3>
-        <p>At E-Zero, we are committed to creating a sustainable future by responsibly managing electronic waste. Our mission is to ensure that every piece of e-waste is processed in an environmentally safe manner, recovering valuable materials while protecting communities from hazardous substances.</p>
-
-        <h3>Our Story</h3>
-        <p>Founded in 2009, E-Zero has grown from a small recycling facility in Pune to India's leading e-waste management company. With 25+ processing facilities across the country, we serve 500+ corporate clients and thousands of individual customers.</p>
-
-        <h3>Our Values</h3>
-        <div class="values-grid">
-          <div class="value-card">
-            <i class="fas fa-leaf"></i>
-            <h4>Environmental Responsibility</h4>
-            <p>Zero landfill policy with 98% material recovery rate.</p>
-          </div>
-          <div class="value-card">
-            <i class="fas fa-lock"></i>
-            <h4>Data Security</h4>
-            <p>NIST-compliant data destruction with full documentation.</p>
-          </div>
-          <div class="value-card">
-            <i class="fas fa-certificate"></i>
-            <h4>Compliance</h4>
-            <p>Fully certified by CPCB, ISO 14001, R2, and OHSAS 18001.</p>
-          </div>
-          <div class="value-card">
-            <i class="fas fa-handshake"></i>
-            <h4>Trust</h4>
-            <p>Transparent processes with complete documentation trail.</p>
-          </div>
-        </div>
+    <div class="grid-3 mb-8">
+      <div class="glass-panel reveal" style="padding: 2.5rem; transition-delay: 0.1s;">
+        <i class="fas fa-globe-asia text-cyan mb-4" style="font-size: 2.5rem;"></i>
+        <h3 style="font-size: 1.5rem; font-family: var(--font-display); margin-bottom: 1rem;">National Scale</h3>
+        <p style="color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 0;">25+ high-tech processing facilities strategically located across major Indian tech hubs, enabling rapid logistics.</p>
+      </div>
+      <div class="glass-panel reveal" style="padding: 2.5rem; transition-delay: 0.2s;">
+        <i class="fas fa-shield-alt text-warning mb-4" style="font-size: 2.5rem;"></i>
+        <h3 style="font-size: 1.5rem; font-family: var(--font-display); margin-bottom: 1rem;">Absolute Security</h3>
+        <p style="color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 0;">We deploy military-grade data wiping software alongside physical shredding of magnetic and solid-state media.</p>
+      </div>
+      <div class="glass-panel reveal" style="padding: 2.5rem; transition-delay: 0.3s;">
+        <i class="fas fa-leaf text-accent mb-4" style="font-size: 2.5rem;"></i>
+        <h3 style="font-size: 1.5rem; font-family: var(--font-display); margin-bottom: 1rem;">Complete Circularity</h3>
+        <p style="color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 0;">Maximizing base and precious metal recovery. Less than 0.1% of processed material goes to non-recoverable channels.</p>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes slideBG { 0% { background-position: 0 0; } 100% { background-position: 400px 400px; } }
+  @media(max-width:900px) { .glass-panel[style*="flex-direction:row"] { flex-direction:column !important; } }
+</style>
 {% endblock %}
