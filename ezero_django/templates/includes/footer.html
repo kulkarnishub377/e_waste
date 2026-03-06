@@ -6,15 +6,15 @@
     <div class="grid-4 mb-8">
       
       <div style="grid-column: span 1;">
-        <a href="{% url 'core:home' %}" class="logo mb-3">
-          <div class="logo-icon"><i class="fas fa-leaf"></i></div>
-          <span class="text-gradient">E-ZERO</span>
+        <a href="{% url 'core:home' %}" class="logo mb-4" style="display: inline-flex;">
+          <div class="logo-icon" style="width: 44px; height: 44px; font-size: 1.25rem;"><i class="fas fa-leaf"></i></div>
+          <span class="text-gradient" style="font-size: 1.5rem; letter-spacing: 1px;">E-ZERO</span>
         </a>
-        <p class="text-sm text-muted mb-4">{{ EZERO_SITE_TAGLINE }}</p>
+        <p class="text-sm text-muted mb-6" style="line-height: 1.6; padding-right: 1rem;">{{ EZERO_SITE_TAGLINE }}</p>
         <div style="display: flex; gap: 1rem;">
-          <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: all 0.3s ease;"><i class="fab fa-twitter"></i></a>
-          <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: all 0.3s ease;"><i class="fab fa-github"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
 
@@ -72,6 +72,26 @@
 
 <style>
   /* Local overrides for footer links */
-  footer a.text-muted:hover { color: var(--accent-light) !important; padding-left: 4px; }
+  footer a.text-muted:hover { color: var(--accent-light) !important; padding-left: 6px; }
   footer a.text-muted { transition: all 0.3s var(--ease-out); }
+  
+  .footer-social-btn {
+    width: 42px; 
+    height: 42px; 
+    border-radius: 50%; 
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px solid var(--glass-border); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    color: var(--text-muted); 
+    transition: all 0.3s var(--ease-out);
+  }
+  .footer-social-btn:hover {
+    background: var(--grad-primary);
+    color: #fff;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+  }
 </style>

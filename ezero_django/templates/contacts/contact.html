@@ -25,8 +25,9 @@
           <div style="display: flex; gap: 1rem; align-items: flex-start;">
             <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-light); font-size: 1.25rem; flex-shrink: 0;"><i class="fas fa-map-marker-alt"></i></div>
             <div>
-              <h4 style="font-size: 1rem; color: var(--text-pure); margin-bottom: 0.25rem;">Headquarters</h4>
+              <h4 style="font-size: 1rem; color: var(--text-pure); margin-bottom: 0.25rem;">Headquarters - Pune</h4>
               <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0; line-height: 1.5;">{{ EZERO_ADDRESS }}</p>
+              <p style="font-size: 0.8rem; color: var(--warning); margin: 0.25rem 0 0 0;"><i class="fas fa-clock mr-1"></i> 9:00 AM - 7:00 PM</p>
             </div>
           </div>
           
@@ -50,8 +51,9 @@
         <div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
           <h4 style="font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">Encrypted Channels</h4>
           <div style="display: flex; gap: 1rem;">
-            <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: transform 0.3s, background 0.3s;"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: transform 0.3s, background 0.3s;"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="footer-social-btn"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="footer-social-btn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="footer-social-btn"><i class="fab fa-instagram"></i></a>
           </div>
         </div>
       </div>
@@ -115,9 +117,10 @@
     </div>
     <div class="grid-2">
       {% for faq in faqs %}
-      <div class="glass-panel" style="padding: 2rem;">
-        <h4 style="font-family: var(--font-display); font-size: 1.125rem; color: var(--text-pure); margin-bottom: 0.75rem;"><i class="fas fa-question-circle text-cyan mr-2"></i> {{ faq.question }}</h4>
-        <p style="color: var(--text-muted); font-size: 0.9375rem; margin: 0; line-height: 1.6;">{{ faq.answer }}</p>
+      <style> .faq-card:hover { border-color: var(--accent-primary); box-shadow: 0 10px 30px rgba(16,185,129,0.1); transform: translateY(-3px); } .faq-card { transition: all 0.3s var(--ease-out); border: 1px solid var(--glass-border); } </style>
+      <div class="glass-panel faq-card" style="padding: 2.5rem;">
+        <h4 style="font-family: var(--font-display); font-size: 1.125rem; color: var(--text-pure); margin-bottom: 1rem;"><i class="fas fa-question-circle text-cyan mr-2" style="font-size: 1.25rem;"></i> {{ faq.question }}</h4>
+        <p style="color: var(--text-muted); font-size: 0.9375rem; margin: 0; line-height: 1.7;">{{ faq.answer }}</p>
       </div>
       {% endfor %}
     </div>

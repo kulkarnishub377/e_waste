@@ -108,6 +108,6 @@ LOGOUT_REDIRECT_URL = '/'
 # E-Zero Site Settings
 EZERO_SITE_NAME = 'E-Zero'
 EZERO_SITE_TAGLINE = 'Certified E-Waste Recycling & IT Asset Disposal Services'
-EZERO_PHONE = '+91 98765 43210'
+EZERO_PHONE = '+91-9876543210'
 EZERO_EMAIL = 'info@ezero.in'
-EZERO_ADDRESS = 'E-Zero Technologies Pvt. Ltd., 123 Green Business Park, Pune 411001'
+EZERO_ADDRESS = 'E-Zero Headquarters, 123 Green Business Park, Shivaji Nagar, Pune, 411005'
