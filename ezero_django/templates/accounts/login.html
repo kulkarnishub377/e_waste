@@ -3,40 +3,48 @@
 {% block title %}Login | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="auth-section">
-  <div class="container">
-    <div class="auth-card">
-      <div class="auth-header">
-        <i class="fas fa-sign-in-alt"></i>
-        <h2>Welcome Back</h2>
-        <p>Sign in to your E-Zero account</p>
+<section style="min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding-top: var(--header-height);">
+  <div style="position:absolute; width: 50vw; height: 50vh; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%); top: 40%; left: 50%; transform: translate(-50%, -50%); z-index: -1;"></div>
+
+  <div class="container" style="display: flex; justify-content: center;">
+    <div class="card-glass scroll-animate" style="width: 100%; max-width: 480px; padding: var(--space-8);">
+      <div class="text-center mb-4">
+        <div style="width: 64px; height: 64px; margin: 0 auto 1.5rem; background: var(--bg-surface); border: 1px solid var(--accent-primary); border-radius: var(--rad-2xl); display: flex; align-items: center; justify-content: center; font-size: 1.75rem; color: var(--accent-primary); box-shadow: var(--shadow-glow);">
+          <i class="fas fa-fingerprint"></i>
+        </div>
+        <h2 style="font-size: var(--text-3xl); margin-bottom: 0.5rem;">Welcome Back</h2>
+        <p style="color: var(--text-secondary); font-size: var(--text-sm);">Access your personalized E-Zero dashboard.</p>
       </div>
 
-      <form method="post" class="auth-form">
+      <form method="post" action="{% url 'accounts:login' %}">
         {% csrf_token %}
+        
         {% if form.errors %}
-        <div class="form-error-message">
-          <i class="fas fa-exclamation-circle"></i>
-          Invalid username or password. Please try again.
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--error); padding: 1rem; border-radius: var(--rad-lg); margin-bottom: 1.5rem; font-size: var(--text-sm); display: flex; gap: 0.75rem; align-items: flex-start;">
+          <i class="fas fa-exclamation-circle" style="margin-top: 2px;"></i>
+          <span>Invalid username or password. Let's try that again.</span>
         </div>
         {% endif %}
 
         <div class="form-group">
-          <label class="form-label">Username</label>
+          <label class="form-label" for="id_username">Username</label>
           {{ form.username }}
         </div>
-        <div class="form-group">
-          <label class="form-label">Password</label>
+        
+        <div class="form-group mb-4">
+          <label class="form-label" for="id_password">Password</label>
           {{ form.password }}
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg btn-block">
-          <i class="fas fa-sign-in-alt"></i> Sign In
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.125rem; font-size: var(--text-base);">
+          <i class="fas fa-sign-in-alt"></i> Secure Login
         </button>
       </form>
 
-      <div class="auth-footer">
-        <p>Don't have an account? <a href="{% url 'accounts:register' %}">Register here</a></p>
+      <div class="text-center" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-glass);">
+        <p style="color: var(--text-muted); font-size: var(--text-sm);">
+          New to E-Zero? <a href="{% url 'accounts:register' %}" style="color: var(--accent-primary); font-weight: 600;">Create an Account</a>
+        </p>
       </div>
     </div>
   </div>

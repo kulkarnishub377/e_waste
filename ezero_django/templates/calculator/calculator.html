@@ -4,57 +4,72 @@
 {% block title %}Pricing Calculator | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="calculator-section" id="calculator">
-  <div class="container">
-    <div class="section-title">
-      <span class="section-badge"><i class="fas fa-calculator"></i> Pricing Calculator</span>
-      <h2>Know What You'll Earn</h2>
-      <p>We pay you for your e-waste! Calculate your earnings instantly.</p>
-    </div>
+<section class="section" style="min-height: calc(100vh - var(--header-height)); display: flex; align-items: center; padding-top: calc(var(--header-height) + var(--space-8));">
+  <!-- Glowing orb background -->
+  <div style="position:absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%); top: 50%; left: 30%; transform: translate(-50%, -50%); z-index: -1;"></div>
 
-    <div class="calculator-layout">
-      <div class="calculator-main">
-        <div class="calculator-header">
-          <h4><i class="fas fa-desktop"></i> Select Items to Recycle</h4>
-          <span>Click + to add items</span>
-        </div>
-        <div class="calc-items-grid" id="items-grid">
+  <div class="container">
+    <header class="text-center scroll-animate mb-4">
+      <span class="badge badge-cyan mb-2"><i class="fas fa-calculator"></i> Value Estimator</span>
+      <h1 class="section-title-text" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem;">Instant Quote Calculator</h1>
+      <p style="margin: 0 auto; color: var(--text-secondary); max-width: 600px;">Select your e-waste items to instantly calculate their estimated recovery value. Prices reflect average working condition.</p>
+    </header>
+
+    <div class="grid-2 scroll-animate" style="gap: var(--space-8); max-width: 1000px; margin: 0 auto; align-items: start;">
+      
+      <!-- Items Grid -->
+      <div class="card-glass" style="padding: var(--space-6);">
+        <h3 class="mb-3" style="font-size: var(--text-xl); border-bottom: 1px solid var(--border-glass); padding-bottom: 1rem;">
+          <i class="fas fa-desktop text-accent"></i> Select Items
+        </h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-4);" id="items-grid">
           {% for item in items %}
-          <div class="calc-item" data-item="{{ item.slug }}" data-price="{{ item.price_per_unit }}">
-            <div class="calc-item-icon"><i class="{{ item.icon }}"></i></div>
-            <div class="calc-item-info">
-              <span class="calc-item-name">{{ item.name }}</span>
-              <span class="calc-item-price earn">Earn ₹{{ item.price_per_unit }}/{{ item.unit }}</span>
-            </div>
-            <div class="calc-item-qty">
-              <button class="calc-qty-btn" onclick="calcUpdateQty('{{ item.slug }}', -1)">-</button>
-              <span id="calc-qty-{{ item.slug }}">0</span>
-              <button class="calc-qty-btn" onclick="calcUpdateQty('{{ item.slug }}', 1)">+</button>
+          <div class="calc-item" data-item="{{ item.slug }}" data-price="{{ item.price_per_unit }}" 
+               style="background: rgba(15, 22, 38, 0.4); border: 1px solid var(--border-glass); border-radius: var(--rad-lg); padding: var(--space-3); transition: all var(--trans-base); text-align: center;">
+            <div style="font-size: 1.75rem; color: var(--text-primary); margin-bottom: 0.5rem;"><i class="{{ item.icon }}"></i></div>
+            <div style="font-weight: 500; font-size: var(--text-sm); color: var(--text-primary);">{{ item.name }}</div>
+            <div style="font-size: var(--text-xs); color: var(--text-accent); margin-bottom: 0.75rem;">₹{{ item.price_per_unit }}/{{ item.unit }}</div>
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-dark); border-radius: var(--rad-full); padding: 0.25rem; border: 1px solid var(--border-glass);">
+              <button class="btn-icon" onclick="calcUpdateQty('{{ item.slug }}', -1)" style="width: 28px; height: 28px; border-radius: 50%; border: none; background: rgba(255,255,255,0.05); color: #fff; cursor: pointer; transition: background 0.2s;"><i class="fas fa-minus text-xs"></i></button>
+              <span id="calc-qty-{{ item.slug }}" style="font-weight: 600; min-width: 20px;">0</span>
+              <button class="btn-icon" onclick="calcUpdateQty('{{ item.slug }}', 1)" style="width: 28px; height: 28px; border-radius: 50%; border: none; background: var(--accent-gradient); color: #fff; cursor: pointer; transition: transform 0.2s;"><i class="fas fa-plus text-xs"></i></button>
             </div>
           </div>
           {% empty %}
-          <p class="text-center">Calculator items will appear when data is seeded.</p>
+          <p class="text-muted">No items configured in the database.</p>
           {% endfor %}
         </div>
       </div>
 
-      <div class="calculator-sidebar">
-        <div class="summary-card">
-          <div class="summary-header">
-            <span class="summary-label">Potential Earnings</span>
-            <div class="total-amount" id="total-points">₹0</div>
-            <span class="total-badge" id="total-items">0 items selected</span>
+      <!-- Summary Panel -->
+      <div style="position: sticky; top: calc(var(--header-height) + 2rem);">
+        <div class="card-glass" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+          <h3 class="mb-4" style="font-size: var(--text-xl);">Estimated Value</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: var(--space-6);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-glass); padding-bottom: 1rem;">
+              <span style="color: var(--text-secondary);">Total Items</span>
+              <span id="total-items" style="font-weight: 600; color: #fff;">0</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: end;">
+              <span style="color: var(--text-secondary);">Total Payout</span>
+              <div id="total-points" style="font-family: var(--font-heading); font-size: 3rem; font-weight: 800; color: var(--accent-primary); line-height: 1; text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);">₹0</div>
+            </div>
           </div>
-          <div class="summary-actions">
-            <a href="{% url 'bookings:create' %}" class="btn btn-primary btn-lg btn-block">
-              <i class="fas fa-truck"></i> Schedule Pickup
-            </a>
-            <p class="estimate-note">
-              <i class="fas fa-info-circle"></i> Estimated value based on working condition
-            </p>
+
+          <div style="background: rgba(15, 22, 38, 0.6); border-radius: var(--rad-md); padding: 1rem; margin-bottom: var(--space-6); font-size: var(--text-sm); color: var(--text-muted);">
+            <i class="fas fa-info-circle text-accent"></i> Final quote will be provided after physical evaluation of the devices.
           </div>
+
+          <a href="{% url 'bookings:create' %}" class="btn btn-primary" style="width: 100%; padding: 1.25rem;">
+            <i class="fas fa-truck"></i> Schedule Pickup Now
+          </a>
         </div>
       </div>
+
     </div>
   </div>
 </section>
