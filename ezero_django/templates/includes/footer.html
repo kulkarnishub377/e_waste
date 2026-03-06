@@ -3,6 +3,23 @@
   <div style="position: absolute; bottom: 0; left: 50%; width: 60vw; height: 300px; background: radial-gradient(ellipse at bottom, rgba(16, 185, 129, 0.15), transparent 70%); transform: translateX(-50%); pointer-events: none;"></div>
 
   <div class="container relative z-10">
+    
+    <!-- Newsletter Subscribe CTA -->
+    <div class="mb-8 pb-8" style="border-bottom: 1px solid var(--glass-border);">
+      <div class="glass-panel" style="padding: 3rem; background: linear-gradient(135deg, rgba(3, 7, 18, 0.9), rgba(16, 185, 129, 0.05)); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; border-color: rgba(16, 185, 129, 0.2);">
+        <div style="max-width: 500px;">
+          <h3 style="font-family: var(--font-display); font-size: 1.75rem; color: var(--text-pure); margin-bottom: 0.5rem;"><i class="fas fa-paper-plane text-accent mr-2"></i> Join the Zero-Waste Movement</h3>
+          <p style="color: var(--text-muted); font-size: 0.9375rem; margin: 0; line-height: 1.6;">Subscribe to our newsletter for the latest e-waste regulations, sustainability reports, and exclusive ESG insights.</p>
+        </div>
+        <div style="flex: 1; min-width: 300px; position: relative;">
+          <form style="display: flex; gap: 0.5rem;" onsubmit="event.preventDefault(); this.innerHTML='<div style=\'color: var(--accent-light); font-weight: 600; padding: 1rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); text-align: center; width: 100%;\'><i class=\'fas fa-check-circle mr-2\'></i> Successfully subscribed to E-Zero Insights!</div>';">
+            <input type="email" placeholder="Enter your enterprise email..." required style="flex: 1; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); padding: 1rem 1.5rem; border-radius: var(--radius-md); color: var(--text-pure); outline: none; transition: all 0.3s;" onfocus="this.style.borderColor='var(--accent-primary)'" onblur="this.style.borderColor='var(--glass-border)'">
+            <button type="submit" class="btn btn-primary" style="padding: 1rem 2.5rem; border-radius: var(--radius-md);"><i class="fas fa-arrow-right"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="footer-grid mb-8">
       
       <div class="footer-brand-col">

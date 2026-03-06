@@ -7,12 +7,17 @@
       <span class="text-gradient">E-ZERO</span>
     </a>
 
-    <nav class="desktop-nav">
+    <nav class="desktop-nav" style="display: flex; align-items: center; gap: 1.5rem;">
       <a href="{% url 'core:home' %}" class="nav-link {% active_nav request 'core:home' %}">Home</a>
       <a href="{% url 'core:about' %}" class="nav-link {% active_nav request 'core:about' %}">About Us</a>
       <a href="{% url 'centers:list' %}" class="nav-link {% active_nav request 'centers:list' %}">Locations</a>
       <a href="{% url 'calculator:calculator' %}" class="nav-link {% active_nav request 'calculator:calculator' %}">Value Estimator</a>
       <a href="{% url 'bookings:create' %}" class="nav-link {% active_nav request 'bookings:create' %}">Schedule Pickup</a>
+      <!-- Network Status -->
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1rem; padding-left: 1.5rem; border-left: 1px solid var(--glass-border); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.1em;">
+        <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-light); box-shadow: 0 0 10px var(--accent-electric); animation: blink 2s infinite;"></div>
+        Network Online
+      </div>
     </nav>
 
     <div class="header-actions">

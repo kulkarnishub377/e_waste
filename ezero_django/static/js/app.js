@@ -3,6 +3,40 @@
 // Coordinates animations, dynamic interactions, and the calculator logic
 // ==========================================================================
 
+// Global Page Load & Preloader
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('ezero-preloader');
+    if (preloader) {
+        // Add fake delay for "OS Boot" effect if desired, or remove instantly
+        setTimeout(() => {
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            document.body.classList.remove('loading');
+            
+            // Trigger 3D Tilt Initialization
+            if (typeof VanillaTilt !== 'undefined') {
+                VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+                    max: 15,
+                    speed: 400,
+                    glare: true,
+                    "max-glare": 0.2,
+                });
+            }
+        }, 800);
+    }
+});
+
+// Scroll Progress Engine
+window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    const progressBar = document.getElementById('scroll-progress-bar');
+    if (progressBar) {
+        progressBar.style.width = scrolled + '%';
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 
     /**

@@ -102,7 +102,7 @@
 
     <div class="grid-3">
       {% for service in services %}
-      <div class="glass-panel reveal" style="padding: 2.5rem; transition-delay: 0.{{ forloop.counter }}s;">
+      <div class="glass-panel tilt-card reveal" style="padding: 2.5rem; transition-delay: 0.{{ forloop.counter }}s;">
         <!-- Glowing Icon Header -->
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
           <div style="width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(6,182,212,0.1)); border: 1px solid var(--glass-border-highlight); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--accent-electric); box-shadow: var(--shadow-glow);">
@@ -184,7 +184,7 @@
 
     <div class="grid-4">
       {% for stat in impact_stats %}
-      <div class="glass-panel reveal" style="padding: 3rem 1.5rem; transition-delay: 0.{{ forloop.counter }}s;">
+      <div class="glass-panel tilt-card reveal" style="padding: 3rem 1.5rem; transition-delay: 0.{{ forloop.counter }}s;">
         <i class="{{ stat.icon }} mb-4" style="font-size: 2.5rem; color: var(--accent-electric); filter: drop-shadow(0 0 10px rgba(0,255,157,0.4));"></i>
         <div class="impact-value" data-target="{{ stat.target_value }}" style="font-family: var(--font-display); font-size: 3rem; font-weight: 700; color: var(--text-pure); line-height: 1; margin-bottom: 0.5rem;">0</div>
         <div style="font-size: 1rem; font-weight: 600; color: var(--accent-light); margin-bottom: 1.5rem;">{{ stat.unit }}</div>

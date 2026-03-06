@@ -20,8 +20,22 @@
   
   {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="loading">
   
+  <!-- Premium Global Preloader -->
+  <div id="ezero-preloader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #020617; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s var(--ease-out), visibility 0.8s;">
+    <div style="width: 80px; height: 80px; border-radius: 50%; border: 2px dashed rgba(16, 185, 129, 0.3); border-top-color: var(--accent-light); animation: spin 1.5s linear infinite; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+      <i class="fas fa-leaf" style="font-size: 2rem; color: var(--accent-light); animation: pulse 2s infinite;"></i>
+    </div>
+    <div style="font-family: var(--font-display); font-size: 1.25rem; letter-spacing: 0.2em; color: var(--text-pure); text-transform: uppercase;">Booting E-Zero OS</div>
+    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.5rem;"><div style="width:6px; height:6px; background:var(--accent-electric); border-radius:50%; box-shadow:0 0 10px var(--accent-electric); animation:blink 1s infinite;"></div> Initializing Network...</div>
+  </div>
+
+  <!-- Scroll Progress Indicator -->
+  <div id="scroll-progress-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: transparent; z-index: 99998; pointer-events: none;">
+    <div id="scroll-progress-bar" style="width: 0%; height: 100%; background: var(--grad-primary); box-shadow: 0 0 10px var(--accent-electric); transition: width 0.1s;"></div>
+  </div>
+
   <!-- Deep Space Ambient FX -->
   <div class="ambient-bg"></div>
   <div class="noise-overlay"></div>
@@ -78,7 +92,13 @@
 
   <style>
     @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; }}
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    body.loading { overflow: hidden; }
   </style>
+
+  <!-- External Libraries for Interactions -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
 
   {% block extra_scripts %}{% endblock %}
 </body>

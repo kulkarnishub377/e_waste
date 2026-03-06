@@ -57,6 +57,66 @@
       </div>
     </div>
 
+    <!-- Gamification & Progress Section -->
+    <div class="grid-2 mb-8">
+      <!-- Level Progress -->
+      <div class="glass-panel" style="padding: 2.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.25rem; font-family: var(--font-display);"><i class="fas fa-trophy text-warning mr-2"></i> Eco-Warrior Status</h3>
+          <span class="badge badge-warning">Level {{ user.profile.level|default:"1" }}</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">You are in the top 15% of recyclers this month! Keep it up to reach Level {{ user.profile.level|default:"1"|add:"1" }}.</p>
+        
+        <!-- Progress Bar -->
+        <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 0.75rem; overflow: hidden; position: relative; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
+          <div style="width: 65%; height: 100%; background: var(--grad-primary); border-radius: 4px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); position: relative;">
+            <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: progressGlow 2s infinite;"></div>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; color: var(--text-muted);">
+          <span>{{ user.profile.wallet_points|default:"0" }} pts</span>
+          <span>500 pts to next rank</span>
+        </div>
+      </div>
+
+      <!-- Recent Achievements/Badges -->
+      <div class="glass-panel" style="padding: 2.5rem;">
+        <h3 style="font-size: 1.25rem; font-family: var(--font-display); margin-bottom: 1.5rem;"><i class="fas fa-medal text-cyan mr-2"></i> Unlocked Badges</h3>
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+          
+          <div style="text-align: center; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(16, 185, 129, 0.1); border: 2px solid var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--accent-electric); margin-bottom: 0.5rem; box-shadow: 0 0 15px rgba(16,185,129,0.2);">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-pure); font-weight: 600;">First Seed</span>
+          </div>
+          
+          <div style="text-align: center; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(8, 145, 178, 0.1); border: 2px solid var(--cyan-light); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--cyan-electric); margin-bottom: 0.5rem; box-shadow: 0 0 15px rgba(8,145,178,0.2);">
+              <i class="fas fa-desktop"></i>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-pure); font-weight: 600;">Hardware Hero</span>
+          </div>
+
+          <!-- Locked Badge -->
+          <div style="text-align: center; opacity: 0.4; filter: grayscale(1); cursor: not-allowed;">
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--glass-bg); border: 1px dashed var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-muted);">
+              <i class="fas fa-lock"></i>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">100kg Club</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <style>
+      @keyframes progressGlow {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+    </style>
+
     <!-- Active Bookings System -->
     <div class="glass-panel" style="padding: 2.5rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">
