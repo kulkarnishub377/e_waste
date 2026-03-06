@@ -2,186 +2,256 @@
 {% load static core_tags %}
 
 {% block content %}
-<!-- ============================================ -->
-<!-- HERO SECTION -->
-<!-- ============================================ -->
+<!-- ==========================================================================
+     HERO SECTION (V2 MASTERPIECE)
+     ========================================================================== -->
 <section class="hero" id="home">
-  <div class="container hero-grid">
+  <div class="container hero-grid" style="position:relative; z-index:10;">
     <div class="hero-content">
-      <span class="badge badge-cyan mb-2 scroll-animate"><i class="fas fa-certificate"></i> India's #1 Certified Partner</span>
-      <h1 class="scroll-animate" style="transition-delay: 0.1s">
-        Eco-Friendly <br>
-        <span class="text-gradient">E-Waste Solutions</span> <br>
-        For A Cleaner Future
-      </h1>
-      <p class="scroll-animate" style="transition-delay: 0.2s">
-        Secure IT asset disposal, NIST-compliant data destruction, and certified e-waste recycling for enterprises and individuals.
-      </p>
-      <div class="hero-actions scroll-animate" style="transition-delay: 0.3s">
-        <a href="{% url 'bookings:create' %}" class="btn btn-primary btn-lg">
-          <i class="fas fa-truck"></i> Schedule Pickup
-        </a>
-        <a href="{% url 'calculator:calculator' %}" class="btn btn-secondary btn-lg">
-          <i class="fas fa-calculator"></i> Estimate Value
-        </a>
-      </div>
+      <div class="badge reveal reveal-delay-1 mb-3"><span style="width:8px; height:8px; border-radius:50%; background:var(--accent-electric); display:inline-block; box-shadow: 0 0 10px var(--accent-electric);"></span> THE FUTURE OF RECYCLING</div>
       
-      <div class="mt-4 scroll-animate" style="transition-delay: 0.4s">
-        <p class="text-sm text-muted">Trusted by 500+ enterprises including:</p>
-        <div style="display:flex; gap: 1.5rem; margin-top: 1rem; opacity: 0.6; filter: grayscale(100%);">
-          <!-- Placeholder logos for premium feel -->
-          <i class="fab fa-aws fa-2x"></i>
-          <i class="fab fa-microsoft fa-2x"></i>
-          <i class="fab fa-google fa-2x"></i>
-          <i class="fab fa-apple fa-2x"></i>
-        </div>
+      <h1 class="reveal reveal-delay-2">
+        <span style="display:block; font-weight:300; color:var(--text-muted);">SUSTAINABLE</span>
+        <span class="text-gradient" style="font-weight:800; font-size:1.1em; letter-spacing:-0.04em;">E-WASTE</span>
+        <span style="display:block;">SOLUTIONS.</span>
+      </h1>
+      
+      <p class="hero-subtitle reveal reveal-delay-3" style="max-width: 600px;">
+        Advanced IT asset disposition and NIST-compliant data destruction. We transform electronic liability into environmental assets with 100% zero-landfill guarantee.
+      </p>
+      
+      <div class="hero-actions reveal reveal-delay-3" style="animation-delay: 0.4s;">
+        <a href="{% url 'bookings:create' %}" class="btn btn-primary" style="padding: 1.25rem 2.5rem; font-size: 1.125rem;">
+          <i class="fas fa-bolt"></i> Initialize Pickup
+        </a>
+        <a href="{% url 'calculator:calculator' %}" class="btn btn-secondary" style="padding: 1.25rem 2.5rem; font-size: 1.125rem;">
+          <i class="fas fa-microchip"></i> Estimate Value
+        </a>
       </div>
     </div>
     
-    <div class="hero-visual scroll-animate">
-      <div style="position:absolute; width: 400px; height: 400px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+    <div class="hero-visual reveal reveal-delay-2">
+      <!-- Deep Glowing Core -->
+      <div style="position:absolute; width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); opacity:0.6;"></div>
       
-      <div class="floating-glass-card coord-1">
-        <div class="fgc-icon"><i class="fas fa-shield-alt"></i></div>
+      <!-- 3D Floating Glass Panels -->
+      <div class="float-element float-1">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(8, 145, 178, 0.2); border: 1px solid rgba(8, 145, 178, 0.4); display: flex; align-items: center; justify-content: center; color: var(--cyan-electric); font-size: 1.5rem;"><i class="fas fa-shield-alt"></i></div>
         <div>
-          <strong style="color:var(--text-primary); display:block; font-size: 1.25rem;">100% Secure</strong>
-          <span style="color:var(--text-secondary); font-size: 0.875rem;">NIST Data Wiping</span>
+          <div style="font-family: var(--font-display); font-weight: 700; color: var(--text-pure); line-height: 1.2;">NIST 800-88</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Data Sanitization</div>
         </div>
       </div>
       
-      <div class="floating-glass-card coord-2">
-        <div class="fgc-icon" style="background: rgba(6, 182, 212, 0.2); color: var(--accent-secondary); border-color: rgba(6, 182, 212, 0.3);"><i class="fas fa-certificate"></i></div>
+      <div class="float-element float-2">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); display: flex; align-items: center; justify-content: center; color: var(--accent-electric); font-size: 1.5rem;"><i class="fas fa-leaf"></i></div>
         <div>
-          <strong style="color:var(--text-primary); display:block; font-size: 1.25rem;">CPCB Certified</strong>
-          <span style="color:var(--text-secondary); font-size: 0.875rem;">Zero Landfill Policy</span>
+          <div style="font-family: var(--font-display); font-weight: 700; color: var(--text-pure); line-height: 1.2;">Zero Landfill</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">100% Recovery</div>
         </div>
       </div>
       
-      <div class="floating-glass-card coord-3">
-        <div class="fgc-icon" style="background: rgba(59, 130, 246, 0.2); color: var(--info); border-color: rgba(59, 130, 246, 0.3);"><i class="fas fa-globe-asia"></i></div>
+      <div class="float-element float-3">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); display: flex; align-items: center; justify-content: center; color: var(--warning); font-size: 1.5rem;"><i class="fas fa-certificate"></i></div>
         <div>
-          <strong style="color:var(--text-primary); display:block; font-size: 1.25rem;">Pan-India</strong>
-          <span style="color:var(--text-secondary); font-size: 0.875rem;">25+ Facilities</span>
+          <div style="font-family: var(--font-display); font-weight: 700; color: var(--text-pure); line-height: 1.2;">CPCB Auth</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Govt Certified</div>
         </div>
+      </div>
+
+      <!-- Main abstract visual representing a tech sphere/core -->
+      <div style="width: 320px; height: 320px; border-radius: 50%; border: 1px solid rgba(16, 185, 129, 0.3); position: relative; display: flex; align-items: center; justify-content: center; transform-style: preserve-3d; animation: rotateSphere 20s linear infinite;">
+        <div style="position:absolute; width: 100%; height: 100%; border-radius: 50%; border: 1px dashed rgba(6, 182, 212, 0.4); transform: rotateX(60deg);"></div>
+        <div style="position:absolute; width: 100%; height: 100%; border-radius: 50%; border: 1px dashed rgba(16, 185, 129, 0.4); transform: rotateY(60deg);"></div>
+        <i class="fas fa-microchip" style="font-size: 4rem; color: var(--text-pure); filter: drop-shadow(0 0 20px var(--accent-glow)); transform: translateZ(50px);"></i>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- STATS BANNER -->
-<!-- ============================================ -->
-<section style="background: rgba(15, 22, 38, 0.5); border-top: 1px solid var(--border-glass); border-bottom: 1px solid var(--border-glass); padding: var(--space-8) 0; position:relative; overflow:hidden;">
-  <div class="container grid-4">
+<!-- ==========================================================================
+     STATISTICS MATRIX
+     ========================================================================== -->
+<section style="background: var(--bg-surface-elevated); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 5rem 0; position: relative; overflow: hidden;">
+  <!-- Grid overlay -->
+  <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image: linear-gradient(var(--glass-border) 1px, transparent 1px), linear-gradient(90deg, var(--glass-border) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.2; pointer-events: none;"></div>
+
+  <div class="container grid-4 relative z-10">
     {% for stat in stats %}
-    <div class="text-center scroll-animate" style="transition-delay: 0.{{ forloop.counter }}s">
-      <div style="font-size: 2rem; color: var(--accent-primary); margin-bottom: var(--space-2);"><i class="{{ stat.icon }}"></i></div>
-      <div style="font-size: var(--text-4xl); font-family: var(--font-heading); font-weight: 800; color: #fff;">{{ stat.value }}</div>
-      <div style="color: var(--text-muted); text-transform: uppercase; font-size: var(--text-xs); letter-spacing: 0.05em;">{{ stat.label }}</div>
+    <div class="reveal text-center" style="transition-delay: 0.{{ forloop.counter }}s;">
+      <div style="font-size: 2.5rem; color: var(--accent-light); margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(16,185,129,0.3));"><i class="{{ stat.icon }}"></i></div>
+      <div style="font-family: var(--font-display); font-size: 3.5rem; font-weight: 700; color: var(--text-pure); line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.05em;">{{ stat.value }}</div>
+      <div style="color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em;">{{ stat.label }}</div>
     </div>
     {% endfor %}
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- SERVICES GRID -->
-<!-- ============================================ -->
+<!-- ==========================================================================
+     CORE SERVICES - BENTO GRID
+     ========================================================================== -->
 <section class="section" id="services">
   <div class="container">
-    <header class="section-header scroll-animate">
-      <span class="badge mb-2"><i class="fas fa-layer-group"></i> Solutions</span>
-      <h2 class="section-title-text">Comprehensive E-Waste Solutions</h2>
-      <p style="margin: 0 auto; margin-top: var(--space-4);">End-to-end IT Asset Disposition (ITAD) and recycling services tailored for both enterprises and households across India.</p>
-    </header>
+    <div class="text-center mb-8 reveal">
+      <div class="badge mb-3">Enterprise Solutions</div>
+      <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem;" class="text-gradient">End-to-End Processing</h2>
+      <p style="margin: 0 auto; font-size: 1.125rem; color: var(--text-muted); max-width: 800px;">
+        State-of-the-art facilities equipped to handle everything from secure server decommissioning to mass corporate recycling drives.
+      </p>
+    </div>
 
     <div class="grid-3">
       {% for service in services %}
-      <div class="card-glass scroll-animate" style="transition-delay: 0.{{ forloop.counter }}s">
-        <div class="fgc-icon mb-3" style="width: 60px; height: 60px; font-size: 1.75rem;"><i class="{{ service.icon }}"></i></div>
-        <h3 class="mb-2" style="font-size: var(--text-2xl);">{{ service.name }}</h3>
-        <p class="mb-4 text-sm">{{ service.description }}</p>
-        <ul style="display:flex; flex-direction: column; gap: 0.5rem; margin-bottom: var(--space-6);">
+      <div class="glass-panel reveal" style="padding: 2.5rem; transition-delay: 0.{{ forloop.counter }}s;">
+        <!-- Glowing Icon Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+          <div style="width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(6,182,212,0.1)); border: 1px solid var(--glass-border-highlight); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--accent-electric); box-shadow: var(--shadow-glow);">
+            <i class="{{ service.icon }}"></i>
+          </div>
+          <div style="font-family: var(--font-display); font-weight: 700; font-size: 3rem; color: rgba(255,255,255,0.05); line-height: 1;">0{{ forloop.counter }}</div>
+        </div>
+        
+        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">{{ service.name }}</h3>
+        <p style="font-size: 0.9375rem; margin-bottom: 2rem; min-height: 60px;">{{ service.description }}</p>
+        
+        <ul style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2.5rem;">
           {% for feature in service.features %}
-          <li style="font-size: var(--text-sm); display:flex; gap: 0.5rem; align-items: flex-start;">
-            <i class="fas fa-check-circle text-accent" style="margin-top: 3px;"></i> {{ feature }}
+          <li style="display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.875rem; color: var(--text-muted);">
+            <i class="fas fa-check text-cyan" style="margin-top: 4px; font-size: 0.75rem;"></i>
+            <span>{{ feature }}</span>
           </li>
           {% endfor %}
         </ul>
-        <a href="{% url 'bookings:create' %}" class="btn btn-secondary" style="width: 100%;">Book Service</a>
+        
+        <a href="{% url 'bookings:create' %}" class="btn btn-secondary" style="width: 100%; border-radius: var(--radius-lg); padding: 0.875rem;">Initiate Service <i class="fas fa-arrow-right ml-2" style="font-size:0.75rem;"></i></a>
       </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- PROCESS TIMELINE -->
-<!-- ============================================ -->
-<section class="section" id="process" style="background: rgba(15, 22, 38, 0.3);">
-  <div class="container text-center">
-    <header class="section-header scroll-animate">
-      <span class="badge badge-cyan mb-2"><i class="fas fa-cogs"></i> How It Works</span>
-      <h2 class="section-title-text">Streamlined Process</h2>
-      <p style="margin: 0 auto; margin-top: var(--space-4);">Our certified 5-step process ensures maximum material recovery, total data security, and complete legal compliance.</p>
-    </header>
+<!-- ==========================================================================
+     PROCESS PIPELINE
+     ========================================================================== -->
+<section class="section" id="process" style="background: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%2310B981\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
+  <div class="container relative">
+    <div class="text-center mb-8 reveal">
+      <div class="badge mb-3 badge-cyan">The Pipeline</div>
+      <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem;" class="text-gradient">Secure. Compliant. Transparent.</h2>
+    </div>
 
-    <div style="display: flex; justify-content: space-between; gap: var(--space-4); margin-top: var(--space-12); position: relative; flex-wrap: wrap;">
-      <!-- Timeline stroke -->
-      <div style="position: absolute; top: 40px; left: 5%; right: 5%; height: 2px; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)); opacity: 0.3; z-index: 0; display: none; @media(min-width:1024px){display:block;}"></div>
-      
-      {% for step in process_steps %}
-      <div class="scroll-animate" style="flex: 1; min-width: 200px; padding: var(--space-4); position: relative; z-index: 1; text-align: center; transition-delay: 0.{{ forloop.counter }}s">
-        <div style="width: 80px; height: 80px; margin: 0 auto var(--space-4); background: var(--bg-surface); border: 2px solid var(--accent-secondary); border-radius: var(--rad-full); display:flex; align-items:center; justify-content:center; font-size: 2rem; color: #fff; box-shadow: var(--shadow-glow);">
-          <i class="{{ step.icon }}"></i>
+    <div style="position: relative; max-width: 1000px; margin: 0 auto;">
+      <!-- Main Process Line -->
+      <div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: linear-gradient(to bottom, transparent, var(--accent-light), var(--cyan-light), var(--accent-light), transparent); transform: translateX(-50%); opacity: 0.3; @media(max-width:768px){left: 20px;}"></div>
+
+      <!-- Steps -->
+      <div style="display: flex; flex-direction: column; gap: 4rem;">
+        {% for step in process_steps %}
+        <div class="reveal" style="display: flex; align-items: center; justify-content: space-between; position: relative; width: 100%; flex-direction: {% cycle 'row' 'row-reverse' %};">
+          
+          <!-- Node -->
+          <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: var(--bg-base); border: 2px solid var(--accent-electric); border-radius: 50%; z-index: 2; box-shadow: 0 0 15px var(--accent-glow);">
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; background: var(--cyan-electric); border-radius: 50%;"></div>
+          </div>
+
+          <!-- Content Card -->
+          <div style="width: calc(50% - 3rem); display: flex; justify-content: {% cycle 'flex-end' 'flex-start' %};">
+            <div class="glass-panel" style="padding: 2rem; text-align: {% cycle 'right' 'left' %}; width: 100%;">
+              <div style="font-family: var(--font-display); font-size: 1.5rem; color: var(--text-dark); font-weight: 700; margin-bottom: 0.5rem;">{{ step.number }}</div>
+              <h4 style="font-size: 1.25rem; color: var(--text-pure); margin-bottom: 1rem;"><i class="{{ step.icon }} text-accent mr-2"></i> {{ step.title }}</h4>
+              <p style="font-size: 0.9375rem; margin-bottom: 0; color: var(--text-muted);">{{ step.description }}</p>
+            </div>
+          </div>
+          
+          <!-- Spacer for the other side -->
+          <div style="width: calc(50% - 3rem);"></div>
         </div>
-        <div style="font-family: var(--font-heading); font-size: var(--text-xl); font-weight: 700; color: var(--accent-secondary); margin-bottom: 0.25rem;">{{ step.number }}</div>
-        <h4 class="mb-2" style="font-size: var(--text-lg);">{{ step.title }}</h4>
-        <p class="text-sm">{{ step.description }}</p>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- IMPACT COUNTERS -->
-<!-- ============================================ -->
-<section class="section impact-section" id="impact" style="position:relative; overflow:hidden;">
-  <!-- Background Glow -->
-  <div style="position:absolute; width: 800px; height: 300px; background: var(--accent-glow); filter: blur(150px); top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1;"></div>
-  
-  <div class="container text-center">
-    <header class="section-header scroll-animate">
-      <span class="badge mb-2"><i class="fas fa-globe-americas"></i> Our Impact</span>
-      <h2 class="section-title-text" style="background: linear-gradient(135deg, #fff, #10B981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Making A Real Difference</h2>
-    </header>
+<!-- ==========================================================================
+     ENVIRONMENTAL IMPACT
+     ========================================================================== -->
+<section class="section" style="position: relative; overflow: hidden; background: radial-gradient(circle at center, rgba(8, 145, 178, 0.1) 0%, var(--bg-base) 100%); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);">
+  <div class="container text-center relative z-10">
+    <div class="reveal mb-8">
+      <h2 style="font-size: clamp(2.5rem, 5vw, 4rem);" class="text-gradient">Measurable Impact</h2>
+      <p style="max-width: 600px; margin: 1.5rem auto 0; font-size: 1.125rem;">Our operations translate directly to massive carbon offsets and recovered raw materials.</p>
+    </div>
 
     <div class="grid-4">
       {% for stat in impact_stats %}
-      <div class="card-glass text-center scroll-animate" style="padding: var(--space-6); transition-delay: 0.{{ forloop.counter }}s">
-        <div style="font-size: 2.5rem; color: var(--accent-primary); margin-bottom: var(--space-4);"><i class="{{ stat.icon }}"></i></div>
-        <div class="impact-value" data-target="{{ stat.target_value }}" style="font-family: var(--font-heading); font-size: var(--text-4xl); font-weight: 800; color: #fff; line-height: 1;">0</div>
-        <div style="color: var(--accent-primary); font-weight: 600; margin-bottom: var(--space-4); font-size: var(--text-lg);">{{ stat.unit }}</div>
-        <h4 style="font-size: var(--text-base); margin-bottom: var(--space-2);">{{ stat.label }}</h4>
-        <p style="font-size: var(--text-xs); color: var(--text-muted);"><i class="{{ stat.equivalent_icon }}"></i> {{ stat.equivalent_text }}</p>
+      <div class="glass-panel reveal" style="padding: 3rem 1.5rem; transition-delay: 0.{{ forloop.counter }}s;">
+        <i class="{{ stat.icon }} mb-4" style="font-size: 2.5rem; color: var(--accent-electric); filter: drop-shadow(0 0 10px rgba(0,255,157,0.4));"></i>
+        <div class="impact-value" data-target="{{ stat.target_value }}" style="font-family: var(--font-display); font-size: 3rem; font-weight: 700; color: var(--text-pure); line-height: 1; margin-bottom: 0.5rem;">0</div>
+        <div style="font-size: 1rem; font-weight: 600; color: var(--accent-light); margin-bottom: 1.5rem;">{{ stat.unit }}</div>
+        <div style="font-family: var(--font-display); font-size: 1.125rem; color: var(--text-pure); margin-bottom: 0.5rem;">{{ stat.label }}</div>
+        <div style="font-size: 0.875rem; color: var(--text-muted);"><i class="{{ stat.equivalent_icon }} mr-1"></i> {{ stat.equivalent_text }}</div>
       </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- ============================================ -->
-<!-- CTA FOOTER HERO -->
-<!-- ============================================ -->
-<section class="section text-center" style="background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.1)); border-top: 1px solid var(--border-glass);">
-  <div class="container scroll-animate">
-    <h2 class="section-title-text" style="margin-bottom: var(--space-6);">Ready to responsibly recycle your e-waste?</h2>
-    <p style="margin: 0 auto var(--space-8); font-size: var(--text-xl);">Join thousands of enterprises and households making a positive impact.</p>
-    <div style="display:flex; gap: var(--space-4); justify-content: center;">
-      <a href="{% url 'bookings:create' %}" class="btn btn-primary btn-lg"><i class="fas fa-calendar-check"></i> Book a Pickup</a>
-      <a href="{% url 'contacts:contact' %}" class="btn btn-secondary btn-lg"><i class="fas fa-envelope"></i> Contact Us</a>
+<!-- ==========================================================================
+     CTA FOOTER
+     ========================================================================== -->
+<section class="section text-center" style="position: relative;">
+  <div class="container reveal">
+    <h2 style="font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5rem); font-weight: 700; margin-bottom: 2rem;">Ready to <span class="text-gradient" style="font-style: italic;">Upgrade</span> your disposal?</h2>
+    <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+      <a href="{% url 'bookings:create' %}" class="btn btn-primary" style="padding: 1.25rem 3rem; font-size: 1.125rem;">Schedule Pickup</a>
+      <a href="{% url 'contacts:contact' %}" class="btn btn-secondary" style="padding: 1.25rem 3rem; font-size: 1.125rem; border-color: var(--glass-border);">Contact Enterprise Sales</a>
     </div>
   </div>
 </section>
 
+<style>
+  @keyframes rotateSphere { 0% { transform: rotateX(0) rotateY(0); } 100% { transform: rotateX(360deg) rotateY(360deg); } }
+  .mr-1 { margin-right: 0.25rem; } .mr-2 { margin-right: 0.5rem; }
+  
+  /* Mobile Process adjustments inline */
+  @media (max-width: 768px) {
+    .process-timeline > div { flex-direction: row !important; }
+    .process-timeline .glass-panel { max-width: 100%; text-align: left !important; margin-left: 2rem; }
+  }
+</style>
+
+<script>
+  // Simple Counter Animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const counters = document.querySelectorAll('.impact-value');
+    const speed = 200;
+
+    const animateCounters = () => {
+      counters.forEach(counter => {
+        const updateCount = () => {
+          const target = +counter.getAttribute('data-target');
+          const count = +counter.innerText;
+          const inc = target / speed;
+
+          if (count < target) {
+            counter.innerText = Math.ceil(count + inc);
+            setTimeout(updateCount, 1);
+          } else {
+            counter.innerText = target.toLocaleString();
+          }
+        };
+        updateCount();
+      });
+    };
+
+    // Run on observe
+    const statObserver = new IntersectionObserver((entries) => {
+      if(entries[0].isIntersecting) {
+        animateCounters();
+        statObserver.disconnect();
+      }
+    });
+    statObserver.observe(counters[0]);
+  });
+</script>
 {% endblock %}

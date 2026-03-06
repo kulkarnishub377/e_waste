@@ -15,25 +15,27 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   
-  <!-- New Premium Design System -->
+  <!-- V2 Masterpiece Design System -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   
   {% block extra_head %}{% endblock %}
 </head>
 <body>
   
+  <!-- Deep Space Ambient FX -->
+  <div class="ambient-bg"></div>
+  <div class="noise-overlay"></div>
+
   {% include 'includes/header.html' %}
 
   <!-- Django Messages via Notification System -->
   {% if messages %}
-  <div class="notification-container" id="django-messages">
+  <div class="notification-container" id="django-messages" style="position:fixed; top:100px; right:20px; z-index:9999; display:flex; flex-direction:column; gap:10px;">
     {% for message in messages %}
-    <div class="notification notification-{{ message.tags }}">
-      <div class="notification-content">
-        <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %}"></i>
-        <span>{{ message }}</span>
-      </div>
-      <button class="notification-close" onclick="this.parentElement.remove()">&times;</button>
+    <div class="notification notification-{{ message.tags }} glass-panel" style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; animation: slideInRight 0.5s var(--ease-elastic);">
+      <i class="fas {% if message.tags == 'success' %}fa-check-circle text-success{% elif message.tags == 'error' %}fa-exclamation-circle text-error{% else %}fa-info-circle text-cyan{% endif %}" style="font-size:1.5rem;"></i>
+      <span style="font-weight: 500;">{{ message }}</span>
+      <button class="notification-close" onclick="this.parentElement.remove()" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:1.25rem;">&times;</button>
     </div>
     {% endfor %}
   </div>
@@ -49,17 +51,34 @@
   <!-- Core Scripts -->
   <script src="{% static 'js/app.js' %}"></script>
   
-  <!-- Notification Auto-dismiss logic -->
+  <!-- Notification Auto-dismiss logic & Reveal Animation Observer -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Notifications
       document.querySelectorAll('#django-messages .notification').forEach((notif, i) => {
         setTimeout(() => {
           notif.style.opacity = '0';
+          notif.style.transform = 'translateX(50px)';
           setTimeout(() => notif.remove(), 300);
         }, 5000 + (i * 1000));
       });
+
+      // Scroll Reveal Animations V2
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     });
   </script>
+
+  <style>
+    @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; }}
+  </style>
 
   {% block extra_scripts %}{% endblock %}
 </body>

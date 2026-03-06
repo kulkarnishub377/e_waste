@@ -1,99 +1,112 @@
 {% extends 'base.html' %}
-{% load core_tags %}
 
 {% block title %}Dashboard | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="dashboard-section">
+<section style="padding: calc(var(--nav-height) + 3rem) 0 6rem; min-height: 100vh;">
   <div class="container">
-    <div class="dashboard-header">
-      <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
-      <p>Welcome back, {{ user.get_full_name|default:user.username }}!</p>
-    </div>
-
-    <div class="dashboard-stats-grid">
-      <div class="dashboard-stat-card">
-        <div class="dashboard-stat-icon green"><i class="fas fa-recycle"></i></div>
-        <div class="dashboard-stat-value">{{ profile.total_recycled|default:0 }}</div>
-        <div class="dashboard-stat-label">Items Recycled</div>
+    
+    <!-- Dashboard Header -->
+    <div class="glass-panel mb-8" style="padding: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-color: rgba(16, 185, 129, 0.3);">
+      <div style="display: flex; align-items: center; gap: 1.5rem;">
+        <div style="width: 80px; height: 80px; border-radius: 20px; background: var(--grad-primary); border: 2px solid var(--accent-electric); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--bg-base); box-shadow: var(--shadow-glow);">
+          {{ user.first_name|first|default:user.username|first|upper }}
+        </div>
+        <div>
+          <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">Welcome, <span class="text-gradient">{{ user.first_name|default:user.username }}</span></h1>
+          <p style="margin: 0; font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Level {{ user.profile.level }} Eco-Warrior</p>
+        </div>
       </div>
-      <div class="dashboard-stat-card">
-        <div class="dashboard-stat-icon blue"><i class="fas fa-coins"></i></div>
-        <div class="dashboard-stat-value">{{ profile.wallet_points|default:0 }}</div>
-        <div class="dashboard-stat-label">Reward Points</div>
-      </div>
-      <div class="dashboard-stat-card">
-        <div class="dashboard-stat-icon purple"><i class="fas fa-trophy"></i></div>
-        <div class="dashboard-stat-value">Level {{ profile.level|default:1 }}</div>
-        <div class="dashboard-stat-label">Your Level</div>
-      </div>
-      <div class="dashboard-stat-card">
-        <div class="dashboard-stat-icon orange"><i class="fas fa-cloud"></i></div>
-        <div class="dashboard-stat-value">{{ profile.co2_saved|default:0 }} kg</div>
-        <div class="dashboard-stat-label">CO₂ Saved</div>
+      
+      <div style="display: flex; gap: 1rem;">
+        <a href="{% url 'accounts:profile_edit' %}" class="btn btn-secondary"><i class="fas fa-cog"></i> Settings</a>
+        <a href="{% url 'bookings:create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> New Pickup</a>
       </div>
     </div>
 
-    <div class="dashboard-actions">
-      <a href="{% url 'bookings:create' %}" class="btn btn-primary">
-        <i class="fas fa-plus-circle"></i> New Booking
-      </a>
-      <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">
-        <i class="fas fa-user-edit"></i> Edit Profile
-      </a>
-      <a href="{% url 'accounts:logout' %}" class="btn btn-secondary">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </a>
+    <!-- Stats Matrix -->
+    <div class="grid-3 mb-8">
+      <div class="glass-panel" style="padding: 2rem; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <p style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Wallet Balance</p>
+          <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--accent-light);">{{ user.profile.wallet_points|default:"0" }}</div>
+        </div>
+        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); display: flex; align-items: center; justify-content: center; color: var(--accent-electric); font-size: 1.5rem;"><i class="fas fa-coins"></i></div>
+      </div>
+
+      <div class="glass-panel" style="padding: 2rem; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <p style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Total Bookings</p>
+          <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--text-pure);">{{ bookings.count|default:"0" }}</div>
+        </div>
+        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(8, 145, 178, 0.1); border: 1px solid rgba(8, 145, 178, 0.3); display: flex; align-items: center; justify-content: center; color: var(--cyan-electric); font-size: 1.5rem;"><i class="fas fa-calendar-alt"></i></div>
+      </div>
+
+      <div class="glass-panel" style="padding: 2rem; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <p style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">CO2 Offset (Estimated)</p>
+          <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--warning);">{{ bookings.count|default:"0"|add:"10" }}kg</div>
+        </div>
+        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: center; color: var(--warning); font-size: 1.5rem;"><i class="fas fa-tree"></i></div>
+      </div>
     </div>
 
-    <div class="dashboard-bookings">
-      <h3><i class="fas fa-clipboard-list"></i> Recent Bookings</h3>
+    <!-- Active Bookings System -->
+    <div class="glass-panel" style="padding: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">
+        <h2 style="font-size: 1.5rem;">Recent Pickups</h2>
+        <a href="{% url 'bookings:list' %}" class="text-accent" style="font-size: 0.875rem; font-weight: 500;">View All Activity <i class="fas fa-chevron-right ml-2" style="font-size: 0.75rem;"></i></a>
+      </div>
+
       {% if bookings %}
-      <div class="bookings-table-wrapper">
-        <table class="bookings-table">
-          <thead>
-            <tr>
-              <th>Booking ID</th>
-              <th>Date</th>
-              <th>City</th>
-              <th>Status</th>
-              <th>Points</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for booking in bookings %}
-            <tr>
-              <td><strong>{{ booking.booking_id }}</strong></td>
-              <td>{{ booking.pickup_date|date:"d M Y" }}</td>
-              <td>{{ booking.city }}</td>
-              <td>
-                <span class="status-badge status-{{ booking.status }}">
-                  {{ booking.get_status_display }}
-                </span>
-              </td>
-              <td>{{ booking.reward_points }}</td>
-              <td>
-                <a href="{% url 'bookings:detail' booking.booking_id %}" class="btn btn-sm btn-secondary">
-                  <i class="fas fa-eye"></i> View
-                </a>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">
+                <th style="padding: 1rem 0;">Booking ID</th>
+                <th style="padding: 1rem 0;">Date</th>
+                <th style="padding: 1rem 0;">Status</th>
+                <th style="padding: 1rem 0;">Est. Value</th>
+                <th style="padding: 1rem 0; text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for booking in bookings %}
+              <tr style="border-bottom: 1px solid var(--glass-border-highlight); transition: background 0.3s; background: transparent;">
+                <td style="padding: 1.25rem 0; font-family: var(--font-display); font-weight: 600;">#{{ booking.booking_id }}</td>
+                <td style="padding: 1.25rem 0; color: var(--text-muted);">{{ booking.pickup_date|date:"M d, Y" }}</td>
+                <td style="padding: 1.25rem 0;">
+                  {% if booking.status == 'PENDING' %}
+                    <span class="badge badge-warning" style="background:rgba(245, 158, 11, 0.1); color:var(--warning); border-color:rgba(245, 158, 11, 0.3);">Pending</span>
+                  {% elif booking.status == 'COMPLETED' %}
+                    <span class="badge badge-success" style="background:rgba(16, 185, 129, 0.1); color:var(--success); border-color:rgba(16, 185, 129, 0.3);">Completed</span>
+                  {% else %}
+                    <span class="badge badge-primary">{{ booking.status }}</span>
+                  {% endif %}
+                </td>
+                <td style="padding: 1.25rem 0; font-weight: 500; color: var(--cyan-light);">₹{{ booking.total_estimated_value }}</td>
+                <td style="padding: 1.25rem 0; text-align: right;">
+                  <a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">View <i class="fas fa-external-link-alt ml-2" style="font-size:0.6rem;"></i></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       {% else %}
-      <div class="empty-state">
-        <i class="fas fa-box-open"></i>
-        <h4>No bookings yet</h4>
-        <p>Schedule your first pickup to start earning reward points!</p>
-        <a href="{% url 'bookings:create' %}" class="btn btn-primary">
-          <i class="fas fa-truck"></i> Schedule Pickup
-        </a>
-      </div>
+        <div class="text-center" style="padding: 4rem 0;">
+          <div style="font-size: 3rem; color: var(--text-dark); margin-bottom: 1rem;"><i class="fas fa-box-open"></i></div>
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">No pickups scheduled yet</h3>
+          <p style="color: var(--text-muted); max-width: 400px; margin: 0 auto 1.5rem;">Initialize your first eco-friendly disposal and start earning reward points.</p>
+          <a href="{% url 'bookings:create' %}" class="btn btn-primary" style="padding: 0.75rem 2rem;">Initialize First Pickup</a>
+        </div>
       {% endif %}
     </div>
+
   </div>
 </section>
+
+<style>
+  tr:hover { background: rgba(255,255,255,0.02) !important; }
+</style>
 {% endblock %}

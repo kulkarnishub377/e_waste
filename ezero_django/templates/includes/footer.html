@@ -1,60 +1,77 @@
-{% load static %}
+<footer style="background: var(--bg-surface-elevated); border-top: 1px solid var(--glass-border); padding: 5rem 0 2rem; margin-top: 4rem; position: relative; overflow: hidden;">
+  <!-- Footer Glow -->
+  <div style="position: absolute; bottom: 0; left: 50%; width: 60vw; height: 300px; background: radial-gradient(ellipse at bottom, rgba(16, 185, 129, 0.15), transparent 70%); transform: translateX(-50%); pointer-events: none;"></div>
 
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="{% url 'core:home' %}" class="logo">
+  <div class="container relative z-10">
+    <div class="grid-4 mb-8">
+      
+      <div style="grid-column: span 1;">
+        <a href="{% url 'core:home' %}" class="logo mb-3">
           <div class="logo-icon"><i class="fas fa-leaf"></i></div>
-          <span>{{ EZERO_SITE_NAME }}</span>
+          <span class="text-gradient">E-ZERO</span>
         </a>
-        <p>{{ EZERO_SITE_TAGLINE }}</p>
-        <p class="mt-4"><i class="fas fa-map-marker-alt text-accent"></i> {{ EZERO_ADDRESS }}</p>
-        <p class="mb-1"><i class="fas fa-envelope text-accent"></i> <a href="mailto:{{ EZERO_EMAIL }}">{{ EZERO_EMAIL }}</a></p>
-        <p><i class="fas fa-phone-alt text-accent"></i> <a href="tel:{{ EZERO_PHONE }}">{{ EZERO_PHONE }}</a></p>
-      </div>
-
-      <div class="footer-widget">
-        <h4 class="footer-title">Our Services</h4>
-        <div class="footer-links">
-          <a href="{% url 'core:home' %}#services">IT Asset Disposal</a>
-          <a href="{% url 'core:home' %}#services">Data Destruction</a>
-          <a href="{% url 'core:home' %}#services">Corporate Recycling</a>
-          <a href="{% url 'core:home' %}#services">Residential Pickup</a>
-          <a href="{% url 'core:home' %}#services">Compliance Certificates</a>
+        <p class="text-sm text-muted mb-4">{{ EZERO_SITE_TAGLINE }}</p>
+        <div style="display: flex; gap: 1rem;">
+          <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: all 0.3s ease;"><i class="fab fa-twitter"></i></a>
+          <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: all 0.3s ease;"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); transition: all 0.3s ease;"><i class="fab fa-github"></i></a>
         </div>
       </div>
 
-      <div class="footer-widget">
-        <h4 class="footer-title">E-Zero Links</h4>
-        <div class="footer-links">
-          <a href="{% url 'core:home' %}">Home</a>
-          <a href="{% url 'core:about' %}">About Us</a>
-          <a href="{% url 'centers:list' %}">Locations</a>
-          <a href="{% url 'calculator:calculator' %}">Pricing Calculator</a>
-          <a href="{% url 'blog:list' %}">Blog & Resources</a>
-        </div>
+      <div>
+        <h4 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-pure);">Solutions</h4>
+        <ul style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <li><a href="{% url 'core:home' %}#services" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">IT Asset Disposal</a></li>
+          <li><a href="{% url 'core:home' %}#services" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">Data Destruction</a></li>
+          <li><a href="{% url 'core:home' %}#services" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">Corporate Recycling</a></li>
+          <li><a href="{% url 'core:home' %}#services" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">Compliance Reporting</a></li>
+        </ul>
       </div>
 
-      <div class="footer-widget">
-        <h4 class="footer-title">Connect</h4>
-        <div class="footer-links" style="flex-direction: row; gap: var(--space-4); margin-bottom: var(--space-6);">
-          <a href="#" style="font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
-          <a href="#" style="font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
-          <a href="#" style="font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
-          <a href="#" style="font-size: 1.5rem;"><i class="fab fa-facebook"></i></a>
-        </div>
-        <a href="{% url 'bookings:create' %}" class="btn btn-primary" style="width: 100%;">Schedule Pickup</a>
+      <div>
+        <h4 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-pure);">Resources</h4>
+        <ul style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <li><a href="{% url 'calculator:calculator' %}" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">Value Estimator</a></li>
+          <li><a href="{% url 'centers:list' %}" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">Facility Network</a></li>
+          <li><a href="{% url 'blog:list' %}" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">Latest Insights</a></li>
+          <li><a href="{% url 'core:about' %}" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">About E-Zero</a></li>
+        </ul>
       </div>
+
+      <div>
+        <h4 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-pure);">Contact</h4>
+        <ul style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <li style="display: flex; gap: 0.5rem; align-items: flex-start; color: var(--text-muted); font-size: 0.875rem;">
+            <i class="fas fa-map-marker-alt text-accent" style="margin-top: 4px;"></i>
+            <span>{{ EZERO_ADDRESS }}</span>
+          </li>
+          <li style="display: flex; gap: 0.5rem; align-items: center; color: var(--text-muted); font-size: 0.875rem;">
+            <i class="fas fa-envelope text-accent"></i>
+            <a href="mailto:{{ EZERO_EMAIL }}" style="color: inherit;">{{ EZERO_EMAIL }}</a>
+          </li>
+          <li style="display: flex; gap: 0.5rem; align-items: center; color: var(--text-muted); font-size: 0.875rem;">
+            <i class="fas fa-phone-alt text-accent"></i>
+            <a href="tel:{{ EZERO_PHONE }}" style="color: inherit;">{{ EZERO_PHONE }}</a>
+          </li>
+        </ul>
+      </div>
+
     </div>
 
-    <div class="footer-bottom">
-      <p>&copy; {% now "Y" %} {{ EZERO_SITE_NAME }} Technologies. All rights reserved.</p>
-      <div style="display: flex; gap: var(--space-4);">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">EPR Compliance</a>
+    <!-- Bottom Bar -->
+    <div style="border-top: 1px solid var(--glass-border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <p class="text-sm text-muted mb-0">© {% now "Y" %} E-Zero Environmental Solutions. All rights reserved.</p>
+      <div style="display: flex; gap: 1.5rem;">
+        <a href="#" class="text-sm text-muted">Privacy Policy</a>
+        <a href="#" class="text-sm text-muted">Terms of Service</a>
+        <a href="#" class="text-sm text-muted">ESG Dashboard</a>
       </div>
     </div>
   </div>
 </footer>
+
+<style>
+  /* Local overrides for footer links */
+  footer a.text-muted:hover { color: var(--accent-light) !important; padding-left: 4px; }
+  footer a.text-muted { transition: all 0.3s var(--ease-out); }
+</style>
