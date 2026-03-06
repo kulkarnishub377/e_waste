@@ -1,0 +1,71 @@
+{% load static %}
+{% load core_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="E-Zero - India's leading e-waste recycling company. We provide certified, secure, and eco-friendly electronic waste disposal services for businesses and individuals.">
+  <meta name="keywords" content="e-waste recycling, electronic waste disposal, IT asset disposal, certified recycling, data destruction, green recycling India">
+  <meta name="author" content="E-Zero Technologies">
+  <meta name="theme-color" content="#10B981">
+
+  <title>{% block title %}{{ SITE_NAME }} | {{ SITE_TAGLINE }}{% endblock %}</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'assets/logo.svg' %}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Leaflet Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  {% include 'includes/header.html' %}
+
+  <main>
+    {% if messages %}
+    <div class="notification-container">
+      {% for message in messages %}
+      <div class="notification notification-{{ message.tags }}" id="notification-{{ forloop.counter }}">
+        <div class="notification-content">
+          <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'error' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %}"></i>
+          <span>{{ message }}</span>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.remove()">&times;</button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'includes/footer.html' %}
+  {% include 'includes/chat_widget.html' %}
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  <script src="{% static 'js/app.js' %}"></script>
+  <script src="{% static 'js/booking.js' %}"></script>
+  <script src="{% static 'js/features.js' %}"></script>
+  <script src="{% static 'js/calculator.js' %}"></script>
+  <script src="{% static 'js/map.js' %}"></script>
+  <script src="{% static 'js/chat.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>
