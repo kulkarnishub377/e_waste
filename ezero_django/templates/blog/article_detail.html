@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }} | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="article-page-section">
+  <div class="container">
+    <div class="article-header">
+      {% if article.image_url %}
+      <img src="{{ article.image_url }}" alt="{{ article.title }}" class="article-hero-image">
+      {% endif %}
+      <div class="article-meta-bar">
+        <span class="blog-category">{{ article.get_category_display }}</span>
+        <span><i class="fas fa-calendar"></i> {{ article.published_date|date:"M d, Y" }}</span>
+        <span><i class="fas fa-clock"></i> {{ article.read_time }}</span>
+      </div>
+      <h1>{{ article.title }}</h1>
+    </div>
+    <div class="article-body">
+      {{ article.content|safe }}
+    </div>
+    <div class="article-footer">
+      <a href="{% url 'blog:list' %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to Articles
+      </a>
+      <a href="{% url 'bookings:create' %}" class="btn btn-primary">
+        <i class="fas fa-truck"></i> Schedule Pickup
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

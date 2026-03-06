@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="container">
+    <div class="auth-card auth-card-wide">
+      <div class="auth-header">
+        <i class="fas fa-user-edit"></i>
+        <h2>Edit Profile</h2>
+        <p>Update your personal information</p>
+      </div>
+
+      <form method="post" class="auth-form">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            {{ form.first_name }}
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            {{ form.last_name }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            {{ form.phone }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Language</label>
+          {{ form.preferred_language }}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">
+          <i class="fas fa-save"></i> Save Changes
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <a href="{% url 'accounts:dashboard' %}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ center.name }} | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="center-detail-section">
+  <div class="container">
+    <div class="center-detail-card">
+      <h1>{{ center.name }}</h1>
+      <span class="center-type-badge center-type-{{ center.center_type|lower }}">{{ center.center_type }}</span>
+
+      <div class="center-detail-grid">
+        <div class="center-detail-info">
+          <div class="detail-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div><strong>Address</strong><p>{{ center.address }}</p></div>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <div><strong>Hours</strong><p>{{ center.hours }}</p></div>
+          </div>
+          {% if center.contact %}
+          <div class="detail-item">
+            <i class="fas fa-phone"></i>
+            <div><strong>Contact</strong><p><a href="tel:{{ center.contact }}">{{ center.contact }}</a></p></div>
+          </div>
+          {% endif %}
+          <div class="detail-item">
+            <i class="fas fa-star"></i>
+            <div><strong>Rating</strong><p>{{ center.rating }} / 5.0 ({{ center.reviews_count }} reviews)</p></div>
+          </div>
+        </div>
+
+        <div class="center-detail-services">
+          <h3>Services Offered</h3>
+          {% for service in center.services %}
+          <span class="service-tag">{{ service }}</span>
+          {% endfor %}
+
+          <h3>Accepts</h3>
+          {% for item in center.accepts %}
+          <span class="accept-tag">{{ item }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="center-detail-actions">
+        <a href="{% url 'bookings:create' %}" class="btn btn-primary"><i class="fas fa-truck"></i> Schedule Pickup</a>
+        <a href="{% url 'centers:list' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> All Centers</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load core_tags %}
+
+{% block title %}Dashboard | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+  <div class="container">
+    <div class="dashboard-header">
+      <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+      <p>Welcome back, {{ user.get_full_name|default:user.username }}!</p>
+    </div>
+
+    <div class="dashboard-stats-grid">
+      <div class="dashboard-stat-card">
+        <div class="dashboard-stat-icon green"><i class="fas fa-recycle"></i></div>
+        <div class="dashboard-stat-value">{{ profile.total_recycled|default:0 }}</div>
+        <div class="dashboard-stat-label">Items Recycled</div>
+      </div>
+      <div class="dashboard-stat-card">
+        <div class="dashboard-stat-icon blue"><i class="fas fa-coins"></i></div>
+        <div class="dashboard-stat-value">{{ profile.wallet_points|default:0 }}</div>
+        <div class="dashboard-stat-label">Reward Points</div>
+      </div>
+      <div class="dashboard-stat-card">
+        <div class="dashboard-stat-icon purple"><i class="fas fa-trophy"></i></div>
+        <div class="dashboard-stat-value">Level {{ profile.level|default:1 }}</div>
+        <div class="dashboard-stat-label">Your Level</div>
+      </div>
+      <div class="dashboard-stat-card">
+        <div class="dashboard-stat-icon orange"><i class="fas fa-cloud"></i></div>
+        <div class="dashboard-stat-value">{{ profile.co2_saved|default:0 }} kg</div>
+        <div class="dashboard-stat-label">CO₂ Saved</div>
+      </div>
+    </div>
+
+    <div class="dashboard-actions">
+      <a href="{% url 'bookings:create' %}" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> New Booking
+      </a>
+      <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">
+        <i class="fas fa-user-edit"></i> Edit Profile
+      </a>
+      <a href="{% url 'accounts:logout' %}" class="btn btn-secondary">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </div>
+
+    <div class="dashboard-bookings">
+      <h3><i class="fas fa-clipboard-list"></i> Recent Bookings</h3>
+      {% if bookings %}
+      <div class="bookings-table-wrapper">
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Date</th>
+              <th>City</th>
+              <th>Status</th>
+              <th>Points</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in bookings %}
+            <tr>
+              <td><strong>{{ booking.booking_id }}</strong></td>
+              <td>{{ booking.pickup_date|date:"d M Y" }}</td>
+              <td>{{ booking.city }}</td>
+              <td>
+                <span class="status-badge status-{{ booking.status }}">
+                  {{ booking.get_status_display }}
+                </span>
+              </td>
+              <td>{{ booking.reward_points }}</td>
+              <td>
+                <a href="{% url 'bookings:detail' booking.booking_id %}" class="btn btn-sm btn-secondary">
+                  <i class="fas fa-eye"></i> View
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <i class="fas fa-box-open"></i>
+        <h4>No bookings yet</h4>
+        <p>Schedule your first pickup to start earning reward points!</p>
+        <a href="{% url 'bookings:create' %}" class="btn btn-primary">
+          <i class="fas fa-truck"></i> Schedule Pickup
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog & Resources | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="blog-page-section">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-badge"><i class="fas fa-newspaper"></i> Resources</span>
+      <h2>Blog & Resources</h2>
+      <p>Stay updated with e-waste management trends, regulations, and best practices.</p>
+    </div>
+
+    <div class="blog-grid">
+      {% for article in articles %}
+      <article class="blog-card scroll-animate">
+        <a href="{% url 'blog:detail' article.slug %}">
+          <div class="blog-image">
+            {% if article.image_url %}
+            <img src="{{ article.image_url }}" alt="{{ article.title }}">
+            {% endif %}
+            <span class="blog-category">{{ article.get_category_display }}</span>
+          </div>
+          <div class="blog-content">
+            <div class="blog-meta">
+              <span><i class="fas fa-calendar"></i> {{ article.published_date|date:"M d, Y" }}</span>
+              <span><i class="fas fa-clock"></i> {{ article.read_time }}</span>
+            </div>
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.summary }}</p>
+            <span class="blog-link">Read More <i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </article>
+      {% empty %}
+      <div class="empty-state">
+        <i class="fas fa-newspaper"></i>
+        <h4>No articles yet</h4>
+        <p>Check back soon for the latest insights on e-waste management.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary"><i class="fas fa-chevron-left"></i> Previous</a>
+      {% endif %}
+      <span class="pagination-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Next <i class="fas fa-chevron-right"></i></a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Recycling Centers | {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="centers-section" id="centers">
+  <div class="container">
+    <div class="section-title">
+      <span class="section-badge"><i class="fas fa-map-marker-alt"></i> Our Locations</span>
+      <h2>Processing Facilities Near You</h2>
+      <p>Find our authorized collection and processing centers across India.</p>
+    </div>
+
+    <div class="centers-container">
+      <div class="map-container">
+        <div id="centers-map"></div>
+      </div>
+
+      <div class="centers-sidebar">
+        <div class="search-filters">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="location-search" class="form-input" placeholder="Search by city or pincode">
+          </div>
+        </div>
+
+        <div class="centers-list" id="centers-list">
+          {% for center in centers %}
+          <div class="center-card" data-lat="{{ center.latitude }}" data-lng="{{ center.longitude }}" data-city="{{ center.city }}">
+            <div class="center-card-header">
+              <h4>{{ center.name }}</h4>
+              <span class="center-type-badge center-type-{{ center.center_type|lower }}">{{ center.center_type }}</span>
+            </div>
+            <p class="center-address"><i class="fas fa-map-marker-alt"></i> {{ center.address }}</p>
+            <div class="center-meta">
+              <span><i class="fas fa-star"></i> {{ center.rating }}</span>
+              <span><i class="fas fa-clock"></i> {{ center.hours }}</span>
+              {% if center.contact %}
+              <span><i class="fas fa-phone"></i> {{ center.contact }}</span>
+              {% endif %}
+            </div>
+            <div class="center-services">
+              {% for service in center.services %}
+              <span class="service-tag">{{ service }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // Pass centers data to JS for map
+  window.CENTERS_API_URL = "{% url 'centers:api' %}";
+</script>
+{% endblock %}
