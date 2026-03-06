@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Ultra-Premium Dark Color Palette */
+  --bg-dark: #070B14;
+  --bg-surface: #0F1626;
+  --bg-glass: rgba(15, 22, 38, 0.65);
+  --bg-glass-light: rgba(255, 255, 255, 0.03);
+  --bg-glass-hover: rgba(255, 255, 255, 0.08);
+
+  /* Vivid Emerald & Cyan Accents */
+  --accent-primary: #10B981; /* Emerald */
+  --accent-secondary: #06B6D4; /* Cyan */
+  --accent-glow: rgba(16, 185, 129, 0.4);
+  --accent-gradient: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+  
+  /* Typography Colors */
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --text-accent: #34D399; /* Light green for text */
+
+  /* Structural Colors */
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(16, 185, 129, 0.5);
+  
+  /* Functional Colors */
+  --error: #EF4444;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --info: #3B82F6;
+
+  /* Typography */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.75rem;
+  --text-5xl: 3.5rem;
+  --text-6xl: 4.5rem;
+  
+  /* Core Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Border Radii */
+  --rad-sm: 0.375rem;
+  --rad-md: 0.5rem;
+  --rad-lg: 0.75rem;
+  --rad-xl: 1.25rem;
+  --rad-2xl: 2rem;
+  --rad-full: 9999px;
+
+  /* Shadows & Glows */
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+  --shadow-glow-large: 0 0 40px var(--accent-glow);
+  --shadow-inner: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  /* Transitions */
+  --trans-fast: 0.15s ease-out;
+  --trans-base: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --trans-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --container: 1280px;
+  --header-height: 80px;
+}
