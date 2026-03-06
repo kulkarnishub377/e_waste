@@ -1,0 +1,83 @@
+{% load static %}
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Brand Column -->
+      <div class="footer-brand">
+        <a href="{% url 'core:home' %}" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-recycle"></i>
+          </div>
+          <span class="logo-text">E-<span>Zero</span></span>
+        </a>
+        <p>
+          India's leading certified e-waste recycling company. We provide secure,
+          compliant, and environmentally responsible electronic waste disposal solutions.
+        </p>
+        <div class="footer-certifications">
+          <span class="cert-badge">ISO 14001</span>
+          <span class="cert-badge">CPCB Certified</span>
+          <span class="cert-badge">R2 Certified</span>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="footer-column">
+        <h4>Services</h4>
+        <nav class="footer-links">
+          <a href="{% url 'core:home' %}#services" class="footer-link">IT Asset Disposal</a>
+          <a href="{% url 'core:home' %}#services" class="footer-link">Data Destruction</a>
+          <a href="{% url 'core:home' %}#services" class="footer-link">Corporate Recycling</a>
+          <a href="{% url 'core:home' %}#services" class="footer-link">Residential Pickup</a>
+          <a href="{% url 'core:home' %}#services" class="footer-link">Battery Recycling</a>
+        </nav>
+      </div>
+
+      <!-- Company -->
+      <div class="footer-column">
+        <h4>Company</h4>
+        <nav class="footer-links">
+          <a href="{% url 'core:about' %}" class="footer-link">About Us</a>
+          <a href="{% url 'centers:list' %}" class="footer-link">Our Facilities</a>
+          <a href="{% url 'blog:list' %}" class="footer-link">Blog & Resources</a>
+          <a href="{% url 'calculator:calculator' %}" class="footer-link">Pricing Calculator</a>
+          <a href="{% url 'contacts:contact' %}" class="footer-link">Contact Us</a>
+        </nav>
+      </div>
+
+      <!-- Legal -->
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <nav class="footer-links">
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <a href="#" class="footer-link">Terms of Service</a>
+          <a href="#" class="footer-link">E-Waste Guidelines</a>
+          <a href="#" class="footer-link">Compliance</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copyright">
+        © 2024 E-Zero Technologies Pvt. Ltd. All rights reserved. CIN: UXXXXXXXXXXXXX
+      </p>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social-link" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="social-link" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

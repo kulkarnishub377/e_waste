@@ -1,0 +1,47 @@
+<!-- ============================================
+     LIVE CHAT WIDGET
+     ============================================ -->
+<div class="chat-widget" id="chat-widget">
+  <button class="chat-bubble" onclick="toggleChat()" aria-label="Open chat">
+    <i class="fas fa-comments"></i>
+    <span class="chat-badge">1</span>
+  </button>
+
+  <div class="chat-window" id="chat-window">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">
+          <i class="fas fa-headset"></i>
+        </div>
+        <div>
+          <h4>E-Zero Support</h4>
+          <span class="chat-status"><span class="status-dot"></span> Online</span>
+        </div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-message bot">
+        <div class="message-content">
+          <p>👋 Hello! Welcome to E-Zero. How can I help you today?</p>
+          <span class="message-time">Just now</span>
+        </div>
+      </div>
+      <div class="chat-quick-replies">
+        <button onclick="sendQuickReply('I want to schedule a pickup')">Schedule Pickup</button>
+        <button onclick="sendQuickReply('I need a price quote')">Get Quote</button>
+        <button onclick="sendQuickReply('I have a question')">Ask a Question</button>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleChatKeypress(event)">
+      <button class="chat-send" onclick="sendChatMessage()">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
