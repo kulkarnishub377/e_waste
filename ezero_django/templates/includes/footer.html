@@ -3,9 +3,9 @@
   <div style="position: absolute; bottom: 0; left: 50%; width: 60vw; height: 300px; background: radial-gradient(ellipse at bottom, rgba(16, 185, 129, 0.15), transparent 70%); transform: translateX(-50%); pointer-events: none;"></div>
 
   <div class="container relative z-10">
-    <div class="grid-4 mb-8">
+    <div class="footer-grid mb-8">
       
-      <div style="grid-column: span 1;">
+      <div class="footer-brand-col">
         <a href="{% url 'core:home' %}" class="logo mb-4" style="display: inline-flex;">
           <div class="logo-icon" style="width: 44px; height: 44px; font-size: 1.25rem;"><i class="fas fa-leaf"></i></div>
           <span class="text-gradient" style="font-size: 1.5rem; letter-spacing: 1px;">E-ZERO</span>
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="footer-link-col">
         <h4 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-pure);">Solutions</h4>
         <ul style="display: flex; flex-direction: column; gap: 0.75rem;">
           <li><a href="{% url 'core:home' %}#services" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">IT Asset Disposal</a></li>
@@ -28,7 +28,7 @@
         </ul>
       </div>
 
-      <div>
+      <div class="footer-link-col">
         <h4 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-pure);">Resources</h4>
         <ul style="display: flex; flex-direction: column; gap: 0.75rem;">
           <li><a href="{% url 'calculator:calculator' %}" class="text-muted" style="font-size: 0.875rem; transition: color 0.3s;">Value Estimator</a></li>
@@ -38,7 +38,7 @@
         </ul>
       </div>
 
-      <div>
+      <div class="footer-contact-col">
         <h4 style="font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-pure);">Contact</h4>
         <ul style="display: flex; flex-direction: column; gap: 0.75rem;">
           <li style="display: flex; gap: 0.5rem; align-items: flex-start; color: var(--text-muted); font-size: 0.875rem;">
@@ -74,6 +74,30 @@
   /* Local overrides for footer links */
   footer a.text-muted:hover { color: var(--accent-light) !important; padding-left: 6px; }
   footer a.text-muted { transition: all 0.3s var(--ease-out); }
+
+  /* Custom Footer Grid System */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  @media(min-width: 640px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-brand-col {
+      grid-column: span 2;
+    }
+  }
+  @media(min-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 3fr 2fr 2fr 3fr;
+      gap: 2rem;
+    }
+    .footer-brand-col, .footer-link-col, .footer-contact-col {
+      grid-column: span 1;
+    }
+  }
   
   .footer-social-btn {
     width: 42px; 
