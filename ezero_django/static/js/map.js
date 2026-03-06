@@ -17,6 +17,11 @@ function initMap() {
     attribution: '&copy; OpenStreetMap contributors',
     maxZoom: 18,
   }).addTo(map);
+  
+  // Fix for map rendering issues in hidden or dynamic flex containers
+  setTimeout(() => {
+      map.invalidateSize();
+  }, 100);
 
   // Load centers
   const apiUrl = window.CENTERS_API_URL || '/centers/api/';

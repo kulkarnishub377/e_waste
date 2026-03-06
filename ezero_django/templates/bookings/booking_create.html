@@ -31,9 +31,32 @@
         </div>
         {% endif %}
 
+        <div class="grid-2" style="gap: 1.5rem; margin-bottom: 1.5rem;">
+          <div style="grid-column: span 2;">
+            <h4 style="font-family: var(--font-display); color: var(--text-pure); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; font-size: 1.25rem;"><i class="fas fa-user-circle text-accent mr-2"></i> Contact Information</h4>
+          </div>
+
+          <div class="form-group mb-0">
+            <label class="form-label">Full Name *</label>
+            {{ form.name }}
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label">Email Address *</label>
+            {{ form.email }}
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label">Contact Number *</label>
+            {{ form.phone }}
+          </div>
+          <div class="form-group mb-0">
+            <label class="form-label">Company / Organization (Optional)</label>
+            {{ form.company }}
+          </div>
+        </div>
+
         <div class="grid-2" style="gap: 1.5rem;">
           <div style="grid-column: span 2;">
-            <h4 style="font-family: var(--font-display); color: var(--text-pure); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; font-size: 1.25rem;"><i class="fas fa-map-marker-alt text-accent mr-2"></i> Location Details</h4>
+            <h4 style="font-family: var(--font-display); color: var(--text-pure); border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem; margin-bottom: 1.5rem; font-size: 1.25rem;"><i class="fas fa-map-marker-alt text-cyan mr-2"></i> Location Details</h4>
           </div>
 
           <div class="form-group mb-0" style="grid-column: span 2;">

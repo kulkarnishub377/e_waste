@@ -1,32 +1,83 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ article.title }} | {{ SITE_NAME }}{% endblock %}
+{% block title %}{{ article.title }} | Intelligence Database | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="article-page-section">
-  <div class="container">
-    <div class="article-header">
-      {% if article.image_url %}
-      <img src="{{ article.image_url }}" alt="{{ article.title }}" class="article-hero-image">
-      {% endif %}
-      <div class="article-meta-bar">
-        <span class="blog-category">{{ article.get_category_display }}</span>
-        <span><i class="fas fa-calendar"></i> {{ article.published_date|date:"M d, Y" }}</span>
-        <span><i class="fas fa-clock"></i> {{ article.read_time }}</span>
+<section style="min-height: 100vh; position: relative; padding: calc(var(--nav-height) + 2rem) 0 6rem; overflow: hidden;">
+  <!-- Article Header with Background Image -->
+  <div style="position: relative; width: 100%; height: 60vh; max-height: 600px; margin-bottom: 4rem; border-radius: 0 0 var(--radius-xl) var(--radius-xl); overflow: hidden;">
+    {% if article.image_url %}
+      <img src="{{ article.image_url }}" alt="{{ article.title }}" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) saturate(0.5); position: absolute; top: 0; left: 0; z-index: 1;">
+    {% else %}
+      <div style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; background: linear-gradient(135deg, rgba(3, 7, 18, 0.9), rgba(8, 145, 178, 0.4));">
+        <!-- Tech grid background -->
+        <div style="position:absolute; top:0; left:0; width:100%; height:100%; background-image: linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
       </div>
-      <h1>{{ article.title }}</h1>
+    {% endif %}
+    
+    <!-- Gradient Overlay to blend with background -->
+    <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; background: linear-gradient(to top, var(--bg-base), transparent); z-index: 2;"></div>
+
+    <div class="container" style="position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 3rem;">
+      <a href="{% url 'blog:list' %}" class="btn btn-secondary mb-4" style="align-self: flex-start; padding: 0.5rem 1rem; font-size: 0.875rem;"><i class="fas fa-arrow-left mr-2"></i> Back to Database</a>
+      
+      <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+        <span class="badge badge-cyan">{{ article.get_category_display }}</span>
+        <span style="color: var(--text-muted); font-size: 0.875rem; font-family: var(--font-display); text-transform: uppercase;"><i class="far fa-clock mr-1 text-accent"></i> {{ article.read_time }}</span>
+      </div>
+      
+      <h1 class="text-gradient reveal" style="font-size: clamp(2.5rem, 5vw, 4rem); max-width: 900px; line-height: 1.1; margin-bottom: 1.5rem;">{{ article.title }}</h1>
+      
+      <div class="reveal reveal-delay-1" style="display: flex; align-items: center; gap: 1rem;">
+        <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--bg-surface-elevated); border: 2px solid var(--accent-light); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1.25rem;"><i class="fas fa-user-astronaut"></i></div>
+        <div>
+          <h4 style="font-size: 1rem; color: var(--text-pure); margin-bottom: 0.25rem;">Written By <span class="text-cyan">{{ article.author.get_full_name|default:article.author.username }}</span></h4>
+          <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0; text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--font-display);">Published {{ article.published_date|date:"F d, Y" }}</p>
+        </div>
+      </div>
     </div>
-    <div class="article-body">
-      {{ article.content|safe }}
+  </div>
+
+  <div class="container grid-12" style="align-items: flex-start;">
+    
+    <!-- Social Share (2 cols) -->
+    <div class="reveal" style="grid-column: span 12; @media(min-width: 900px){grid-column: span 2;}">
+      <div style="position: sticky; top: calc(var(--nav-height) + 2rem); display: flex; flex-direction: column; gap: 1rem;">
+        <h4 style="font-family: var(--font-display); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem;">Distribute Protocol</h4>
+        <a href="#" style="width: 48px; height: 48px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); font-size: 1.25rem; transition: transform 0.3s, background 0.3s;" onmouseover="this.style.background='rgba(16,185,129,0.2)'; this.style.borderColor='var(--accent-light)'; this.style.color='var(--accent-light)';" onmouseout="this.style.background='var(--glass-bg)'; this.style.borderColor='var(--glass-border)'; this.style.color='var(--text-pure)';"><i class="fab fa-twitter"></i></a>
+        <a href="#" style="width: 48px; height: 48px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); font-size: 1.25rem; transition: transform 0.3s, background 0.3s;" onmouseover="this.style.background='rgba(8,145,178,0.2)'; this.style.borderColor='var(--cyan-light)'; this.style.color='var(--cyan-light)';" onmouseout="this.style.background='var(--glass-bg)'; this.style.borderColor='var(--glass-border)'; this.style.color='var(--text-pure)';"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" style="width: 48px; height: 48px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--text-pure); font-size: 1.25rem; transition: transform 0.3s, background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='#fff';" onmouseout="this.style.background='var(--glass-bg)'; this.style.borderColor='var(--glass-border)'; this.style.color='var(--text-pure)';"><i class="fas fa-link"></i></a>
+      </div>
     </div>
-    <div class="article-footer">
-      <a href="{% url 'blog:list' %}" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Back to Articles
-      </a>
-      <a href="{% url 'bookings:create' %}" class="btn btn-primary">
-        <i class="fas fa-truck"></i> Schedule Pickup
-      </a>
+
+    <!-- Article Content (10 cols) -->
+    <div class="reveal reveal-delay-2" style="grid-column: span 12; @media(min-width: 900px){grid-column: span 8;}">
+      
+      {% if article.summary %}
+      <div style="font-size: 1.25rem; color: var(--text-pure); line-height: 1.8; margin-bottom: 3rem; padding-left: 1.5rem; border-left: 4px solid var(--accent-light); font-weight: 300;">
+        {{ article.summary }}
+      </div>
+      {% endif %}
+
+      <div class="article-body" style="font-size: 1.125rem; color: var(--text-muted); line-height: 1.8;">
+        <!-- Using linebreaks filter to preserve formatting, assuming rich text is stored -->
+        {{ article.content|safe }}
+      </div>
+
     </div>
   </div>
 </section>
+
+<style>
+  /* Styling specifically for generated article content */
+  .article-body h2 { font-family: var(--font-display); font-size: 2rem; color: var(--text-pure); margin: 3rem 0 1.5rem; }
+  .article-body h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--text-pure); margin: 2rem 0 1rem; }
+  .article-body p { margin-bottom: 1.5rem; max-width: 100%; color: var(--text-muted); }
+  .article-body ul { margin-bottom: 2rem; padding-left: 1.5rem; }
+  .article-body li { margin-bottom: 0.5rem; color: var(--text-muted); list-style-type: square; color: var(--cyan-light); }
+  .article-body li span { color: var(--text-muted); }
+  .article-body blockquote { background: rgba(3, 7, 18, 0.6); border: 1px solid var(--glass-border); border-left: 4px solid var(--cyan-light); padding: 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 2rem; font-style: italic; color: var(--text-pure); }
+  .article-body a { color: var(--accent-light); text-decoration: underline; }
+  .article-body a:hover { color: var(--cyan-light); }
+</style>
 {% endblock %}

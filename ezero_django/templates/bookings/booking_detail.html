@@ -1,81 +1,126 @@
 {% extends 'base.html' %}
+{% load core_tags %}
 
-{% block title %}Booking {{ booking.booking_id }} | {{ SITE_NAME }}{% endblock %}
+{% block title %}Booking Details | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="booking-detail-section">
+<section style="min-height: 100vh; padding: calc(var(--nav-height) + 4rem) 0 6rem; position: relative;">
   <div class="container">
-    <div class="invoice-preview">
-      <div class="invoice-header">
-        <div class="invoice-logo">
-          <i class="fas fa-recycle"></i>
-          <span>E-Zero</span>
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary mb-3" style="padding: 0.5rem 1rem; font-size: 0.875rem;"><i class="fas fa-arrow-left mr-2"></i> Return to Command Center</a>
+        <h1 class="text-gradient" style="font-size: clamp(2rem, 3vw, 2.5rem); margin: 0;">Logistics Order #{{ booking.booking_id }}</h1>
+      </div>
+      <div>
+        {% if booking.status == 'PENDING' %}
+          <span class="badge" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: var(--warning); padding: 0.75rem 1.5rem; font-size: 1rem;">Protocol: Pending</span>
+        {% elif booking.status == 'COMPLETED' %}
+          <span class="badge" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: var(--success); padding: 0.75rem 1.5rem; font-size: 1rem;">Protocol: Completed</span>
+        {% else %}
+          <span class="badge" style="padding: 0.75rem 1.5rem; font-size: 1rem;">Protocol: {{ booking.status }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="grid-12" style="align-items: flex-start;">
+      
+      <!-- Main Status Panel (8 cols) -->
+      <div class="reveal" style="grid-column: span 12; @media(min-width: 900px){grid-column: span 8;}">
+        <div class="glass-panel" style="padding: 3rem; margin-bottom: 2rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--text-pure); margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">Deployment Specifications</h3>
+          
+          <div class="grid-2" style="gap: 2rem;">
+            <div>
+              <p style="font-family: var(--font-display); font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Target Location</p>
+              <p style="color: var(--text-pure); font-size: 1.125rem; margin-bottom: 0; line-height: 1.5;">{{ booking.address }}<br>{{ booking.city }} - {{ booking.pincode }}</p>
+            </div>
+            
+            <div>
+              <p style="font-family: var(--font-display); font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Scheduled Timeline</p>
+              <p style="color: var(--text-pure); font-size: 1.125rem; margin-bottom: 0; line-height: 1.5;">{{ booking.pickup_date|date:"F d, Y" }}<br>Slot: {{ booking.get_time_slot_display }}</p>
+            </div>
+            
+            <div style="grid-column: 1/-1;">
+              <p style="font-family: var(--font-display); font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Asset Manifest</p>
+              <div style="background: rgba(3, 7, 18, 0.6); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 1.5rem;">
+                <p style="color: var(--text-pure); margin-bottom: 1rem; white-space: pre-wrap;">{{ booking.items_description }}</p>
+                <div style="display: flex; gap: 1rem; align-items: center; border-top: 1px solid var(--glass-border); padding-top: 1rem;">
+                  <span style="color: var(--text-muted); font-size: 0.875rem;">Registered Mass:</span>
+                  <span style="color: var(--cyan-light); font-family: var(--font-display); font-weight: 600;">{{ booking.approximate_weight }} kg</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="invoice-meta">
-          <div class="invoice-id">Booking #{{ booking.booking_id }}</div>
-          <div class="invoice-date">{{ booking.created_at|date:"d M Y, h:i A" }}</div>
+
+        <!-- Tracking Timeline -->
+        <div class="glass-panel reveal reveal-delay-1" style="padding: 3rem;">
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--text-pure); margin-bottom: 2rem;">Operations Log</h3>
+          
+          <div style="position: relative; padding-left: 2rem;">
+            <!-- Track Line -->
+            <div style="position: absolute; left: 0.5rem; top: 0; bottom: 0; width: 2px; background: var(--glass-border); z-index: 1;"></div>
+            
+            <!-- Log Entry -->
+            <div style="position: relative; margin-bottom: 2rem; z-index: 2;">
+              <div style="position: absolute; left: -2.35rem; width: 1.25rem; height: 1.25rem; background: var(--bg-base); border: 2px solid var(--accent-light); border-radius: 50%; box-shadow: 0 0 10px var(--accent-glow);"></div>
+              <h4 style="font-size: 1rem; color: var(--text-pure); margin-bottom: 0.25rem;">Order Manifest Generated</h4>
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0;">{{ booking.created_at|date:"M d, Y H:i" }}</p>
+            </div>
+            
+            {% if booking.status != 'PENDING' %}
+            <div style="position: relative; margin-bottom: 2rem; z-index: 2;">
+              <div style="position: absolute; left: -2.35rem; width: 1.25rem; height: 1.25rem; background: var(--bg-base); border: 2px solid var(--cyan-light); border-radius: 50%; box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);"></div>
+              <h4 style="font-size: 1rem; color: var(--text-pure); margin-bottom: 0.25rem;">Logistics Deployed / Status Updated</h4>
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0;">Status altered to: {{ booking.status }}</p>
+            </div>
+            {% endif %}
+            
+            {% if booking.status == 'COMPLETED' %}
+            <div style="position: relative; z-index: 2;">
+              <div style="position: absolute; left: -2.35rem; width: 1.25rem; height: 1.25rem; background: var(--accent-light); border: 2px solid var(--text-pure); border-radius: 50%; box-shadow: 0 0 15px var(--accent-glow);"></div>
+              <h4 style="font-size: 1rem; color: var(--accent-light); margin-bottom: 0.25rem;">Mission Accomplished</h4>
+              <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0;">Assets securely processed and certificate issued.</p>
+            </div>
+            {% endif %}
+          </div>
         </div>
       </div>
 
-      <div class="invoice-section">
-        <h4>Customer Details</h4>
-        <div class="invoice-details">
-          <p><strong>Name:</strong> {{ booking.name }}</p>
-          <p><strong>Email:</strong> {{ booking.email }}</p>
-          <p><strong>Phone:</strong> {{ booking.phone }}</p>
-          {% if booking.company %}<p><strong>Company:</strong> {{ booking.company }}</p>{% endif %}
+      <!-- Financial Panel (4 cols) -->
+      <div class="reveal reveal-delay-2" style="grid-column: span 12; @media(min-width: 900px){grid-column: span 4;}">
+        <div class="glass-panel" style="padding: 2.5rem; background: linear-gradient(180deg, rgba(8, 145, 178, 0.1) 0%, rgba(11, 17, 33, 0.6) 100%); border-top-color: rgba(8, 145, 178, 0.4);">
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: var(--text-pure); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.75rem;"><i class="fas fa-file-invoice-dollar text-cyan mr-2"></i> Financial Valuation</h3>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span style="color: var(--text-muted);">Estimated Base Value</span>
+            <span style="color: var(--text-pure); font-weight: 600;">₹{{ booking.total_estimated_value }}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px dashed var(--glass-border-highlight);">
+            <span style="color: var(--text-muted);">Logistics Fee</span>
+            <span style="color: var(--success); font-weight: 600;">Waived</span>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+            <span style="color: var(--text-pure); font-family: var(--font-display); font-size: 1.125rem;">Net Projection</span>
+            <span class="text-gradient" style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; line-height: 1;">₹{{ booking.total_estimated_value }}</span>
+          </div>
+          
+          <div style="background: rgba(3, 7, 18, 0.8); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 1rem; font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; display: flex; gap: 0.75rem; align-items: flex-start;">
+            <i class="fas fa-shield-alt text-accent" style="margin-top: 2px;"></i>
+            <span>Values are strictly estimated and subject to physical diagnostic evaluation by E-Zero technicians upon receipt.</span>
+          </div>
         </div>
-      </div>
 
-      <div class="invoice-section">
-        <h4>Pickup Details</h4>
-        <div class="invoice-details">
-          <p><strong>Address:</strong> {{ booking.address }}, {{ booking.city }} - {{ booking.pincode }}</p>
-          <p><strong>Date:</strong> {{ booking.pickup_date|date:"d M Y" }}</p>
-          <p><strong>Time Slot:</strong> {{ booking.get_pickup_time_slot_display }}</p>
-          <p><strong>Status:</strong> <span class="status-badge status-{{ booking.status }}">{{ booking.get_status_display }}</span></p>
+        {% if booking.status == 'PENDING' %}
+        <div class="mt-4 text-center">
+          <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1rem;">Need to abort the mission?</p>
+          <a href="#" class="btn btn-secondary" style="width: 100%; color: var(--error); border-color: rgba(244, 63, 94, 0.3);">Cancel Deployment</a>
         </div>
+        {% endif %}
       </div>
 
-      {% if booking.items.all %}
-      <div class="invoice-section">
-        <h4>Items Summary</h4>
-        <table class="invoice-table">
-          <thead>
-            <tr><th>Item</th><th>Qty</th><th>Condition</th><th>Est. Value</th></tr>
-          </thead>
-          <tbody>
-            {% for item in booking.items.all %}
-            <tr>
-              <td>{{ item.item_type }} {% if item.brand %}({{ item.brand }}){% endif %}</td>
-              <td>{{ item.quantity }}</td>
-              <td>{{ item.get_condition_display }}</td>
-              <td>₹{{ item.estimated_value }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      {% endif %}
-
-      <div class="invoice-section">
-        <h4>Services</h4>
-        <p>Data Destruction: {% if booking.data_destruction %}<span class="text-success">✓ Yes</span>{% else %}No{% endif %}</p>
-        <p>Compliance Certificate: {% if booking.compliance_certificate %}<span class="text-success">✓ Yes</span>{% else %}No{% endif %}</p>
-      </div>
-
-      <div class="invoice-footer">
-        <p>Thank you for choosing E-Zero for responsible e-waste recycling!</p>
-      </div>
-
-      <div class="print-actions">
-        <button class="btn btn-secondary" onclick="window.print()">
-          <i class="fas fa-print"></i> Print Invoice
-        </button>
-        <a href="{% url 'core:home' %}" class="btn btn-primary">
-          <i class="fas fa-home"></i> Back to Home
-        </a>
-      </div>
     </div>
   </div>
 </section>

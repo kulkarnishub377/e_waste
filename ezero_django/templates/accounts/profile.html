@@ -3,50 +3,57 @@
 {% block title %}Edit Profile | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="auth-section">
-  <div class="container">
-    <div class="auth-card auth-card-wide">
-      <div class="auth-header">
-        <i class="fas fa-user-edit"></i>
-        <h2>Edit Profile</h2>
-        <p>Update your personal information</p>
+<section style="min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding: calc(var(--nav-height) + 4rem) 0 6rem;">
+  <div class="container" style="display: flex; justify-content: center;">
+    <div class="glass-panel scroll-animate" style="width: 100%; max-width: 640px; padding: 3rem;">
+      <div class="text-center mb-6">
+        <div style="width: 64px; height: 64px; margin: 0 auto 1.5rem; background: var(--grad-primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; color: var(--bg-base); box-shadow: var(--shadow-glow);">
+          <i class="fas fa-user-cog"></i>
+        </div>
+        <h2 style="font-size: 2rem; margin-bottom: 0.5rem; font-family: var(--font-display); color: var(--text-pure);">Account Preferences</h2>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">Manage your E-Zero identification and contact parameters.</p>
       </div>
 
-      <form method="post" class="auth-form">
+      <form method="post" action="{% url 'accounts:profile_edit' %}">
         {% csrf_token %}
-        <div class="form-row">
-          <div class="form-group">
+        
+        {% if form.errors %}
+        <div style="background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--error); padding: 1.5rem; border-radius: var(--radius-md); margin-bottom: 2rem;">
+          Validation Failed. Please check the fields below.
+        </div>
+        {% endif %}
+
+        <div class="grid-2" style="gap: 1.5rem;">
+          <div class="form-group mb-0">
             <label class="form-label">First Name</label>
             {{ form.first_name }}
           </div>
-          <div class="form-group">
+          <div class="form-group mb-0">
             <label class="form-label">Last Name</label>
             {{ form.last_name }}
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            {{ form.email }}
-          </div>
-          <div class="form-group">
-            <label class="form-label">Phone</label>
-            {{ form.phone }}
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Preferred Language</label>
-          {{ form.preferred_language }}
+
+        <div class="form-group mt-4 mb-4">
+          <label class="form-label">Email Address (Read Only)</label>
+          <input type="email" class="form-control" style="background: rgba(255,255,255,0.02); color: var(--text-muted); border-color: rgba(255,255,255,0.05); cursor: not-allowed;" value="{{ request.user.email }}" disabled>
+          <div class="d-none">{{ form.email }}</div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg btn-block">
-          <i class="fas fa-save"></i> Save Changes
-        </button>
+        <div class="form-group mb-6">
+          <label class="form-label">Contact Number</label>
+          {{ form.phone }}
+        </div>
+
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <button type="submit" class="btn btn-primary" style="flex: 1; padding: 1rem;">
+            <i class="fas fa-save mr-2"></i> Save Configuration
+          </button>
+          <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary" style="padding: 1rem 1.5rem;">
+            Cancel
+          </a>
+        </div>
       </form>
-
-      <div class="auth-footer">
-        <a href="{% url 'accounts:dashboard' %}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-      </div>
     </div>
   </div>
 </section>

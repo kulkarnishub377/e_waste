@@ -1,200 +1,179 @@
-/**
- * E-Zero - Main Application JavaScript
- * Django Version - Professional Business Landing Page
- */
+// ==========================================================================
+// E-ZERO V2 MASTERPIECE SCRIPT
+// Coordinates animations, dynamic interactions, and the calculator logic
+// ==========================================================================
 
-// ============================================
-// DOM READY INITIALIZATION
-// ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  initHeader();
-  initMobileMenu();
-  initSmoothScroll();
-  initScrollAnimations();
-  initImpactCounters();
-  initNotifications();
-  console.log('🌱 E-Zero Django App Initialized');
+
+    /**
+     * 1. Dynamic Notification System (Django Messages)
+     */
+    const messageContainer = document.getElementById('django-messages');
+    if (messageContainer) {
+        const notifications = messageContainer.querySelectorAll('.notification');
+        notifications.forEach((notif, i) => {
+            setTimeout(() => {
+                notif.style.opacity = '0';
+                notif.style.transform = 'translateX(50px)';
+                setTimeout(() => notif.remove(), 400); // Wait for transition
+            }, 5000 + (i * 1000));
+        });
+    }
+
+    /**
+     * 2. V2 Reveal Animations (Intersection Observer)
+     */
+    const revealElements = document.querySelectorAll('.reveal');
+    if (revealElements.length > 0) {
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    }
+
+    /**
+     * 3. Header Scroll Effect
+     */
+    const header = document.getElementById('header');
+    if (header) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    }
+
+    /**
+     * 4. V2 Value Calculator Engine
+     */
+    const itemsGrid = document.getElementById('items-grid');
+    if (itemsGrid) {
+        // Expose function globally for the onclick handlers in HTML
+        window.calcUpdateQty = function(slug, change) {
+            const qtyElement = document.getElementById(`calc-qty-${slug}`);
+            if (!qtyElement) return;
+
+            let currentQty = parseInt(qtyElement.textContent);
+            let newQty = currentQty + change;
+            if (newQty < 0) newQty = 0;
+
+            // Optional: visual limit
+            if (newQty > 99) newQty = 99;
+
+            qtyElement.textContent = newQty;
+            
+            // Add pulse effect to the specific row on update class
+            const parentRow = qtyElement.closest('.calc-item');
+            if(parentRow) {
+                parentRow.style.transform = 'scale(0.98)';
+                setTimeout(() => { parentRow.style.transform = 'none'; }, 150);
+            }
+
+            recalculateTotals();
+        };
+
+        function recalculateTotals() {
+            let totalItems = 0;
+            let totalValue = 0;
+            const items = document.querySelectorAll('.calc-item');
+
+            items.forEach(item => {
+                const slug = item.getAttribute('data-item');
+                const price = parseFloat(item.getAttribute('data-price')) || 0;
+                const qtyElement = document.getElementById(`calc-qty-${slug}`);
+                
+                if (qtyElement) {
+                    const qty = parseInt(qtyElement.textContent) || 0;
+                    totalItems += qty;
+                    totalValue += (price * qty);
+                }
+            });
+
+            // Update DOM
+            const totalItemsEl = document.getElementById('total-items');
+            const totalPointsEl = document.getElementById('total-points');
+
+            if (totalItemsEl) {
+                totalItemsEl.textContent = totalItems.toLocaleString();
+            }
+
+            if (totalPointsEl) {
+                // Formatting for India Rupee standard
+                const formatter = new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    maximumFractionDigits: 0
+                });
+                totalPointsEl.textContent = formatter.format(totalValue);
+                
+                // Add quick flash effect on total
+                totalPointsEl.style.transform = 'scale(1.1)';
+                totalPointsEl.style.textShadow = '0 0 20px rgba(16, 185, 129, 0.8)';
+                setTimeout(() => {
+                    totalPointsEl.style.transform = 'none';
+                    totalPointsEl.style.textShadow = 'none';
+                }, 300);
+            }
+        }
+    }
 });
 
-// ============================================
-// HEADER FUNCTIONALITY
-// ============================================
-function initHeader() {
-  const header = document.getElementById('header');
-  if (!header) return;
-
-  let lastScroll = 0;
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-    if (currentScroll > 80) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
+// Chat Widget Logic Globally Available
+window.toggleChat = function() {
+    const chat = document.getElementById('chat-window');
+    if (chat) {
+        chat.classList.toggle('active');
     }
-    lastScroll = currentScroll;
-  });
-}
+};
 
-// ============================================
-// MOBILE MENU
-// ============================================
-function initMobileMenu() {
-  const menuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (!menuBtn || !mobileMenu) return;
-
-  menuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    menuBtn.classList.toggle('active');
-    const icon = menuBtn.querySelector('i');
-    if (mobileMenu.classList.contains('active')) {
-      icon.className = 'fas fa-times';
-    } else {
-      icon.className = 'fas fa-bars';
+window.sendQuickReply = function(text) {
+    const input = document.getElementById('chat-input');
+    if (input) {
+        input.value = text;
+        window.sendChatMessage();
     }
-  });
+};
 
-  // Close menu on link click
-  mobileMenu.querySelectorAll('.mobile-nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('active');
-      menuBtn.classList.remove('active');
-      menuBtn.querySelector('i').className = 'fas fa-bars';
-    });
-  });
-}
+window.handleChatKeypress = function(event) {
+    if (event.key === 'Enter') {
+        window.sendChatMessage();
+    }
+};
 
-// ============================================
-// SMOOTH SCROLL
-// ============================================
-function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-}
-
-// Global scroll function
-function scrollToSection(sectionId) {
-  const section = document.getElementById(sectionId);
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
-window.scrollToSection = scrollToSection;
-
-// ============================================
-// SCROLL ANIMATIONS
-// ============================================
-function initScrollAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animate-in');
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-  document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el));
-}
-
-// ============================================
-// IMPACT COUNTER ANIMATION
-// ============================================
-function initImpactCounters() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounters();
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-
-  const impactSection = document.querySelector('.impact-section');
-  if (impactSection) {
-    observer.observe(impactSection);
-  }
-}
-
-function animateCounters() {
-  document.querySelectorAll('.impact-value[data-target]').forEach(el => {
-    const target = parseInt(el.dataset.target);
-    const duration = 2000;
-    const increment = target / (duration / 16);
-    let current = 0;
-
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        current = target;
-        clearInterval(timer);
-      }
-      el.textContent = Math.floor(current).toLocaleString('en-IN');
-    }, 16);
-  });
-}
-
-// ============================================
-// NOTIFICATION SYSTEM
-// ============================================
-function initNotifications() {
-  // Auto-dismiss notifications after 5 seconds
-  document.querySelectorAll('.notification').forEach((notif, index) => {
-    setTimeout(() => {
-      notif.style.opacity = '0';
-      notif.style.transform = 'translateX(100%)';
-      setTimeout(() => notif.remove(), 300);
-    }, 5000 + (index * 500));
-  });
-}
-
-function showNotification(message, type = 'info') {
-  const container = document.querySelector('.notification-container') || (() => {
-    const c = document.createElement('div');
-    c.className = 'notification-container';
-    document.body.appendChild(c);
-    return c;
-  })();
-
-  const notif = document.createElement('div');
-  notif.className = `notification notification-${type}`;
-  notif.innerHTML = `
-    <div class="notification-content">
-      <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
-      <span>${message}</span>
-    </div>
-    <button class="notification-close" onclick="this.parentElement.remove()">&times;</button>
-  `;
-  container.appendChild(notif);
-
-  setTimeout(() => {
-    notif.style.opacity = '0';
-    setTimeout(() => notif.remove(), 300);
-  }, 5000);
-}
-window.showNotification = showNotification;
-
-// ============================================
-// FAQ TOGGLE
-// ============================================
-function toggleFaq(button) {
-  const faqItem = button.parentElement;
-  const isOpen = faqItem.classList.contains('active');
-
-  // Close all
-  document.querySelectorAll('.faq-item').forEach(item => {
-    item.classList.remove('active');
-  });
-
-  // Toggle current
-  if (!isOpen) {
-    faqItem.classList.add('active');
-  }
-}
-window.toggleFaq = toggleFaq;
+window.sendChatMessage = function() {
+    const input = document.getElementById('chat-input');
+    const messages = document.getElementById('chat-messages');
+    
+    if (input && input.value.trim() !== '' && messages) {
+        const text = input.value.trim();
+        input.value = '';
+        
+        // Add User Message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-message user';
+        userMsg.innerHTML = `<div class="message-content"><p>${text}</p><span class="message-time">Just now</span></div>`;
+        
+        // Remove quick replies temporarily
+        const quickReplies = messages.querySelector('.chat-quick-replies');
+        if (quickReplies) quickReplies.style.display = 'none';
+        
+        messages.appendChild(userMsg);
+        messages.scrollTop = messages.scrollHeight;
+        
+        // Mock Bot Response
+        setTimeout(() => {
+            const botMsg = document.createElement('div');
+            botMsg.className = 'chat-message bot';
+            botMsg.innerHTML = `<div class="message-content"><p>An E-Zero specialist has been notified regarding: "${text}". Please stand by while we analyze the request.</p><span class="message-time">Just now</span></div>`;
+            messages.appendChild(botMsg);
+            messages.scrollTop = messages.scrollHeight;
+        }, 1000);
+    }
+};

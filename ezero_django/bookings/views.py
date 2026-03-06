@@ -12,13 +12,13 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Booking, BookingItem
-from .forms import BookingStep1Form
+from .forms import BookingFullForm
 
 
 class BookingCreateView(CreateView):
     """Create a new booking."""
     model = Booking
-    form_class = BookingStep1Form
+    form_class = BookingFullForm
     template_name = 'bookings/booking_create.html'
 
     def get_success_url(self):

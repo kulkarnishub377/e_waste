@@ -1,58 +1,65 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Blog & Resources | {{ SITE_NAME }}{% endblock %}
+{% block title %}Intelligence Database | {{ SITE_NAME }}{% endblock %}
 
 {% block content %}
-<section class="blog-page-section">
-  <div class="container">
-    <div class="section-title">
-      <span class="section-badge"><i class="fas fa-newspaper"></i> Resources</span>
-      <h2>Blog & Resources</h2>
-      <p>Stay updated with e-waste management trends, regulations, and best practices.</p>
-    </div>
+<section style="padding: calc(var(--nav-height) + 4rem) 0 6rem; min-height: 100vh;">
+  <div class="container mb-8 reveal text-center">
+    <div class="badge badge-cyan mb-3">Intelligence Database</div>
+    <h1 class="text-gradient" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem;">E-Waste Protocols & ESG</h1>
+    <p style="color: var(--text-muted); font-size: 1.125rem; max-width: 600px; margin: 0 auto;">Deep-dive articles on environmental compliance, data security, and zero-landfill technologies.</p>
+  </div>
 
-    <div class="blog-grid">
-      {% for article in articles %}
-      <article class="blog-card scroll-animate">
-        <a href="{% url 'blog:detail' article.slug %}">
-          <div class="blog-image">
-            {% if article.image_url %}
-            <img src="{{ article.image_url }}" alt="{{ article.title }}">
-            {% endif %}
-            <span class="blog-category">{{ article.get_category_display }}</span>
-          </div>
-          <div class="blog-content">
-            <div class="blog-meta">
-              <span><i class="fas fa-calendar"></i> {{ article.published_date|date:"M d, Y" }}</span>
-              <span><i class="fas fa-clock"></i> {{ article.read_time }}</span>
-            </div>
-            <h3>{{ article.title }}</h3>
-            <p>{{ article.summary }}</p>
-            <span class="blog-link">Read More <i class="fas fa-arrow-right"></i></span>
-          </div>
-        </a>
-      </article>
-      {% empty %}
-      <div class="empty-state">
-        <i class="fas fa-newspaper"></i>
-        <h4>No articles yet</h4>
-        <p>Check back soon for the latest insights on e-waste management.</p>
+  <div class="container grid-3">
+    {% for article in articles %}
+    <a href="{% url 'blog:detail' article.slug %}" class="glass-panel reveal" style="padding: 0; display: block; overflow: hidden; transition-delay: 0.{{ forloop.counter }}s; group;">
+      <div style="height: 200px; position: relative; overflow: hidden;">
+        {% if article.image_url %}
+          <img src="{{ article.image_url }}" alt="{{ article.title }}" style="width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6) contrast(1.2) grayscale(0.2); transition: transform 0.8s var(--ease-out);" onmouseover="this.style.transform='scale(1.05)';" onmouseout="this.style.transform='scale(1)';">
+        {% else %}
+          <div style="width: 100%; height: 100%; background: linear-gradient(135deg, rgba(8, 145, 178, 0.4), rgba(16, 185, 129, 0.4)); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: rgba(255,255,255,0.2);"><i class="fas fa-file-alt"></i></div>
+        {% endif %}
+        <span class="badge" style="position: absolute; top: 1rem; left: 1rem; background: rgba(3, 7, 18, 0.8); backdrop-filter: var(--blur-md); color: var(--text-pure); border: none;">{{ article.get_category_display }}</span>
       </div>
-      {% endfor %}
+      
+      <div style="padding: 2rem;">
+        <div style="display: flex; gap: 1rem; color: var(--text-muted); font-size: 0.75rem; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">
+          <span><i class="far fa-calendar-alt mr-1 text-cyan"></i> {{ article.published_date|date:"M d, Y" }}</span>
+          <span><i class="far fa-clock mr-1 text-accent"></i> {{ article.read_time }}</span>
+        </div>
+        
+        <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--text-pure); line-height: 1.4; transition: color 0.3s;" onmouseover="this.style.color='var(--accent-light)';" onmouseout="this.style.color='var(--text-pure)';">{{ article.title }}</h3>
+        
+        <p style="color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 1.5rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">{{ article.summary }}</p>
+        
+        <div style="font-family: var(--font-display); font-size: 0.875rem; font-weight: 600; color: var(--text-pure); display: flex; align-items: center; gap: 0.5rem; transition: gap 0.3s;" onmouseover="this.style.gap='0.75rem';" onmouseout="this.style.gap='0.5rem';">
+          Read Protocol <i class="fas fa-arrow-right text-accent"></i>
+        </div>
+      </div>
+    </a>
+    {% empty %}
+    <div style="grid-column: span 3; padding: 4rem; text-align: center; color: var(--text-muted);">
+      <i class="fas fa-database fa-3x mb-4 text-cyan"></i>
+      <h3>Database Matrix Empty</h3>
+      <p>No intelligence articles synchronized yet.</p>
     </div>
+    {% endfor %}
+  </div>
 
-    {% if is_paginated %}
-    <div class="pagination">
-      {% if page_obj.has_previous %}
-      <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary"><i class="fas fa-chevron-left"></i> Previous</a>
-      {% endif %}
-      <span class="pagination-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-      {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Next <i class="fas fa-chevron-right"></i></a>
-      {% endif %}
-    </div>
+  <!-- Pagination -->
+  {% if is_paginated %}
+  <div class="container mt-8" style="display: flex; justify-content: center; gap: 0.5rem;">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;"><i class="fas fa-chevron-left"></i></a>
+    {% endif %}
+    
+    <span class="btn btn-primary" style="padding: 0.5rem 1rem; background: var(--glass-bg); color: var(--text-pure); border: 1px solid var(--glass-border); text-shadow: none; box-shadow: none;">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;"><i class="fas fa-chevron-right"></i></a>
     {% endif %}
   </div>
+  {% endif %}
 </section>
 {% endblock %}

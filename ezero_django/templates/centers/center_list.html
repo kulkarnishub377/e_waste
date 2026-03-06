@@ -11,8 +11,9 @@
     <p style="color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto;">Locate your nearest authorized E-Zero drop-off point or specialized material recovery facility.</p>
   </div>
 
-  <div class="container" style="flex: 1; display: flex; flex-direction: column;">
-    <div class="glass-panel reveal" style="padding: 0; display: flex; flex-direction: column; @media(min-width: 900px){flex-direction:row;} height: 75vh; border-radius: var(--radius-xl); overflow: hidden; border-color: var(--glass-border-highlight);">
+  <!-- Map and Sidebar Container -->
+  <div class="container mb-8">
+    <div class="glass-panel" style="display: flex; flex-direction: column; @media(min-width: 900px){flex-direction:row;} height: 75vh; min-height: 600px; padding: 0; overflow: hidden;">
       
       <!-- Finder Sidebar -->
       <div style="flex: 0 0 380px; background: rgba(3, 7, 18, 0.9); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column;">
@@ -50,22 +51,22 @@
 
 <!-- Advanced Map Styles -->
 <style>
-  /* Customizing Leaflet to match the Dark Space theme */
-  .leaflet-container { background: #030712 !important; font-family: var(--font-body); }
+  /* Customizing Leaflet to match the Dark Space theme cleanly */
+  .leaflet-container { background: #020617 !important; font-family: var(--font-body); }
   
-  /* Make standard OSM tiles darker via CSS filter */
-  .leaflet-tile-pane { filter: contrast(1.2) brightness(0.6) invert(1) hue-rotate(200deg) saturate(0.5); }
+  /* Make standard OSM tiles a beautiful slate-dark mode cleanly */
+  .leaflet-tile-pane { filter: invert(90%) hue-rotate(180deg) brightness(85%) contrast(85%) sepia(20%); }
   
   /* Custom Popups */
-  .leaflet-popup-content-wrapper { background: rgba(11, 17, 33, 0.95) !important; color: #fff; border: 1px solid var(--glass-border-highlight); border-radius: var(--radius-md); backdrop-filter: var(--blur-md); box-shadow: var(--shadow-glow); }
-  .leaflet-popup-tip { background: rgba(11, 17, 33, 0.95) !important; border-top: 1px solid var(--glass-border-highlight); border-left: 1px solid var(--glass-border-highlight); }
+  .leaflet-popup-content-wrapper { background: rgba(15, 23, 42, 0.95) !important; color: #fff; border: 1px solid var(--glass-border-highlight); border-radius: var(--radius-md); backdrop-filter: var(--blur-md); box-shadow: var(--shadow-lg); }
+  .leaflet-popup-tip { background: rgba(15, 23, 42, 0.95) !important; border-top: 1px solid var(--glass-border-highlight); border-left: 1px solid var(--glass-border-highlight); }
   .custom-popup-title { font-family: var(--font-display); font-size: 1.125rem; font-weight: 700; color: var(--text-pure); margin-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem;}
   .custom-popup-body { font-size: 0.875rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; }
   .leaflet-popup-close-button { color: var(--text-muted) !important; font-size: 1.5rem !important; margin-right: 5px; }
 
   /* Marker Clusters */
-  .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large { background-color: rgba(6, 182, 212, 0.3) !important; border: 1px solid rgba(6, 182, 212, 0.6); }
-  .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { background-color: rgba(16, 185, 129, 0.8) !important; color: #fff; font-family: var(--font-display); font-weight: 700; border: 2px solid #030712;}
+  .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large { background-color: rgba(59, 130, 246, 0.3) !important; border: 1px solid rgba(59, 130, 246, 0.6); }
+  .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { background-color: rgba(16, 185, 129, 0.8) !important; color: #fff; font-family: var(--font-display); font-weight: 700; border: 2px solid #020617;}
   
   /* Sidebar Items */
   .sidebar-item { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 1.25rem; transition: all 0.3s; cursor: pointer; }
@@ -73,7 +74,7 @@
   
   /* Custom markers */
   .ezero-marker { border-radius: 50%; display: flex; justify-content: center; align-items: center; }
-  .ezero-marker.regular { background: var(--grad-primary); box-shadow: 0 0 15px rgba(16,185,129,0.5); border: 2px solid #fff; color: #000; font-size: 14px;}
+  .ezero-marker.regular { background: var(--grad-primary); box-shadow: 0 0 15px rgba(16,185,129,0.5); border: 2px solid #fff; color: #fff; font-size: 14px;}
 </style>
 
 <!-- Load Map JS -->

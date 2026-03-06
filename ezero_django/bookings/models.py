@@ -57,6 +57,8 @@ class Booking(models.Model):
     # Status
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     notes = models.TextField(blank=True, default='')
+    items_description = models.TextField(blank=True, default='')
+    approximate_weight = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
     # Services
     data_destruction = models.BooleanField(default=False)

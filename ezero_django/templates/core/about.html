@@ -4,45 +4,58 @@
 
 {% block content %}
 <section style="min-height: 100vh; position: relative; padding-top: calc(var(--nav-height) + 4rem); padding-bottom: 6rem; overflow: hidden;">
-  <!-- Abstract Cyber Graphics -->
-  <div style="position:absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%); top: 10%; right: -200px; z-index: -1;"></div>
-  <div style="position:absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%); bottom: -200px; left: -200px; z-index: -1;"></div>
+  <!-- Premium Network Background -->
+  <div style="position:absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%); top: -100px; right: -200px; z-index: -1;"></div>
+  <div style="position:absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%); bottom: -200px; left: -200px; z-index: -1;"></div>
 
+  <!-- Hero Header -->
   <div class="container reveal text-center mb-8">
-    <div class="badge badge-cyan mb-3">Our Mission</div>
-    <h1 class="text-gradient" style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 1.5rem;">Pioneering Zero-Waste <br> Technology Lifecycle</h1>
-    <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto;">We are India's premier authorized e-waste management authority, transforming linear consumption into a circular electronics economy.</p>
+    <div class="badge badge-cyan mb-4">Our Environmental Mission</div>
+    <h1 class="text-gradient" style="font-size: clamp(3rem, 6vw, 5rem); margin-bottom: 1.5rem; max-width: 1000px; margin-inline: auto; line-height: 1.1;">Transforming E-Waste into Zero-Waste</h1>
+    <p style="font-size: 1.125rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">We are India's premier authorized e-waste management authority, securing end-of-life IT assets and extracting maximum value without the landfill.</p>
   </div>
 
-  <div class="container">
-    <div class="glass-panel reveal reveal-delay-1" style="padding: 4rem; display: flex; flex-direction: column; @media(min-width:900px){flex-direction:row;} gap: 4rem; align-items: center; margin-bottom: 4rem;">
-      <div style="flex: 1;">
-        <h2 style="font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text-pure);">The <span class="text-accent">E-Zero</span> Directive</h2>
-        <p style="font-size: 1rem; margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.8;">Founded with a core imperative to mitigate technical toxic runoff, E-Zero has evolved into the most trusted name in IT asset disposition across the subcontinent. We process thousands of tons of hazardous electronics annually.</p>
-        <p style="font-size: 1rem; margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.8;">By leveraging advanced mechanized segregation and metallurgical extraction processes, we guarantee a 0% landfill footprint while maintaining absolute data security through NIST-compliant sanitization protocols.</p>
-        
-        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--cyan-light); font-weight: 500; font-family: var(--font-display);"><i class="fas fa-check-circle"></i> ISO 14001:2015</div>
-          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--cyan-light); font-weight: 500; font-family: var(--font-display);"><i class="fas fa-check-circle"></i> R2v3 Certified</div>
-          <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--cyan-light); font-weight: 500; font-family: var(--font-display);"><i class="fas fa-check-circle"></i> CPCB Auth</div>
-        </div>
-      </div>
+  <!-- Feature Panel -->
+  <div class="container mb-8">
+    <div class="glass-panel reveal reveal-delay-1" style="padding: 0; display: flex; flex-direction: column; @media(min-width:1000px){flex-direction:row;} align-items: stretch; margin-bottom: 4rem; overflow: hidden;">
       
-      <div style="flex: 1; position: relative; width: 100%;">
-        <!-- Stylized image replacement box to maintain the advanced tech theme -->
-        <div style="width: 100%; aspect-ratio: 4/3; border-radius: var(--radius-xl); background: rgba(3, 7, 18, 0.8); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 0 30px rgba(0,0,0,0.5);">
-          <!-- Circuit board lines generated via CSS gradients -->
-          <div style="position: absolute; width: 200%; height: 200%; background: linear-gradient(90deg, rgba(16,185,129,0.05) 1px, transparent 1px), linear-gradient(0deg, rgba(16,185,129,0.05) 1px, transparent 1px); background-size: 20px 20px; animation: slideBG 20s linear infinite;"></div>
-          
-          <i class="fas fa-microchip" style="font-size: 6rem; color: var(--accent-light); filter: drop-shadow(0 0 20px rgba(16,185,129,0.4)); opacity: 0.8;"></i>
-          
-          <!-- Glitch Overlay -->
-          <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(8,145,178,0.1); mix-blend-mode: overlay;"></div>
+      <!-- Video/Image Representation Container -->
+      <div style="flex: 1; position: relative; min-height: 400px; background: #0f172a; border-right: 1px solid var(--glass-border); overflow: hidden;">
+        <div style="position:absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg, rgba(37,99,235,0.2) 0%, transparent 100%);"></div>
+        <div style="position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); display:flex; flex-direction:column; align-items:center;">
+          <i class="fas fa-satellite-dish" style="font-size: 5rem; color: var(--text-pure); filter: drop-shadow(0 0 30px rgba(59,130,246,0.6)); margin-bottom: 1rem; animation: float 6s ease-in-out infinite;"></i>
+          <span style="font-family: var(--font-display); color: var(--cyan-light); font-weight: 700; letter-spacing: 0.2em;">E-ZERO COMMAND Core</span>
+        </div>
+        <!-- Animated grid -->
+        <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 30px 30px; animation: slideDown 20s linear infinite;"></div>
+      </div>
+
+      <!-- Content Area -->
+      <div style="flex: 1.2; padding: 4rem;">
+        <h2 style="font-family: var(--font-display); font-size: 2.25rem; margin-bottom: 1.5rem; color: var(--text-pure);">The <span class="text-accent">E-Zero</span> Directive</h2>
+        <p style="font-size: 1.0625rem; margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.8;">Founded with a core imperative to mitigate global toxic runoff, E-Zero has evolved into the most trusted name in IT asset disposition across the subcontinent. We process thousands of tons of high-hazard electronics annually securely and safely.</p>
+        <p style="font-size: 1.0625rem; margin-bottom: 2.5rem; color: var(--text-muted); line-height: 1.8;">By leveraging advanced mechanized segregation and multi-stage metallurgical extraction processes, we guarantee a 0% landfill footprint while maintaining absolute data security through rigid NIST 800-88 compliant sanitization protocols.</p>
+        
+        <div class="grid-2" style="gap: 1.5rem;">
+          <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 1.5rem; border-radius: var(--radius-md);">
+            <i class="fas fa-check-circle text-accent mb-2" style="font-size: 1.5rem;"></i>
+            <h4 style="color: var(--text-pure); margin-bottom: 0.25rem;">R2v3 Certified</h4>
+            <span style="color: var(--text-muted); font-size: 0.875rem;">Global standard compliance</span>
+          </div>
+          <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); padding: 1.5rem; border-radius: var(--radius-md);">
+            <i class="fas fa-shield-alt text-cyan mb-2" style="font-size: 1.5rem;"></i>
+            <h4 style="color: var(--text-pure); margin-bottom: 0.25rem;">CPCB Authorized</h4>
+            <span style="color: var(--text-muted); font-size: 0.875rem;">Government approved facility</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="grid-3 mb-8">
+    </div>
+  </div>
+
+  <!-- Core Values -->
+  <div class="container mb-8">
+    <div class="grid-3">
       <div class="glass-panel reveal" style="padding: 2.5rem; transition-delay: 0.1s;">
         <i class="fas fa-globe-asia text-cyan mb-4" style="font-size: 2.5rem;"></i>
         <h3 style="font-size: 1.5rem; font-family: var(--font-display); margin-bottom: 1rem;">National Scale</h3>
@@ -60,10 +73,53 @@
       </div>
     </div>
   </div>
+
+  <!-- Team/Leadership Section -->
+  <div class="container reveal">
+    <div class="text-center mb-6">
+      <h2 class="text-gradient" style="font-size: 2.5rem;">Executive Leadership</h2>
+      <p style="color:var(--text-muted); max-width:500px; margin: 0 auto;">Pioneers in metallurgical science and reverse logistics.</p>
+    </div>
+    <div class="grid-4">
+      <!-- Team Card 1 -->
+      <div class="glass-panel text-center" style="padding: 2rem;">
+        <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--grad-primary); margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; box-shadow: 0 0 20px rgba(16,185,129,0.3);">
+          <i class="fas fa-user-tie"></i>
+        </div>
+        <h4 style="font-family: var(--font-display); color: var(--text-pure); margin-bottom: 0.25rem; font-size: 1.25rem;">Dr. Alan Vance</h4>
+        <span style="color: var(--cyan-light); font-size: 0.875rem; font-weight: 500;">Chief Sustainability Officer</span>
+      </div>
+      <!-- Team Card 2 -->
+      <div class="glass-panel text-center" style="padding: 2rem;">
+        <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, rgba(59,130,246,0.8), rgba(16,185,129,0.8)); margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; box-shadow: 0 0 20px rgba(59,130,246,0.3);">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <h4 style="font-family: var(--font-display); color: var(--text-pure); margin-bottom: 0.25rem; font-size: 1.25rem;">Sarah Jenkins</h4>
+        <span style="color: var(--cyan-light); font-size: 0.875rem; font-weight: 500;">VP of Global Operations</span>
+      </div>
+      <!-- Team Card 3 -->
+      <div class="glass-panel text-center" style="padding: 2rem;">
+        <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, rgba(245,158,11,0.8), rgba(239,68,68,0.8)); margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; box-shadow: 0 0 20px rgba(245,158,11,0.3);">
+          <i class="fas fa-microchip"></i>
+        </div>
+        <h4 style="font-family: var(--font-display); color: var(--text-pure); margin-bottom: 0.25rem; font-size: 1.25rem;">Rajesh Kumar</h4>
+        <span style="color: var(--cyan-light); font-size: 0.875rem; font-weight: 500;">Head of Metallurgy</span>
+      </div>
+      <!-- Team Card 4 -->
+      <div class="glass-panel text-center" style="padding: 2rem;">
+        <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, rgba(139,92,246,0.8), rgba(59,130,246,0.8)); margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #fff; box-shadow: 0 0 20px rgba(139,92,246,0.3);">
+          <i class="fas fa-network-wired"></i>
+        </div>
+        <h4 style="font-family: var(--font-display); color: var(--text-pure); margin-bottom: 0.25rem; font-size: 1.25rem;">Elena Rostova</h4>
+        <span style="color: var(--cyan-light); font-size: 0.875rem; font-weight: 500;">Director of Logistics</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <style>
-  @keyframes slideBG { 0% { background-position: 0 0; } 100% { background-position: 400px 400px; } }
-  @media(max-width:900px) { .glass-panel[style*="flex-direction:row"] { flex-direction:column !important; } }
+  @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
+  @keyframes slideDown { 0% { background-position: 0 0; } 100% { background-position: 0 300px; } }
+  @media(max-width:1000px) { .glass-panel[style*="flex-direction:row"] { flex-direction:column !important; } }
 </style>
 {% endblock %}
