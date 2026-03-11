@@ -1,0 +1,96 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+    .ai-card { background: #fff; border: 1px solid #ddd; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .ai-card h2 { margin-top: 0; color: #10B981; border-bottom: 2px solid #eee; padding-bottom: 15px; font-size: 1.4em; }
+    .ai-stat { font-size: 2.2em; font-weight: bold; color: #2c3e50; margin: 15px 0 5px; }
+    .ai-label { color: #64748B; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    .ai-badge { display: inline-block; padding: 5px 10px; border-radius: 12px; background: #E0E7FF; color: #4338CA; font-weight: bold; font-size: 0.85em; }
+    
+    .table-dark { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    .table-dark th, .table-dark td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    .table-dark th { background: #f8fafc; color: #475569; }
+    .table-dark tr:hover { background: #f1f5f9; }
+    
+    .sys-status { display: flex; justify-content: space-between; align-items: center; background: #020617; color: #10B981; padding: 15px; border-radius: 6px; font-family: monospace; margin-bottom: 25px; }
+    .pulse-dot { display: inline-block; width: 10px; height: 10px; background: #10B981; border-radius: 50%; box-shadow: 0 0 10px #10B981; animation: blink 1.5s infinite; }
+    @keyframes blink { 50% { opacity: 0.3; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    
+    <div class="sys-status">
+        <div><span class="pulse-dot"></span> Core NLP & OLS Linear Regression Active</div>
+        <div>Model Accuracy R²: {{ ml_forecast.model_metadata.r_squared_accuracy }}% | Training Data Points: {{ ml_forecast.model_metadata.data_points_trained }}</div>
+    </div>
+
+    {% if error %}
+    <div style="background: #FEF2F2; color: #991B1B; padding: 20px; border: 1px solid #FCA5A5; border-radius: 6px;">
+        <h3>AI Engine Insufficient Training Data</h3>
+        <p>{{ error }}</p>
+    </div>
+    {% else %}
+    <div class="ai-grid">
+        
+        <!-- ML Forecast Panel -->
+        <div class="ai-card">
+            <h2>🔮 6-Month Influx Predictions</h2>
+            <p>Calculated via <em>Pure Python</em> Custom Ordinary Least Squares (OLS) Linear Regression Engine.</p>
+            
+            <table class="table-dark">
+                <thead>
+                    <tr><th>Projected Month</th><th>Forecasted E-Waste (kg)</th><th>Trend Delta</th></tr>
+                </thead>
+                <tbody>
+                    {% for month, volume in ml_forecast.future_forecast.items %}
+                    <tr>
+                        <td style="font-weight: bold; color: #3b82f6;">{{ month }}</td>
+                        <td style="font-family: monospace; font-size: 1.1em;">{{ volume|floatformat:1 }} kg</td>
+                        <td><span style="color: #10B981;">▲ Extrapolated</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Heavy Analytics Core Panel -->
+        <div class="ai-card">
+            <h2>🌍 ESG & Carbon Trace Analytics</h2>
+            <p>Calculated via in-memory Python object scaling across {{ esg_report.total_pickups }} records.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;">
+                <div>
+                    <div class="ai-stat text-gradient">{{ esg_report.total_weight_kg|floatformat:1 }}</div>
+                    <div class="ai-label">Total E-Waste Purged (kg)</div>
+                </div>
+                <div>
+                    <div class="ai-stat" style="color: #10B981;">{{ esg_report.total_carbon_offset_kg|floatformat:1 }}</div>
+                    <div class="ai-label">Carbon Offset (kg CO₂)</div>
+                </div>
+                <div>
+                    <div class="ai-stat" style="color: #4CAF50;">🌲 {{ esg_report.equivalent_trees_planted }}</div>
+                    <div class="ai-label">Eqv. Trees Planted</div>
+                </div>
+                <div>
+                    <div class="ai-stat" style="color: #8B5CF6;">{{ esg_report.total_pickups }}</div>
+                    <div class="ai-label">Confirmed Logistics</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px;">
+                <span class="ai-badge">Algorithm: EnvironmentalImpactAnalyzer (Pure Python)</span>
+                <span class="ai-badge">Algorithm: MarketPricingEngine (USD/INR Trace)</span>
+            </div>
+        </div>
+        
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
