@@ -8,6 +8,7 @@ app_name = 'bookings'
 urlpatterns = [
     path('', views.BookingListView.as_view(), name='list'),
     path('create/', views.BookingCreateView.as_view(), name='create'),
-    path('api/', views.booking_api, name='api'),
+    path('api/create/', views.booking_api, name='api_create'),
     path('<str:booking_id>/', views.BookingDetailView.as_view(), name='detail'),
+    path('<str:booking_id>/download-certificate/', views.download_certificate, name='download_certificate'),
 ]
