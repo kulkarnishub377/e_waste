@@ -7,6 +7,19 @@ from django.db import models
 from django.conf import settings
 
 
+class TimeSlot(models.Model):
+    """Dynamically manageable time slots for e-waste pickup."""
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    capacity = models.PositiveIntegerField(default=10, help_text="Number of pickups that can be scheduled in this slot")
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['start_time']
+
+    def __str__(self):
+        return f"{self.start_time.strftime('%I:%M %p')} - {self.end_time.strftime('%I:%M %p')}"
+
 class Booking(models.Model):
     """An e-waste pickup booking."""
 
@@ -17,13 +30,6 @@ class Booking(models.Model):
         ('in_transit', 'In Transit'),
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
-    ]
-
-    TIME_SLOT_CHOICES = [
-        ('09:00-11:00', '09:00 AM - 11:00 AM'),
-        ('11:00-13:00', '11:00 AM - 01:00 PM'),
-        ('14:00-16:00', '02:00 PM - 04:00 PM'),
-        ('16:00-18:00', '04:00 PM - 06:00 PM'),
     ]
 
     # User info (can be nullable for anonymous bookings)
@@ -52,7 +58,7 @@ class Booking(models.Model):
 
     # Schedule
     pickup_date = models.DateField()
-    pickup_time_slot = models.CharField(max_length=20, choices=TIME_SLOT_CHOICES)
+    pickup_time_slot = models.ForeignKey(TimeSlot, on_delete=models.SET_NULL, null=True, related_name='bookings')
 
     # Status
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
