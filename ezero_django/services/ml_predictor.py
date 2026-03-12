@@ -9,80 +9,56 @@ This models E-Waste influx volume based on time-series historical data.
 import math
 from datetime import datetime, date
 from typing import List, Tuple, Dict, Any
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 
 class PredictiveModelEngine:
     """
-    Custom Implementation of Ordinary Least Squares (OLS) Linear Regression 
-    in Pure Python for predicting future E-Waste Collection Volumes.
+    Industry Standard Ordinary Least Squares (OLS) Linear Regression 
+    powered by scikit-learn for predicting future E-Waste Collection Volumes.
     """
 
     def __init__(self):
-        self.coefficients = []
-        self.intercept = 0.0
+        self.model = LinearRegression()
         self.is_trained = False
         
-    def _mean(self, values: List[float]) -> float:
-        """Calculate statistical mean."""
-        return sum(values) / len(values) if values else 0.0
-        
-    def _variance(self, values: List[float], mean: float) -> float:
-        """Calculate variance of an array."""
-        return sum([(x - mean) ** 2 for x in values])
-        
-    def _covariance(self, x: List[float], mean_x: float, y: List[float], mean_y: float) -> float:
-        """Calculate covariance between two arrays."""
-        covar = 0.0
-        for i in range(len(x)):
-            covar += (x[i] - mean_x) * (y[i] - mean_y)
-        return covar
-
     def fit_simple_linear_regression(self, X: List[float], y: List[float]):
         """
-        Calculates coefficients for a simple linear regression (y = b0 + b1*x)
-        Typically used where X = Time (Months/Years) and y = Volume (E-Waste in Kg).
+        Trains the scikit-learn model.
         """
         if len(X) != len(y) or len(X) == 0:
             raise ValueError("Training datasets X and y must be of equal, non-zero length.")
 
-        x_mean = self._mean(X)
-        y_mean = self._mean(y)
+        # Reshape X for sklearn (requires 2D array)
+        X_arr = np.array(X).reshape(-1, 1)
+        y_arr = np.array(y)
 
-        # Calculate Beta-1 (Slope)
-        b1 = self._covariance(X, x_mean, y, y_mean) / self._variance(X, x_mean)
-        
-        # Calculate Beta-0 (Intercept)
-        b0 = y_mean - b1 * x_mean
-
-        self.coefficients = [b1]
-        self.intercept = b0
+        self.model.fit(X_arr, y_arr)
         self.is_trained = True
 
-        return {'slope': b1, 'intercept': b0}
+        return {'slope': self.model.coef_[0], 'intercept': self.model.intercept_}
 
     def predict(self, X_predict: List[float]) -> List[float]:
         """Provides the predicted values for the inputs based on trained weights."""
         if not self.is_trained:
             raise Exception("Prediction Engine has not been trained (fit) on a dataset yet.")
             
-        predictions = []
-        for x in X_predict:
-            y_hat = self.intercept + (self.coefficients[0] * x)
-            predictions.append(round(y_hat, 2))
+        X_arr = np.array(X_predict).reshape(-1, 1)
+        predictions = self.model.predict(X_arr)
             
-        return predictions
+        return [round(float(p), 2) for p in predictions]
 
     def calculate_r_squared(self, X: List[float], y_actual: List[float]) -> float:
-        """Calculates the coefficient of determination (R^2) representing model accuracy."""
-        y_predictions = self.predict(X)
-        mean_y = self._mean(y_actual)
-        
-        sum_squared_regression = sum([(y_pred - mean_y) ** 2 for y_pred in y_predictions])
-        total_sum_squares = sum([(y - mean_y) ** 2 for y in y_actual])
-        
-        if total_sum_squares == 0:
-            return 1.0 # Perfect fit if no variance
+        """Calculates the coefficient of determination (R^2) using scikit-learn."""
+        if not self.is_trained:
+            return 0.0
             
-        return sum_squared_regression / total_sum_squares
+        X_arr = np.array(X).reshape(-1, 1)
+        y_predictions = self.model.predict(X_arr)
+        
+        return r2_score(y_actual, y_predictions)
 
 class ESGVolumeForecaster:
     """
@@ -115,28 +91,23 @@ class ESGVolumeForecaster:
         X_future = list(range(last_index + 1, last_index + 1 + months_to_predict))
         y_forecast = self.engine.predict(X_future)
         
-        # Build Response Matrix
+        # Build Response Matrix utilizing Pandas Dates
         forecast_matrix = {}
+        
+        # Generate future date strings using pandas
+        last_date_str = sorted_keys[-1]
+        future_dates = pd.date_range(start=last_date_str, periods=months_to_predict + 1, freq='MS')[1:]
+        
         for i, val in enumerate(y_forecast):
-            # Complex date string math
-            last_date_str = sorted_keys[-1]
-            yr, mo = last_date_str.split('-')
-            new_mo = int(mo) + i + 1
-            new_yr = int(yr) + (new_mo // 12)
-            new_mo = new_mo % 12
-            if new_mo == 0:
-                new_yr -= 1
-                new_mo = 12
-                
-            future_key = f"{new_yr}-{new_mo:02d}"
+            future_key = future_dates[i].strftime("%Y-%m")
             forecast_matrix[future_key] = max(0.0, val) # Volumes can't be negative
 
         return {
             "model_metadata": {
-                "algorithm": "Ordinary Least Squares (OLS) pure Python",
-                "slope": round(model_stats['slope'], 4),
-                "intercept": round(model_stats['intercept'], 4),
-                "r_squared_accuracy": round(accuracy * 100, 2),
+                "algorithm": "scikit-learn OLS Linear Regression",
+                "slope": round(float(model_stats['slope']), 4),
+                "intercept": round(float(model_stats['intercept']), 4),
+                "r_squared_accuracy": round(float(accuracy) * 100, 2),
                 "data_points_trained": len(X_train)
             },
             "historical_baseline": monthly_volumes,

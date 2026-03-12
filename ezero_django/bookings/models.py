@@ -3,8 +3,12 @@ Bookings app models.
 Handles e-waste pickup scheduling and tracking.
 """
 
+import qrcode
+from io import BytesIO
+from django.core.files import File
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 
 class TimeSlot(models.Model):
@@ -74,6 +78,12 @@ class Booking(models.Model):
     assigned_partner = models.CharField(max_length=200, blank=True, default='')
     weight_kg = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     reward_points = models.PositiveIntegerField(default=0)
+    qr_code = models.ImageField(upload_to='qrcodes/', blank=True, null=True)
+
+    # Payments (Simulated Gateway)
+    payment_status = models.CharField(max_length=20, default='unpaid', choices=[('unpaid', 'Unpaid'), ('paid', 'Paid'), ('payout_pending', 'Payout Pending'), ('payout_completed', 'Payout Completed')])
+    payment_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    transaction_id = models.CharField(max_length=100, blank=True, null=True)
 
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -90,6 +100,18 @@ class Booking(models.Model):
             last = Booking.objects.order_by('-id').first()
             next_id = (last.id + 1) if last else 1
             self.booking_id = f"EZ-{next_id:06d}"
+            
+        # Generate QR if it doesn't exist
+        if not self.qr_code:
+            # Create a URL or specific data string for the delivery partner app
+            # Assuming a future endpoint like /api/bookings/EZ-000001/scan
+            qr_data = f"EZERO-PICKUP:{self.booking_id}"
+            qr_image = qrcode.make(qr_data)
+            qr_offset = BytesIO()
+            qr_image.save(qr_offset, format='PNG')
+            file_name = f'qr_{self.booking_id}.png'
+            self.qr_code.save(file_name, File(qr_offset), save=False)
+            
         super().save(*args, **kwargs)
 
     @property
