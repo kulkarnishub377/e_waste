@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'contacts.apps.ContactsConfig',
     'calculator.apps.CalculatorConfig',
     'accounts.apps.AccountsConfig',
+    'market.apps.MarketConfig',
 ]
 
 MIDDLEWARE = [
