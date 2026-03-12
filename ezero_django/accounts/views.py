@@ -11,6 +11,7 @@ from django.contrib import messages
 from .forms import RegistrationForm, LoginForm, ProfileForm
 from .models import UserProfile
 from bookings.models import Booking
+from market.models import Order, Product
 
 
 class RegisterView(CreateView):
@@ -43,9 +44,21 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['bookings'] = Booking.objects.filter(user=self.request.user)[:10]
-        context['profile'] = self.request.user.profile if hasattr(self.request.user, 'profile') else None
+        
+        # Pickups / E-Waste
+        context['bookings'] = Booking.objects.filter(user=self.request.user).order_by('-created_at')[:5]
         context['total_bookings'] = Booking.objects.filter(user=self.request.user).count()
+        context['profile'] = self.request.user.profile if hasattr(self.request.user, 'profile') else None
+        
+        # Market Integration
+        context['market_purchases'] = Order.objects.filter(buyer=self.request.user).order_by('-created_at')[:5]
+        context['market_listings'] = Product.objects.filter(seller=self.request.user).order_by('-created_at')[:5]
+        
+        # ESG Math Conversions (approx 21kg CO2 = 1 tree)
+        if context['profile']:
+            co2 = float(context['profile'].co2_saved)
+            context['trees_equivalent'] = int(co2 / 21)
+            
         return context
 
 

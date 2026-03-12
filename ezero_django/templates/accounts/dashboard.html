@@ -4,26 +4,30 @@
 
 {% block content %}
 <section style="padding: calc(var(--nav-height) + 3rem) 0 6rem; min-height: 100vh;">
-  <div class="container">
+  <div class="container mx-auto px-4 max-w-7xl">
     
     <!-- Dashboard Header -->
-    <div class="glass-panel mb-8" style="padding: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-color: rgba(16, 185, 129, 0.3);">
-      <div style="display: flex; align-items: center; gap: 1.5rem;">
-        <div style="width: 80px; height: 80px; border-radius: 20px; background: var(--grad-primary); border: 2px solid var(--accent-electric); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--bg-base); box-shadow: var(--shadow-glow);">
+    <div class="glass-panel mb-8 p-8 flex justify-between items-center flex-wrap gap-4 border-l-4 border-l-green-500 rounded-2xl shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-32 -right-32 w-64 h-64 bg-green-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+      <div class="flex items-center gap-6 relative z-10">
+        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-700 border-2 border-green-400 flex items-center justify-center font-black text-4xl text-white shadow-[0_0_20px_rgba(34,197,94,0.4)]">
           {{ user.first_name|first|default:user.username|first|upper }}
         </div>
         <div>
-          <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">Welcome, <span class="text-gradient">{{ user.first_name|default:user.username }}</span></h1>
-          <p style="margin: 0; font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Level {{ user.profile.level }} Eco-Warrior</p>
+          <h1 class="text-3xl font-black mb-1 text-white">Welcome, <span class="text-green-500">{{ user.first_name|default:user.username }}</span></h1>
+          <p class="text-sm font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+              <i class="fas fa-leaf text-green-500"></i> Level {{ user.profile.level }} Eco-Warrior
+          </p>
         </div>
       </div>
       
-      <div style="display: flex; gap: 1rem; align-items: center;">
-        <a href="{% url 'accounts:profile_edit' %}" class="btn btn-secondary"><i class="fas fa-cog"></i> Settings</a>
-        <a href="{% url 'bookings:create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> New Pickup</a>
-        <form method="post" action="{% url 'accounts:logout' %}" style="margin: 0; display: inline-block;">
+      <div class="flex gap-4 items-center relative z-10">
+        <a href="{% url 'accounts:profile_edit' %}" class="btn-outline px-6 py-3 rounded-xl border border-gray-700 text-gray-300 hover:text-white hover:border-gray-500 transition-colors"><i class="fas fa-cog mr-2"></i> Settings</a>
+        <a href="{% url 'bookings:create' %}" class="btn-primary px-6 py-3 rounded-xl shadow-lg shadow-green-500/20 font-bold"><i class="fas fa-plus mr-2"></i> New Pickup</a>
+        <form method="post" action="{% url 'accounts:logout' %}" class="m-0 inline-block">
           {% csrf_token %}
-          <button type="submit" class="btn" style="background: rgba(239, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.75rem 1rem;">
+          <button type="submit" class="px-4 py-3 bg-red-500/10 text-red-500 border border-red-500/30 rounded-xl hover:bg-red-500/20 transition-colors">
             <i class="fas fa-sign-out-alt"></i>
           </button>
         </form>
@@ -31,148 +35,267 @@
     </div>
 
     <!-- Stats Matrix -->
-    <div class="grid-3 mb-8">
-      <div class="glass-panel" style="padding: 2rem; display: flex; align-items: center; justify-content: space-between;">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      
+        <!-- Wallet -->
+      <div class="glass-panel p-6 flex items-center justify-between rounded-2xl border border-gray-800 hover:border-green-500/30 transition-colors">
         <div>
-          <p style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Wallet Balance</p>
-          <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--accent-light);">{{ user.profile.wallet_points|default:"0" }}</div>
+          <p class="text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-1">Wallet Points</p>
+          <div class="text-3xl font-black text-white">{{ user.profile.wallet_points|default:"0" }}</div>
         </div>
-        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); display: flex; align-items: center; justify-content: center; color: var(--accent-electric); font-size: 1.5rem;"><i class="fas fa-coins"></i></div>
+        <div class="w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center justify-center text-green-500 text-xl"><i class="fas fa-coins text-yellow-400"></i></div>
       </div>
 
-      <div class="glass-panel" style="padding: 2rem; display: flex; align-items: center; justify-content: space-between;">
-        <div>
-          <p style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Total Bookings</p>
-          <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--text-pure);">{{ bookings.count|default:"0" }}</div>
+        <!-- Co2 Savings -->
+      <div class="glass-panel p-6 flex items-center justify-between rounded-2xl border border-gray-800 hover:border-green-500/30 transition-colors relative overflow-hidden group">
+          <div class="absolute inset-0 bg-green-500/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+        <div class="relative z-10">
+          <p class="text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-1">CO2 Diverted</p>
+          <div class="text-3xl font-black text-green-400">{{ user.profile.co2_saved|floatformat:1|default:"0" }} <span class="text-sm font-medium text-gray-500">kg</span></div>
         </div>
-        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(8, 145, 178, 0.1); border: 1px solid rgba(8, 145, 178, 0.3); display: flex; align-items: center; justify-content: center; color: var(--cyan-electric); font-size: 1.5rem;"><i class="fas fa-calendar-alt"></i></div>
+        <div class="relative z-10 w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl"><i class="fas fa-cloud"></i></div>
       </div>
 
-      <div class="glass-panel" style="padding: 2rem; display: flex; align-items: center; justify-content: space-between;">
+       <!-- Trees Equivalent -->
+       <div class="glass-panel p-6 flex items-center justify-between rounded-2xl border border-gray-800 hover:border-green-500/30 transition-colors">
         <div>
-          <p style="font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">CO2 Offset (Estimated)</p>
-          <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; color: var(--warning);">{{ bookings.count|default:"0"|add:"10" }}kg</div>
+          <p class="text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-1">Trees Equivalent</p>
+          <div class="text-3xl font-black text-white">{{ trees_equivalent|default:"0" }}</div>
         </div>
-        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: center; color: var(--warning); font-size: 1.5rem;"><i class="fas fa-tree"></i></div>
+        <div class="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 text-xl"><i class="fas fa-tree"></i></div>
       </div>
+
+      <!-- Toxic Material -->
+      <div class="glass-panel p-6 flex items-center justify-between rounded-2xl border border-gray-800 hover:border-green-500/30 transition-colors">
+        <div>
+          <p class="text-[10px] uppercase font-bold text-gray-500 tracking-widest mb-1">Toxic Material Secured</p>
+          <div class="text-3xl font-black text-purple-400">{{ user.profile.toxic_diverted_kg|floatformat:1|default:"0" }} <span class="text-sm font-medium text-gray-500">kg</span></div>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl"><i class="fas fa-biohazard"></i></div>
+      </div>
+
     </div>
 
-    <!-- Gamification & Progress Section -->
-    <div class="grid-2 mb-8">
-      <!-- Level Progress -->
-      <div class="glass-panel" style="padding: 2.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1.25rem; font-family: var(--font-display);"><i class="fas fa-trophy text-warning mr-2"></i> Eco-Warrior Status</h3>
-          <span class="badge badge-warning">Level {{ user.profile.level|default:"1" }}</span>
-        </div>
-        <p style="color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1rem;">You are in the top 15% of recyclers this month! Keep it up to reach Level {{ user.profile.level|default:"1"|add:"1" }}.</p>
+    <!-- Main Content Area -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <!-- Progress Bar -->
-        <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 0.75rem; overflow: hidden; position: relative; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
-          <div style="width: 65%; height: 100%; background: var(--grad-primary); border-radius: 4px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); position: relative;">
-            <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: progressGlow 2s infinite;"></div>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 600; color: var(--text-muted);">
-          <span>{{ user.profile.wallet_points|default:"0" }} pts</span>
-          <span>500 pts to next rank</span>
-        </div>
-      </div>
-
-      <!-- Recent Achievements/Badges -->
-      <div class="glass-panel" style="padding: 2.5rem;">
-        <h3 style="font-size: 1.25rem; font-family: var(--font-display); margin-bottom: 1.5rem;"><i class="fas fa-medal text-cyan mr-2"></i> Unlocked Badges</h3>
-        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-          
-          <div style="text-align: center; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-            <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(16, 185, 129, 0.1); border: 2px solid var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--accent-electric); margin-bottom: 0.5rem; box-shadow: 0 0 15px rgba(16,185,129,0.2);">
-              <i class="fas fa-seedling"></i>
+        <!-- Tabs & Tables (Left 2 columns) -->
+        <div class="lg:col-span-2 space-y-8">
+            
+            <!-- Bookings Table -->
+            <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-800">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-3"><i class="fas fa-truck text-green-500"></i> My Eco-Pickups</h2>
+                    <a href="{% url 'bookings:list' %}" class="text-sm font-bold text-green-500 hover:text-green-400">View All</a>
+                </div>
+                
+                {% if bookings %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-800">
+                                <th class="py-3">ID</th>
+                                <th class="py-3">Date</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/50">
+                            {% for booking in bookings %}
+                            <tr class="hover:bg-gray-800/30 transition-colors">
+                                <td class="py-4 text-white font-medium">#{{ booking.booking_id }}</td>
+                                <td class="py-4 text-gray-400">{{ booking.pickup_date|date:"M d" }}</td>
+                                <td class="py-4">
+                                    {% if booking.status == 'completed' %}
+                                        <span class="px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-bold uppercase rounded-md">Completed</span>
+                                    {% elif booking.status == 'assigned' or booking.status == 'in_transit' %}
+                                        <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase rounded-md">In Progress</span>
+                                    {% else %}
+                                        <span class="px-3 py-1 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-bold uppercase rounded-md">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td class="py-4 text-right">
+                                    <a href="{% url 'bookings:detail' booking.pk %}" class="text-green-500 hover:text-green-400 text-sm font-medium">Track <i class="fas fa-arrow-right ml-1"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-10">
+                    <div class="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-box-open text-gray-500 text-2xl"></i></div>
+                    <p class="text-gray-400 mb-4">You haven't scheduled any pickups yet.</p>
+                    <a href="{% url 'bookings:create' %}" class="btn-outline px-6 py-2 rounded-full border border-green-500 text-green-500 hover:bg-green-500 hover:text-white transition-colors text-sm font-bold">Schedule Pickup</a>
+                </div>
+                {% endif %}
             </div>
-            <span style="font-size: 0.75rem; color: var(--text-pure); font-weight: 600;">First Seed</span>
-          </div>
-          
-          <div style="text-align: center; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-            <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(8, 145, 178, 0.1); border: 2px solid var(--cyan-light); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--cyan-electric); margin-bottom: 0.5rem; box-shadow: 0 0 15px rgba(8,145,178,0.2);">
-              <i class="fas fa-desktop"></i>
-            </div>
-            <span style="font-size: 0.75rem; color: var(--text-pure); font-weight: 600;">Hardware Hero</span>
-          </div>
 
-          <!-- Locked Badge -->
-          <div style="text-align: center; opacity: 0.4; filter: grayscale(1); cursor: not-allowed;">
-            <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--glass-bg); border: 1px dashed var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--text-muted);">
-              <i class="fas fa-lock"></i>
+            <!-- Market Purchases Table -->
+            <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-800">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-3"><i class="fas fa-shopping-bag text-blue-400"></i> My Market Purchases</h2>
+                    <a href="{% url 'market:storefront' %}" class="text-sm font-bold text-blue-400 hover:text-blue-300">Shop Marketplace</a>
+                </div>
+                
+                {% if market_purchases %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-800">
+                                <th class="py-3">Order #</th>
+                                <th class="py-3">Item</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 text-right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/50">
+                            {% for order in market_purchases %}
+                            <tr class="hover:bg-gray-800/30 transition-colors">
+                                <td class="py-4 text-gray-400 font-medium">#{{ order.id }}</td>
+                                <td class="py-4 text-white hover:text-green-500 transition-colors">
+                                    <a href="{% url 'market:product_detail' order.product.slug %}">{{ order.product.title|truncatechars:30 }}</a>
+                                </td>
+                                <td class="py-4">
+                                    <span class="text-xs font-bold text-gray-400 uppercase">{{ order.get_status_display }}</span>
+                                </td>
+                                <td class="py-4 text-right text-white font-bold">
+                                    ₹{{ order.amount_paid|floatformat:2 }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-10">
+                    <p class="text-gray-500 text-sm">No purchases yet.</p>
+                </div>
+                {% endif %}
             </div>
-            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">100kg Club</span>
-          </div>
+
+            <!-- Market Listings Table -->
+            <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-800">
+                    <h2 class="text-xl font-bold text-white flex items-center gap-3"><i class="fas fa-tag text-purple-400"></i> My Market Listings</h2>
+                    <a href="{% url 'market:sell_device' %}" class="text-sm font-bold text-purple-400 hover:text-purple-300">Sell a Device</a>
+                </div>
+                
+                {% if market_listings %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-800">
+                                <th class="py-3">Item</th>
+                                <th class="py-3">Condition</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 text-right">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/50">
+                            {% for listing in market_listings %}
+                            <tr class="hover:bg-gray-800/30 transition-colors">
+                                <td class="py-4 text-white">
+                                    <a href="{% url 'market:product_detail' listing.slug %}" class="hover:text-purple-400 transition-colors">{{ listing.title|truncatechars:25 }}</a>
+                                </td>
+                                <td class="py-4 text-xs font-bold text-gray-400 uppercase">{{ listing.get_condition_display }}</td>
+                                <td class="py-4">
+                                    {% if listing.status == 'approved' %}
+                                        <span class="px-2 py-1 bg-green-500/10 text-green-400 text-[10px] font-bold uppercase rounded">Live</span>
+                                    {% elif listing.status == 'pending' %}
+                                        <span class="px-2 py-1 bg-yellow-500/10 text-yellow-400 text-[10px] font-bold uppercase rounded">Review</span>
+                                    {% elif listing.status == 'sold' %}
+                                        <span class="px-2 py-1 bg-gray-700/50 text-gray-300 text-[10px] font-bold uppercase rounded">Sold</span>
+                                    {% endif %}
+                                </td>
+                                <td class="py-4 text-right text-white font-bold">
+                                    ₹{{ listing.price|floatformat:2 }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-10">
+                    <p class="text-gray-500 text-sm">You haven't listed any items for sale.</p>
+                </div>
+                {% endif %}
+            </div>
 
         </div>
-      </div>
+
+        <!-- Right Side: Gamification Profile -->
+        <div class="space-y-8">
+            
+            <!-- ESG Progress Card -->
+            <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent"></div>
+                
+                <h3 class="text-xl font-bold text-white mb-6 relative z-10"><i class="fas fa-chart-line text-green-500 mr-2"></i> Impact Progress</h3>
+                
+                <div class="relative z-10 mb-8">
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-sm font-bold text-white uppercase tracking-wider">Level {{ user.profile.level }}</span>
+                        <span class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">{{ user.profile.wallet_points|default:"0" }} Points</span>
+                    </div>
+                    
+                    <!-- CSS Progress Bar -->
+                    <div class="w-full h-3 bg-gray-800 rounded-full overflow-hidden border border-gray-700">
+                        <!-- We use a pseudo-random width based on points for demo purposes -->
+                        <div class="h-full bg-gradient-to-r from-green-600 to-emerald-400 rounded-full relative" style="width: 75%;">
+                            <div class="absolute inset-0 bg-white/20" style="animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4 bg-gray-800/50 border border-gray-700 rounded-2xl relative z-10 text-sm text-gray-300 leading-relaxed shadow-inner">
+                    <i class="fas fa-quote-left text-green-500/30 text-2xl absolute top-2 left-2"></i>
+                    <p class="relative z-10 pl-6 pt-2">By choosing E-Zero, you are in the top <strong class="text-green-400">12%</strong> of eco-contributors in your city this month. Thank you for securing a greener future.</p>
+                </div>
+            </div>
+
+            <!-- Badges Gallery -->
+            <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8">
+                <h3 class="text-xl font-bold text-white mb-6"><i class="fas fa-medal text-yellow-500 mr-2"></i> Earned Badges</h3>
+                
+                <div class="grid grid-cols-3 gap-4">
+                    {% if user.profile.earned_badges.all %}
+                        {% for badge in user.profile.earned_badges.all %}
+                        <div class="flex flex-col items-center group cursor-pointer">
+                            <div class="w-16 h-16 rounded-full bg-gray-800 border-2 border-green-500 flex items-center justify-center text-2xl shadow-[0_0_15px_rgba(34,197,94,0.2)] group-hover:scale-110 transition-transform duration-300">
+                                {% if badge.icon %}<i class="{{ badge.icon }} text-green-400"></i>{% else %}<i class="fas fa-star text-green-400"></i>{% endif %}
+                            </div>
+                            <span class="text-[10px] font-bold text-center mt-2 text-white">{{ badge.name }}</span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Placeholder/Locked badges if they have none -->
+                        <div class="flex flex-col items-center opacity-40 grayscale">
+                            <div class="w-16 h-16 rounded-full bg-gray-800 border border-gray-600 flex items-center justify-center text-2xl">
+                                <i class="fas fa-seedling text-gray-500"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-center mt-2 text-gray-400">First Seed</span>
+                        </div>
+                        <div class="flex flex-col items-center opacity-40 grayscale">
+                            <div class="w-16 h-16 rounded-full bg-gray-800 border border-gray-600 flex items-center justify-center text-2xl">
+                                <i class="fas fa-recycle text-gray-500"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-center mt-2 text-gray-400">Circle Guard</span>
+                        </div>
+                        <div class="flex flex-col items-center opacity-40 grayscale">
+                            <div class="w-16 h-16 rounded-full bg-gray-800 border border-gray-600 flex items-center justify-center text-2xl">
+                                <i class="fas fa-globe-americas text-gray-500"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-center mt-2 text-gray-400">Global Hero</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
     </div>
-
-    <style>
-      @keyframes progressGlow {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
-      }
-    </style>
-
-    <!-- Active Bookings System -->
-    <div class="glass-panel" style="padding: 2.5rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 1rem;">
-        <h2 style="font-size: 1.5rem;">Recent Pickups</h2>
-        <a href="{% url 'bookings:list' %}" class="text-accent" style="font-size: 0.875rem; font-weight: 500;">View All Activity <i class="fas fa-chevron-right ml-2" style="font-size: 0.75rem;"></i></a>
-      </div>
-
-      {% if bookings %}
-        <div style="overflow-x: auto;">
-          <table style="width: 100%; border-collapse: collapse; text-align: left;">
-            <thead>
-              <tr style="border-bottom: 1px solid var(--glass-border); color: var(--text-muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">
-                <th style="padding: 1rem 0;">Booking ID</th>
-                <th style="padding: 1rem 0;">Date</th>
-                <th style="padding: 1rem 0;">Status</th>
-                <th style="padding: 1rem 0;">Est. Value</th>
-                <th style="padding: 1rem 0; text-align: right;">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for booking in bookings %}
-              <tr style="border-bottom: 1px solid var(--glass-border-highlight); transition: background 0.3s; background: transparent;">
-                <td style="padding: 1.25rem 0; font-family: var(--font-display); font-weight: 600;">#{{ booking.booking_id }}</td>
-                <td style="padding: 1.25rem 0; color: var(--text-muted);">{{ booking.pickup_date|date:"M d, Y" }}</td>
-                <td style="padding: 1.25rem 0;">
-                  {% if booking.status == 'PENDING' %}
-                    <span class="badge badge-warning" style="background:rgba(245, 158, 11, 0.1); color:var(--warning); border-color:rgba(245, 158, 11, 0.3);">Pending</span>
-                  {% elif booking.status == 'COMPLETED' %}
-                    <span class="badge badge-success" style="background:rgba(16, 185, 129, 0.1); color:var(--success); border-color:rgba(16, 185, 129, 0.3);">Completed</span>
-                  {% else %}
-                    <span class="badge badge-primary">{{ booking.status }}</span>
-                  {% endif %}
-                </td>
-                <td style="padding: 1.25rem 0; font-weight: 500; color: var(--cyan-light);">₹{{ booking.total_estimated_value }}</td>
-                <td style="padding: 1.25rem 0; text-align: right;">
-                  <a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;">View <i class="fas fa-external-link-alt ml-2" style="font-size:0.6rem;"></i></a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      {% else %}
-        <div class="text-center" style="padding: 4rem 0;">
-          <div style="font-size: 3rem; color: var(--text-dark); margin-bottom: 1rem;"><i class="fas fa-box-open"></i></div>
-          <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">No pickups scheduled yet</h3>
-          <p style="color: var(--text-muted); max-width: 400px; margin: 0 auto 1.5rem;">Initialize your first eco-friendly disposal and start earning reward points.</p>
-          <a href="{% url 'bookings:create' %}" class="btn btn-primary" style="padding: 0.75rem 2rem;">Initialize First Pickup</a>
-        </div>
-      {% endif %}
-    </div>
-
   </div>
 </section>
-
-<style>
-  tr:hover { background: rgba(255,255,255,0.02) !important; }
-</style>
 {% endblock %}

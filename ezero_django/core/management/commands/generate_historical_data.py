@@ -14,6 +14,8 @@ from django.utils import timezone
 from bookings.models import Booking, BookingItem, TimeSlot
 from centers.models import Center
 from contacts.models import ContactRequest
+from market.models import Category, Product
+from blog.models import QuizQuestion, QuizAnswer
 import logging
 
 logger = logging.getLogger(__name__)
@@ -154,3 +156,74 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f'Successfully injected {total_created} historical datasets into E-Zero.'))
         self.stdout.write(self.style.SUCCESS('These raw matrices are now available to services/analytics.py and Machine Learning models.'))
+        
+        # --- SEED MARKETPLACE ---
+        self.stdout.write(self.style.WARNING("Seeding Market Categories and Dummy Products..."))
+        laptops_cat, _ = Category.objects.get_or_create(name='Laptops', slug='laptops', description='Refurbished & Used Laptops')
+        smartphones_cat, _ = Category.objects.get_or_create(name='Smartphones', slug='smartphones', description='Certified pre-owned phones')
+        hardware_cat, _ = Category.objects.get_or_create(name='Hardware Parts', slug='hardware-parts', description='CPUs, RAM, GPUs and components')
+
+        market_products = [
+            (laptops_cat, 'Dell XPS 13 (2022) - 16GB RAM/512GB SSD', 54999.00, 'like_new'),
+            (laptops_cat, 'MacBook Pro 15" Mid-2015', 32500.00, 'good'),
+            (smartphones_cat, 'iPhone 13 Pro - 256GB Graphite', 44000.00, 'good'),
+            (smartphones_cat, 'Samsung Galaxy S22 Ultra', 51000.00, 'refurbished'),
+            (hardware_cat, 'NVIDIA RTX 3070 8GB GPU', 28000.00, 'fair'),
+            (laptops_cat, 'Lenovo ThinkPad T490 - Core i7', 26500.00, 'refurbished'),
+        ]
+        
+        import uuid
+        from django.utils.text import slugify
+        for cat, title, price, condition in market_products:
+            slug = f"{slugify(title)}-{str(uuid.uuid4())[:6]}"
+            Product.objects.get_or_create(
+                slug=slug,
+                defaults={
+                    'title': title,
+                    'category': cat,
+                    'description': f"This is an automatically generated listing for {title}. Fully tested and certified by E-Zero technicians. Great condition for the price.",
+                    'price': price,
+                    'condition': condition,
+                    'status': 'approved',  # Instantly live on the storefront
+                    'free_shipping': True
+                }
+            )
+
+        self.stdout.write(self.style.SUCCESS('Storefront seeded successfully.'))
+
+        # --- SEED QUIZ ---
+        self.stdout.write(self.style.WARNING("Seeding Gamified Quiz..."))
+        if not QuizQuestion.objects.exists():
+            q1 = QuizQuestion.objects.create(
+                text="Which of the following materials is commonly recovered from recycled smartphones?",
+                difficulty='easy',
+                points_reward=10,
+                explanation="Gold is highly conductive and used in circuit boards."
+            )
+            QuizAnswer.objects.create(question=q1, text="Gold", is_correct=True)
+            QuizAnswer.objects.create(question=q1, text="Titanium", is_correct=False)
+            QuizAnswer.objects.create(question=q1, text="Uranium", is_correct=False)
+
+            q2 = QuizQuestion.objects.create(
+                text="What happens to the hazardous Lead (Pb) found in CRT monitors if left in a landfill?",
+                difficulty='medium',
+                points_reward=25,
+                explanation="It leaches into the soil and contaminates groundwater, which is highly toxic."
+            )
+            QuizAnswer.objects.create(question=q2, text="It evaporates into the atmosphere.", is_correct=False)
+            QuizAnswer.objects.create(question=q2, text="It rusts harmlessly.", is_correct=False)
+            QuizAnswer.objects.create(question=q2, text="It leaches into groundwater.", is_correct=True)
+
+            q3 = QuizQuestion.objects.create(
+                text="On average, how many recycled phones does it take to recover 1 kg of Copper?",
+                difficulty='hard',
+                points_reward=50,
+                explanation="Approximately 30,000 to 40,000 smartphones are needed to extract 1kg of pure copper."
+            )
+            QuizAnswer.objects.create(question=q3, text="10", is_correct=False)
+            QuizAnswer.objects.create(question=q3, text="4,000", is_correct=False)
+            QuizAnswer.objects.create(question=q3, text="40,000", is_correct=True)
+            
+            self.stdout.write(self.style.SUCCESS('Quiz questions seeded successfully.'))
+        else:
+            self.stdout.write("Quiz data already exists. Skipping.")

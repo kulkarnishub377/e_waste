@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}E-Zero Marketplace | Buy Certified Used Electronics{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="retro-grid min-h-[40vh] py-20 relative overflow-hidden flex items-center justify-center border-b border-gray-800">
+    <!-- E-Waste Background styling -->
+    <div class="absolute inset-0 z-0 opacity-20" style="background-image: url('{% static 'img/pattern.svg' %}'); background-size: cover; background-position: center;"></div>
+
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-6xl font-black mb-6 tracking-tight text-white drop-shadow-lg">
+            Certified <span class="text-green-500 neon-text">Marketplace</span>
+        </h1>
+        <p class="text-xl text-gray-300 font-light mb-10 max-w-2xl mx-auto">
+            Buy fully tested, certified working second-hand electronics. Keep valuable tech out of landfills and in the circular economy.
+        </p>
+        <div class="flex gap-4 justify-center">
+            <a href="{% url 'market:sell_device' %}" class="btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem; border-radius: 9999px;">
+                Sell Your Device
+            </a>
+            <a href="#store" class="btn-outline" style="padding: 1rem 2rem; font-size: 1.1rem; border-radius: 9999px; border: 1px solid #22c55e; color: #22c55e;">
+                Shop Now <i class="fas fa-arrow-down ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Main Store Area -->
+<section id="store" class="py-16 bg-gray-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Filter/Category Bar -->
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 bg-gray-900 p-4 rounded-xl border border-gray-800 shadow-xl">
+            <!-- Search -->
+            <form method="GET" action="." class="w-full md:w-1/3 mb-4 md:mb-0 relative">
+                <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="Search products..." 
+                       class="w-full bg-gray-800 text-white rounded-lg pl-10 pr-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none border border-gray-700">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                {% if request.GET.category %}
+                <input type="hidden" name="category" value="{{ request.GET.category }}">
+                {% endif %}
+            </form>
+            
+            <!-- Category Pills -->
+            <div class="flex flex-wrap gap-2 items-center justify-center">
+                <a href="{% url 'market:storefront' %}" 
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all {% if not request.GET.category %}bg-green-600 text-white shadow-lg shadow-green-500/30{% else %}bg-gray-800 text-gray-300 hover:bg-gray-700{% endif %}">
+                    All Items
+                </a>
+                {% for cat in categories %}
+                <a href="?category={{ cat.slug }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-all {% if request.GET.category == cat.slug %}bg-green-600 text-white shadow-lg shadow-green-500/30{% else %}bg-gray-800 text-gray-300 hover:bg-gray-700{% endif %}">
+                    {{ cat.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if not products %}
+            <div class="text-center py-20 bg-gray-900 rounded-2xl border border-gray-800 shadow-2xl">
+                <div class="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-box-open text-4xl text-gray-500"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-2">No items found</h3>
+                <p class="text-gray-400">We couldn't find any products matching your current filters.</p>
+                <a href="{% url 'market:storefront' %}" class="mt-6 inline-block text-green-500 hover:text-green-400">Clear all filters</a>
+            </div>
+        {% else %}
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {% for product in products %}
+                <div class="group bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden hover:border-green-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(34,197,94,0.3)] flex flex-col h-full relative">
+                    
+                    <!-- Condition Badge -->
+                    <div class="absolute top-4 right-4 z-10 px-3 py-1 bg-gray-950/80 backdrop-blur-md text-xs font-bold uppercase tracking-wide rounded-full border border-gray-700 text-white flex items-center gap-2">
+                        {% if product.condition == 'refurbished' %}
+                            <i class="fas fa-shield-check text-blue-400"></i>
+                        {% elif product.condition == 'like_new' %}
+                            <i class="fas fa-sparkles text-yellow-400"></i>
+                        {% else %}
+                            <i class="fas fa-check-circle text-green-400"></i>
+                        {% endif %}
+                        {{ product.get_condition_display }}
+                    </div>
+                    
+                    <!-- Free Shipping Badge -->
+                    {% if product.free_shipping %}
+                    <div class="absolute top-4 left-4 z-10 px-2.5 py-1 bg-green-500/20 backdrop-blur-md text-[10px] font-bold uppercase tracking-wide rounded-md border border-green-500/30 text-green-400">
+                        FREE SHIP
+                    </div>
+                    {% endif %}
+
+                    <!-- Image Section -->
+                    <div class="aspect-[4/3] bg-gray-950 relative overflow-hidden flex items-center justify-center p-6">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
+                        {% else %}
+                            <i class="fas fa-laptop text-6xl text-gray-800 group-hover:text-green-500/20 transition-colors duration-300"></i>
+                        {% endif %}
+                    </div>
+
+                    <!-- Content Section -->
+                    <div class="p-6 flex-1 flex flex-col bg-gradient-to-b from-gray-900 to-gray-950">
+                        <div class="text-xs text-green-500 font-medium mb-2 uppercase tracking-wider">{{ product.category.name }}</div>
+                        <h3 class="text-xl font-bold text-white mb-2 line-clamp-2">{{ product.title }}</h3>
+                        
+                        <p class="text-gray-400 text-sm mb-6 line-clamp-3 overflow-hidden flex-1 leading-relaxed">
+                            {{ product.description }}
+                        </p>
+                        
+                        <!-- Price & CTA -->
+                        <div class="pt-4 border-t border-gray-800 mt-auto flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <span class="text-xs text-gray-500 uppercase tracking-widest font-semibold">Price</span>
+                                <span class="text-2xl font-black text-white">₹{{ product.price|floatformat:2 }}</span>
+                            </div>
+                            <a href="{% url 'market:product_detail' product.slug %}" 
+                               class="h-12 w-12 rounded-full bg-green-600 flex items-center justify-center text-white hover:bg-green-500 transition-colors shadow-lg shadow-green-500/20 group-hover:shadow-green-500/40">
+                                <i class="fas fa-arrow-right -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <div class="mt-16 flex justify-center">
+                <nav class="flex items-center gap-2" aria-label="Pagination">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-chevron-left text-sm"></i>
+                    </a>
+                    {% endif %}
+                    
+                    <span class="px-4 py-2 bg-gray-900 border border-green-500/30 text-green-500 rounded-lg font-medium shadow-[0_0_15px_rgba(34,197,94,0.1)]">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-chevron-right text-sm"></i>
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+            
+        {% endif %}
+    </div>
+</section>
+
+<!-- Why Buy section -->
+<section class="py-20 bg-gray-900 border-t border-gray-800 relative overflow-hidden">
+    <!-- Abstract Tech Elements -->
+    <div class="absolute top-0 right-0 w-1/3 h-full opacity-5 pointer-events-none">
+        <svg viewBox="0 0 100 100" class="w-full h-full fill-white/10" preserveAspectRatio="none">
+            <polygon points="0,0 100,0 100,100" />
+            <polygon points="100,0 100,100 0,100" />
+        </svg>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 text-white">Why Buy <span class="text-green-500 neon-text">Certified Used?</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">Every device you purchase from the E-Zero marketplace helps reduce electronic waste.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-950 p-8 rounded-2xl border border-gray-800 hover:border-green-500/30 transition-colors group">
+                <div class="w-16 h-16 rounded-xl bg-gray-900 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(34,197,94,0.2)] transition-all duration-300">
+                    <i class="fas fa-shield-check text-3xl text-green-500 drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3 tracking-wide">Fully Verified</h3>
+                <p class="text-gray-400 leading-relaxed">Every item goes through our strict verification process to ensure it functions perfectly before being listed.</p>
+            </div>
+            <div class="bg-gray-950 p-8 rounded-2xl border border-gray-800 hover:border-green-500/30 transition-colors group">
+                <div class="w-16 h-16 rounded-xl bg-gray-900 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(34,197,94,0.2)] transition-all duration-300">
+                    <i class="fas fa-leaf text-3xl text-green-500 drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3 tracking-wide">Eco-Friendly</h3>
+                <p class="text-gray-400 leading-relaxed">Purchasing second-hand saves massive amounts of CO2 and prevents toxic heavy metals from entering landfills.</p>
+            </div>
+            <div class="bg-gray-950 p-8 rounded-2xl border border-gray-800 hover:border-green-500/30 transition-colors group">
+                <div class="w-16 h-16 rounded-xl bg-gray-900 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(34,197,94,0.2)] transition-all duration-300">
+                    <i class="fas fa-tags text-3xl text-green-500 drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3 tracking-wide">Great Value</h3>
+                <p class="text-gray-400 leading-relaxed">Get premium flagship devices and components at a fraction of their retail MSRP price point.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

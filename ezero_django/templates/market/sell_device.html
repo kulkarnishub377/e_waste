@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sell Your Device | E-Zero Marketplace{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-gray-950 min-h-screen pt-32">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-white mb-4">Turn Old Tech into <span class="text-green-500 neon-text">Cash</span></h1>
+            <p class="text-gray-400 text-lg">List your fully functioning device on the E-Zero marketplace. Our team will verify the listing and make it live for buyers.</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <!-- Decorative blur -->
+            <div class="absolute -top-32 -right-32 w-64 h-64 bg-green-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+            
+            <form method="post" enctype="multipart/form-data" class="space-y-6 relative z-10" id="sellDeviceForm">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                <div class="bg-red-500/10 border border-red-500/50 text-red-500 p-4 rounded-lg mb-6">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <!-- Title & Category -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Device Title *</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.title.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.category.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Category *</label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.category.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Price & Condition -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Selling Price (₹) *</label>
+                        {{ form.price }}
+                        {% if form.price.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.price.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.condition.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Condition *</label>
+                        {{ form.condition }}
+                        {% if form.condition.errors %}
+                            <p class="text-red-400 text-xs mt-1">{{ form.condition.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Detailed Description *</label>
+                    {{ form.description }}
+                    <p class="text-xs text-gray-500 mt-2">Include battery health, missing accessories, or any cosmetic wear. Honesty helps sell faster!</p>
+                    {% if form.description.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ form.description.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <!-- Image Upload (Custom UI over standard widget) -->
+                <div>
+                    <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Device Image</label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-700 border-dashed rounded-xl hover:border-green-500/50 transition-colors bg-gray-800/50">
+                        <div class="space-y-1 text-center">
+                            <i class="fas fa-camera text-4xl text-gray-500 mb-3"></i>
+                            <div class="flex text-sm text-gray-400 justify-center">
+                                <label for="{{ form.image.id_for_label }}" class="relative cursor-pointer rounded-md font-medium text-green-500 hover:text-green-400 focus-within:outline-none">
+                                    <span>Upload a file</span>
+                                    <input id="{{ form.image.id_for_label }}" name="{{ form.html_name }}" type="file" class="sr-only" accept="image/*">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+                            <p id="fileNameDisplay" class="text-xs text-green-400 font-bold mt-2 hidden"></p>
+                        </div>
+                    </div>
+                    {% if form.image.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ form.image.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="pt-6 border-t border-gray-800 mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p class="text-xs text-gray-500 max-w-sm">
+                        <i class="fas fa-info-circle text-blue-400 mr-1"></i> 
+                        By submitting, you agree to our <a href="#" class="text-green-500 hover:underline">Seller Terms</a>. Listings require admin approval before going live.
+                    </p>
+                    <button type="submit" class="btn-primary w-full sm:w-auto px-8 py-3 rounded-xl flexitems-center justify-center text-lg font-bold shadow-lg shadow-green-500/20">
+                        Submit Listing <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    // simple script to show filaname
+    document.getElementById('{{ form.image.id_for_label }}').addEventListener('change', function(e) {
+        if(e.target.files.length > 0) {
+            const display = document.getElementById('fileNameDisplay');
+            display.textContent = "Selected: " + e.target.files[0].name;
+            display.classList.remove('hidden');
+        }
+    });
+
+    // Quick tailwind restyling for django forms
+    document.querySelectorAll('.form-input').forEach(el => {
+        el.classList.add('w-full', 'bg-gray-800', 'border', 'border-gray-700', 'rounded-xl', 'px-4', 'py-3', 'text-white', 'focus:outline-none', 'focus:ring-2', 'focus:ring-green-500', 'focus:border-transparent', 'transition-all');
+    });
+</script>
+{% endblock %}

@@ -248,3 +248,28 @@ def iot_bin_webhook(request):
     except Exception as e:
         logger.error(f"IoT Webhook failed: {str(e)}")
         return JsonResponse({'error': 'Webhook processing failed', 'details': str(e)}, status=400)
+
+
+def booking_tracking_view(request, booking_id):
+    """
+    Publicly accessible live tracking page for a booking.
+    Does not require login so users can share the link or scan the QR.
+    """
+    booking = get_object_or_404(Booking, booking_id=booking_id)
+    
+    # Map status to a progress integer for the UI template
+    status_map = {
+        'pending': 1,
+        'scheduled': 2,
+        'assigned': 3,
+        'in_transit': 4,
+        'completed': 5,
+        'cancelled': -1
+    }
+    
+    context = {
+        'booking': booking,
+        'progress_step': status_map.get(booking.status, 1)
+    }
+    
+    return render(request, 'bookings/live_tracking.html', context)

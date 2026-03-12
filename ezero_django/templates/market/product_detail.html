@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.title }} | E-Zero Marketplace{% endblock %}
+
+{% block content %}
+<section class="py-12 bg-gray-950 min-h-screen pt-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Breadcrumbs -->
+        <nav class="flex mb-8 text-sm text-gray-400" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{% url 'market:storefront' %}" class="hover:text-white transition-colors">
+                        Marketplace
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-xs mx-2"></i>
+                        <a href="{% url 'market:storefront' %}?category={{ product.category.slug }}" class="hover:text-white transition-colors">
+                            {{ product.category.name }}
+                        </a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center text-green-500">
+                        <i class="fas fa-chevron-right text-xs mx-2"></i>
+                        <span class="ml-1 md:ml-2 truncate max-w-[200px]">{{ product.title }}</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        {% if product.status == 'pending' and user == product.seller %}
+            <div class="mb-8 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl flex items-start gap-4">
+                <i class="fas fa-info-circle text-yellow-500 mt-1"></i>
+                <div>
+                    <h4 class="text-yellow-500 font-bold mb-1">Verify Pending</h4>
+                    <p class="text-yellow-200/70 text-sm">Your item is currently being reviewed by an E-Zero admin. This page is only visible to you.</p>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Product Images -->
+            <div class="bg-gray-900 rounded-3xl p-8 border border-gray-800 flex items-center justify-center min-h-[400px] relative overflow-hidden group shadow-2xl">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.title }}" class="max-w-full max-h-[500px] object-contain drop-shadow-2xl">
+                {% else %}
+                    <i class="fas fa-laptop text-9xl text-gray-800"></i>
+                {% endif %}
+                
+                <!-- Overlay Gradients for Depth -->
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-950/40 to-transparent pointer-events-none"></div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="flex flex-col">
+                <h1 class="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
+                    {{ product.title }}
+                </h1>
+                
+                <div class="flex flex-wrap items-center gap-4 mb-8">
+                    <span class="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-sm font-medium text-gray-300 flex items-center gap-2">
+                        {% if product.condition == 'refurbished' %}
+                            <i class="fas fa-shield-check text-blue-400"></i>
+                        {% elif product.condition == 'like_new' %}
+                            <i class="fas fa-sparkles text-yellow-400"></i>
+                        {% else %}
+                            <i class="fas fa-check-circle text-green-400"></i>
+                        {% endif %}
+                        {{ product.get_condition_display }}
+                    </span>
+                    
+                    {% if product.free_shipping %}
+                    <span class="px-3 py-1 bg-green-900/40 border border-green-500/30 rounded-full text-sm font-medium text-green-400 flex items-center gap-2">
+                        <i class="fas fa-truck"></i> Free Shipping
+                    </span>
+                    {% endif %}
+                    
+                    <span class="text-gray-500 text-sm">Listed {{ product.created_at|timesince }} ago</span>
+                </div>
+
+                <div class="mb-10">
+                    <span class="text-sm text-gray-400 uppercase tracking-widest font-semibold block mb-2">Buy it now</span>
+                    <div class="text-5xl lg:text-6xl font-black text-white tracking-tight flex items-end">
+                        <span class="text-3xl text-gray-400 mr-2 pb-2">₹</span>{{ product.price|floatformat:2 }}
+                    </div>
+                </div>
+
+                <div class="prose prose-invert prose-green mb-10 max-w-none text-gray-300 leading-relaxed">
+                    <h3 class="text-white text-xl font-bold mb-4 flex items-center gap-2 border-b border-gray-800 pb-2">
+                        <i class="fas fa-align-left text-green-500"></i> Description
+                    </h3>
+                    {{ product.description|linebreaks }}
+                </div>
+
+                <!-- Buy Action -->
+                <div class="mt-auto bg-gray-900 border border-gray-800 p-6 rounded-2xl">
+                    {% if product.status == 'approved' %}
+                        <a href="{% url 'market:checkout' product.slug %}" class="w-full btn-primary py-4 text-center rounded-xl text-lg font-bold flex justify-center items-center gap-3">
+                            <i class="fas fa-shopping-cart"></i> Proceed to Secure Checkout
+                        </a>
+                        <p class="text-center text-sm text-gray-500 mt-4 flex justify-center items-center gap-2">
+                            <i class="fas fa-lock text-green-500"></i> Payments secured by DummyGateway SSL
+                        </p>
+                    {% elif product.status == 'sold' %}
+                        <div class="w-full bg-gray-800 text-gray-400 py-4 text-center rounded-xl text-lg font-bold uppercase tracking-wider flex justify-center items-center gap-3 border border-gray-700 cursor-not-allowed">
+                            <i class="fas fa-ban"></i> Out of Stock / Sold
+                        </div>
+                    {% elif product.status == 'pending' %}
+                        <div class="w-full bg-yellow-900/30 border border-yellow-500/30 text-yellow-400 py-4 text-center rounded-xl text-lg font-bold uppercase tracking-wider flex justify-center items-center gap-3 cursor-not-allowed">
+                            <i class="fas fa-hourglass-half"></i> Awaiting Admin Verification
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Guarantee -->
+                <div class="mt-8 grid grid-cols-2 gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-green-500/10 flex flex-shrink-0 items-center justify-center">
+                            <i class="fas fa-exchange-alt text-green-500"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-300">7-Day Return Policy</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-green-500/10 flex flex-shrink-0 items-center justify-center">
+                            <i class="fas fa-check-double text-green-500"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-300">Technical Inspection Guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
