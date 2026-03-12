@@ -22,6 +22,7 @@ urlpatterns = [
     path('contact/', include('contacts.urls')),
     path('calculator/', include('calculator.urls')),
     path('accounts/', include('accounts.urls')),
+    path('market/', include('market.urls')),
 ]
 
 if settings.DEBUG:
