@@ -15,6 +15,16 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   
+  <!-- Tailwind CSS Engine (Preflight disabled to protect custom styles.css) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      }
+    }
+  </script>
+
   <!-- V2 Masterpiece Design System -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   
