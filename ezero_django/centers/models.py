@@ -3,6 +3,7 @@ Centers app models.
 Stores recycling center / collection point locations.
 """
 
+import math
 from django.db import models
 
 
@@ -35,3 +36,39 @@ class Center(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.city})"
+
+    def distance_to(self, target_lat: float, target_lon: float) -> float:
+        """
+        Calculates the Haversine distance in kilometers between this Center 
+        and the target coordinates without requiring PostGIS.
+        """
+        # Convert degrees to radians
+        lat1, lon1 = math.radians(float(self.latitude)), math.radians(float(self.longitude))
+        lat2, lon2 = math.radians(float(target_lat)), math.radians(float(target_lon))
+
+        # Haversine formula
+        dlat = lat2 - lat1
+        dlon = lon2 - lon1
+        a = math.sin(dlat / 2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2)**2
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+        
+        r = 6371 # Radius of earth in kilometers
+        return r * c
+
+    @classmethod
+    def get_nearest_centers(cls, lat: float, lon: float, limit: int = 5):
+        """
+        Returns the closest centers sorted by distance.
+        Note: Since SQLite does not have native Geospatial functions, 
+        this computes distances in memory.
+        """
+        centers = list(cls.objects.filter(is_active=True))
+        
+        # Decorate with distance
+        for center in centers:
+            center._computed_distance = center.distance_to(lat, lon)
+            
+        # Sort by the dynamic attribute
+        centers.sort(key=lambda c: c._computed_distance)
+        
+        return centers[:limit]

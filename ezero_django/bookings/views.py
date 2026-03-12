@@ -13,7 +13,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils import timezone
-from .models import Booking, BookingItem
+from .models import Booking, BookingItem, TimeSlot
 from .forms import BookingFullForm
 
 # Import newly created advanced Python Services
@@ -94,12 +94,28 @@ def booking_api(request):
             city=data.get('city', ''),
             pincode=data.get('pincode', ''),
             pickup_date=data.get('pickup_date'),
-            pickup_time_slot=data.get('pickup_time_slot', '09:00-11:00'),
             notes=data.get('notes', ''),
             data_destruction=data.get('data_destruction', False),
             compliance_certificate=data.get('compliance_certificate', False),
             user=request.user if request.user.is_authenticated else None,
         )
+
+        # Handle time slot allocation
+        slot_str = data.get('pickup_time_slot')
+        if slot_str:
+            # Assuming format "09:00-11:00" from JS
+            try:
+                s_time = slot_str.split('-')[0] + ":00"
+                slot_obj = TimeSlot.objects.filter(start_time=s_time).first()
+                if not slot_obj:
+                    slot_obj = TimeSlot.objects.first()
+                booking.pickup_time_slot = slot_obj
+            except Exception:
+                booking.pickup_time_slot = TimeSlot.objects.first()
+        else:
+            booking.pickup_time_slot = TimeSlot.objects.first()
+        
+        booking.save()
 
         # Initialize Market Pricing Engine
         market_engine = MarketPricingEngine()

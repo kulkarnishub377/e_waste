@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-from bookings.models import Booking, BookingItem
+from bookings.models import Booking, BookingItem, TimeSlot
 from centers.models import Center
 from contacts.models import ContactRequest
 import logging
@@ -79,6 +79,16 @@ class Command(BaseCommand):
             )
             users.append(admin_user)
 
+        # Initialize TimeSlots if empty
+        time_slots = list(TimeSlot.objects.all())
+        if not time_slots:
+            self.stdout.write("Initializing default TimeSlots...")
+            TimeSlot.objects.create(start_time="09:00", end_time="11:00", capacity=20)
+            TimeSlot.objects.create(start_time="11:00", end_time="13:00", capacity=20)
+            TimeSlot.objects.create(start_time="14:00", end_time="16:00", capacity=20)
+            TimeSlot.objects.create(start_time="16:00", end_time="18:00", capacity=20)
+            time_slots = list(TimeSlot.objects.all())
+
         self.stdout.write("Beginning Batch Ingestion Engine. This heavily utilizes Python DB cursors.")
         
         batch_size = 500
@@ -110,7 +120,7 @@ class Command(BaseCommand):
                         city=city,
                         pincode=str(random.randint(400000, 420000)),
                         pickup_date=sim_date.date() + timedelta(days=random.randint(2, 14)),
-                        pickup_time_slot=random.choice(['09:00-11:00', '11:00-13:00', '14:00-16:00']),
+                        pickup_time_slot=random.choice(time_slots),
                         status='COMPLETED',  # Historical data is finished
                         data_destruction=random.choice([True, False]),
                         compliance_certificate=random.choice([True, False]),
