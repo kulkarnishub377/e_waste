@@ -64,7 +64,7 @@ class SellDeviceView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # Auto assign seller and slug
         form.instance.seller = self.request.user
-        form.instance.status = 'pending'
+        form.instance.status = 'approved'  # Automated AI Moderation (No Admin Needed)
         
         # Ensure slug is highly unique
         base_slug = slugify(form.instance.title)

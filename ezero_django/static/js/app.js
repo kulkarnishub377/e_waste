@@ -181,7 +181,7 @@ window.handleChatKeypress = function(event) {
     }
 };
 
-window.sendChatMessage = function() {
+window.sendChatMessage = async function() {
     const input = document.getElementById('chat-input');
     const messages = document.getElementById('chat-messages');
     
@@ -201,13 +201,31 @@ window.sendChatMessage = function() {
         messages.appendChild(userMsg);
         messages.scrollTop = messages.scrollHeight;
         
-        // Mock Bot Response
-        setTimeout(() => {
+        // Call Python Backend Bot
+        try {
+            // Optional Loading indicator
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'chat-message bot loading-bot';
+            loadingMsg.innerHTML = `<div class="message-content"><p><i class="fas fa-spinner fa-spin"></i> Processing task...</p></div>`;
+            messages.appendChild(loadingMsg);
+            messages.scrollTop = messages.scrollHeight;
+            
+            const response = await fetch('/api/chat/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text })
+            });
+            const data = await response.json();
+            
+            messages.removeChild(loadingMsg);
+            
             const botMsg = document.createElement('div');
             botMsg.className = 'chat-message bot';
-            botMsg.innerHTML = `<div class="message-content"><p>An E-Zero specialist has been notified regarding: "${text}". Please stand by while we analyze the request.</p><span class="message-time">Just now</span></div>`;
+            botMsg.innerHTML = `<div class="message-content"><p>${data.reply || data.error}</p><span class="message-time">Just now</span></div>`;
             messages.appendChild(botMsg);
             messages.scrollTop = messages.scrollHeight;
-        }, 1000);
+        } catch (error) {
+            console.error("Chat Sync Error:", error);
+        }
     }
 };

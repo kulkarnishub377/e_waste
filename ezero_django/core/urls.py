@@ -7,5 +7,6 @@ app_name = 'core'
 
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
+    path('api/chat/', views.chatbot_api, name='chatbot_api'),
     path('about/', views.AboutPageView.as_view(), name='about'),
 ]
