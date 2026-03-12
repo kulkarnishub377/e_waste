@@ -12,6 +12,7 @@
       <a href="{% url 'core:about' %}" class="nav-link {% active_nav request 'core:about' %}">About Us</a>
       <a href="{% url 'centers:list' %}" class="nav-link {% active_nav request 'centers:list' %}">Locations</a>
       <a href="{% url 'calculator:calculator' %}" class="nav-link {% active_nav request 'calculator:calculator' %}">Value Estimator</a>
+      <a href="{% url 'market:storefront' %}" class="nav-link {% active_nav request 'market:storefront' %}">Marketplace</a>
       <a href="{% url 'bookings:create' %}" class="nav-link {% active_nav request 'bookings:create' %}">Schedule Pickup</a>
       <!-- Network Status -->
       <div style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1rem; padding-left: 1.5rem; border-left: 1px solid var(--glass-border); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.1em;">
@@ -65,6 +66,7 @@
       <a href="{% url 'core:about' %}" style="font-family:var(--font-display); font-size:1.25rem; font-weight:600; text-transform:uppercase; color:var(--text-pure);">About Us</a>
       <a href="{% url 'centers:list' %}" style="font-family:var(--font-display); font-size:1.25rem; font-weight:600; text-transform:uppercase; color:var(--text-pure);">Locations</a>
       <a href="{% url 'calculator:calculator' %}" style="font-family:var(--font-display); font-size:1.25rem; font-weight:600; text-transform:uppercase; color:var(--text-pure);">Value Estimator</a>
+      <a href="{% url 'market:storefront' %}" style="font-family:var(--font-display); font-size:1.25rem; font-weight:600; text-transform:uppercase; color:var(--text-pure);">Marketplace</a>
       <a href="{% url 'bookings:create' %}" style="font-family:var(--font-display); font-size:1.25rem; font-weight:600; text-transform:uppercase; color:var(--accent-light);">Schedule Pickup</a>
       
       <div style="height:1px; background:var(--glass-border); margin:1rem 0;"></div>
